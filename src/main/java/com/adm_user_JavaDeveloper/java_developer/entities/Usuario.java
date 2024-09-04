@@ -12,10 +12,10 @@ public class Usuario {
 	public Usuario() {
 	}
 	
-	public Usuario(String email, String name, String senha) {
+	public Usuario(String name, String email, String senha) {
 		super();
-		this.email = email;
 		this.name = name;
+		this.email = email;
 		this.senha = senha;
 	}
 
@@ -42,6 +42,13 @@ public class Usuario {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+
+	@Override
+	public String toString() {
+		return "Usuario 1:  nome: " + name + ", email: " + email + ", senha: " + senha;
+	}
+	
+	
 	
 	
 	

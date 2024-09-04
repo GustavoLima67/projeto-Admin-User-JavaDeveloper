@@ -50,6 +50,11 @@ public class Administrador {
 	public void setUser(Usuario user) {
 		this.user = user;
 	}
+
+	@Override
+	public String toString() {
+		return "Administrador: Nome: " + name + ", Id: " + id + ", Senha: " + senha;
+	}
 	
 
 	
