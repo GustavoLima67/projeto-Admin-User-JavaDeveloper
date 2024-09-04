@@ -27,6 +27,7 @@ public class Administrador {
 		this.senha = senha;
 	}
 	
+	@Id
 	public Long getId() {
 		return id;
 	}

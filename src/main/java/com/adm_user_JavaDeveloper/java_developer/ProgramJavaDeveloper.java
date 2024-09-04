@@ -2,7 +2,6 @@ package com.adm_user_JavaDeveloper.java_developer;
 
 import java.util.Scanner;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.adm_user_JavaDeveloper.java_developer.entities.Administrador;
@@ -37,13 +36,32 @@ public class ProgramJavaDeveloper {
 		
 		try {
 			
-			LoginAdm();
-			LoginUser();
+			AdmOuUser();
 			
 		} catch (Exception e) {
 			throw new ExececaoPadrao("Corrija suas credenciais.", e);
 		}
 		
+	}
+	
+	public static void AdmOuUser() {
+		try {
+			
+			System.out.print("Você é um Usuário ou um Administrador?: (User/Adm)");
+			String login = sc.next();
+			if (login == "User") {
+				LoginUser();
+				
+			} else if (login == "Adm") {
+				LoginAdm();
+				
+			} else {
+				throw new ExececaoPadrao("Erro na sintaxe!. Digite da forma descrita: (User/Adm).");
+			}
+			
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 	}
 	
 	public static void LoginAdm() throws ExececaoPadrao{
@@ -117,7 +135,8 @@ public class ProgramJavaDeveloper {
 				email = sc.next();
 				
 				System.out.print("Cadastre uma senha de Usúario: ");
-				senha = sc.next();
+				senha = sc.next();												
+				
 			} else {
 				System.out.print("Resposta inválida! ");
 				return;
@@ -129,6 +148,36 @@ public class ProgramJavaDeveloper {
 		} catch(Exception e) {
 			throw new ExececaoPadrao("Erro ao fazer login como Usuário! ", e);
 		}
+	}
+	
+	public static void AdministradorFuncionalidade() throws ExececaoPadrao{
+		try {
+			
+			funcAdm();
+			System.out.print("O que deseja fazer?: ");
+			String admFunci = sc.next();
+			
+			if (admFunci == "Exibir Usuarios" ) {
+				System.out.println(user.toString());
+				
+			}
+			
+			if (admFunci == "Exibir Adm") {
+				System.out.println(adm.toString());
+			}
+			
+		}catch (Exception e) {
+			throw new ExececaoPadrao("Erro!, corrija suas credenciais");
+		}
+	}
+	
+	public static void funcAdm() {
+		System.out.println("Bem Vindo Administrador!");
+		System.out.println("FUNCIONALIDADES DO ADMINSTRADOR. ");
+		System.out.println("(digite exatamente como esta escrito abaixo)");
+		System.out.println();
+		System.out.print("	Exibir Usuarios	 |	Exibir Adm	");
+		System.out.println();
 	}
 	
 	public static void Inform() {
@@ -157,8 +206,9 @@ public class ProgramJavaDeveloper {
 		} catch (Exception e) {
 			System.err.println("Erro em exibir os Usuários. " + e);
 		}
-		
 	}
+	
+	
  	
 	
 }
