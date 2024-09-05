@@ -45,7 +45,7 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario 1:  nome: " + name + ", email: " + email + ", senha: " + senha;
+		return "Usuario:  nome: " + getName() + ", email: " + getEmail() + ", senha: " + getSenha();
 	}
 	
 	

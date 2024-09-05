@@ -43,6 +43,10 @@ public class Administrador {
 	public String getSenha() {
 		return senha;
 	}
+	
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 
 	public Usuario getUser() {
 		return user;
@@ -54,7 +58,7 @@ public class Administrador {
 
 	@Override
 	public String toString() {
-		return "Administrador: Nome: " + name + ", Id: " + id + ", Senha: " + senha;
+		return "Administrador: Nome: " + getName() + ", Id: " + getId() + ", Senha: " + getSenha();
 	}
 	
 
