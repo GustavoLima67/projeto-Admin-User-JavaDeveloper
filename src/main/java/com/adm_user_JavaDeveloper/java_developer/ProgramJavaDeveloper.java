@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.adm_user_JavaDeveloper.java_developer.entities.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
+import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
 
 @SpringBootApplication
 public class ProgramJavaDeveloper {
@@ -14,6 +15,7 @@ public class ProgramJavaDeveloper {
 	public static Scanner sc = new Scanner(System.in);
 	public static Administrador adm = new Administrador();
 	public static Usuario user = new Usuario();
+	
 	
 
 	public static void main(String[] args) {
@@ -34,17 +36,6 @@ public class ProgramJavaDeveloper {
 		
 		try {
 			
-			AdmOuUser();
-			
-		} catch (Exception e) {
-			throw new ExececaoPadrao("Corrija suas credenciais.", e);
-		}
-		
-	}
-	
-	public static void AdmOuUser() {
-		try {
-			
 			System.out.print("Você é um Usuário?: (y/n) ");
 			char response = sc.next().charAt(0);
 			
@@ -63,7 +54,86 @@ public class ProgramJavaDeveloper {
 			}
 			
 		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			throw new ExececaoPadrao("Corrija suas credenciais.", e);
+		}
+		
+	}
+	
+	public static void loginUser() throws ExececaoPadrao{
+		try {
+			System.out.print("Entre com seu nome de Usuário: ");
+			String name = sc.next();
+			
+			System.out.print("Entre com email: ");
+			String email = sc.next();
+			
+			System.out.print("Entre com sua senha: ");
+			String senha = sc.next();
+		
+			user = new Usuario(name, email, senha);
+			System.out.println();
+			
+			UserFunc();
+		
+		} catch(Exception e) {
+			throw new ExececaoPadrao("Erro ao fazer login como Usuário! ", e);
+		}
+	}
+
+	public static void UserFunc() throws ExececaoPadrao{
+		try {
+			
+			System.out.println(user.toString());
+			
+			System.out.print("Deseja mudar alguma credencial: (y/n)");
+			char response = sc.next().charAt(0);
+			
+			if (response == 'y') {
+				System.out.println(user.toString());
+				System.out.print("O que deseja mudar: (nome / email / senha) ");
+				String mudar = sc.next();
+				
+				if (mudar.equals("nome")) {
+					System.out.print("Entre com o nome desejado: ");
+					String name = sc.next();
+					
+					user.setName(name);
+					System.out.println(user.toString());
+				}
+				else if (mudar.equals("email")) {
+					System.out.print("Entre com o email desejado: ");
+					String email = sc.next();
+					
+					user.setEmail(email);
+					System.out.println(user.toString());
+				}
+				else if (mudar.equals("senha")) { 
+					
+					boolean senhaValida;
+					do {
+			            System.out.print("Digite sua senha: ");
+			            String UserInputsenha = sc.nextLine();
+			            
+			            senhaValida = PasswordValidators.validatePassword(UserInputsenha);
+	
+			            if (!senhaValida) {
+			                senhaInvalida();
+			            }
+
+		        } while (!senhaValida);
+			        
+					System.out.println("Senha valida! acesso concedido!");
+					User();
+					
+				}
+				
+				if(response == 'n') {
+					User();
+				}
+			}
+		}
+		catch (Exception e) {
+			throw new ExececaoPadrao("Erro!, corrija suas credenciais");
 		}
 	}
 	
@@ -89,126 +159,12 @@ public class ProgramJavaDeveloper {
 		}
 	}
 	
-	public static void loginUser() throws ExececaoPadrao{
-		try {
-			
-			String name;
-			String email;
-			String senha;	
-			
-			System.out.print("Entre com seu nome de Usuário: ");
-			name = sc.next();
-			
-			System.out.print("Entre com email: ");
-			email = sc.next();
-			
-			System.out.print("Entre com sua senha: ");
-			senha = sc.next();
-		
-			user = new Usuario(name, email, senha);
-			System.out.println();
-			System.out.println(user.toString());
-			
-			UserFunc();
-		
-		} catch(Exception e) {
-			throw new ExececaoPadrao("Erro ao fazer login como Usuário! ", e);
-		}
-	}
-	
-	public static void UserFunc() throws ExececaoPadrao{
-		try {
-			
-			System.out.print("O que deseja fazer?:  (Exibir Usuario) ");
-			String admFunci = sc.next();
-			
-			if (admFunci.equals("Exibir Usuario")) {
-				System.out.println(user.toString());
-				
-				System.out.print("Deseja mudar alguma credencial: (y/n)");
-				char response = sc.next().charAt(0);
-				
-				if (response == 'y') {
-					System.out.println(user.toString());
-					System.out.print("O que deseja mudar: (nome / email / senha) ");
-					String mudar = sc.next();
-					if (mudar.equals("nome")) {
-						System.out.print("Entre com o nome desejado: ");
-						String name = sc.next();
-						
-						user.setName(name);
-						System.out.println(user.toString());
-					}
-					if (mudar.equals("email")) {
-						System.out.print("Entre com o email desejado: ");
-						String email = sc.next();
-						
-						user.setEmail(email);
-						System.out.println(user.toString());
-					}
-					if (mudar.equals("senha")) {
-						System.out.print("Entre com a senha desejado: ");
-						String senha = sc.next();
-						
-						user.setSenha(senha);
-						System.out.println(user.toString());
-					}
-					
-					if(response == 'n') {
-						User();
-					}
-					
-				}
-			}
-			
-			if (admFunci.equals("Exibir Adm")) {
-				System.out.println(adm.toString());
-				
-				System.out.print("Deseja Mudar Alguma credencial: (y/n)");
-				char response = sc.next().charAt(0);
-				
-				if (response == 'y') {
-					System.out.println(adm.toString());
-					System.out.print("O que deseja mudar: (nome / senha) ");
-					String mudar = sc.next();
-					if (mudar.equals("nome")) {
-						System.out.print("Entre com o nome desejado: ");
-						String name = sc.next();
-						
-						adm.setName(name);
-						System.out.println(adm.toString());
-					}
-					if (mudar.equals("senha")) {
-						System.out.print("Entre com a senha desejado: ");
-						String senha = sc.next();
-						
-						adm.setSenha(senha);
-						System.out.println(adm.toString());
-					}
-				}
-				Adm();
-			}			
-		}catch (Exception e) {
-			throw new ExececaoPadrao("Erro!, corrija suas credenciais");
-		}
-	}
-	
-	public static void Adm() {
-		try {
-			System.out.println("Bem Vindo Administrador!");
-			System.out.println("FUNCIONALIDADES DO ADMINSTRADOR. ");
-			System.out.println("(digite exatamente como esta escrito abaixo)");
-			InformAdm();
-		} catch (Exception e) {
-			System.err.println("Erro de exibição"+ e.getMessage());
-		}
-		
-	}
-	
 	public static void admFunc() throws ExececaoPadrao{
 		
 		try {
-			System.out.print("O que deseja fazer?: ");
+			System.out.println(adm.toString());
+			
+			System.out.print("O que deseja fazer?: (Escreva exatamente como esta abaixo) ");
 			System.out.println();
 			System.out.println("User | Adm");
 			String func = sc.next();
@@ -220,46 +176,24 @@ public class ProgramJavaDeveloper {
 						System.out.print("Usuario não existe:\nCrie um novo usuario para prosseguir:\n");
 						loginUser();
 					}
+					System.out.println(user.toString());
 				} catch (Exception e) {
 					e.getMessage();
 				}
-				System.out.println(user.toString());
+				
 				
 				System.out.print("Deseja Mudar Alguma credencial: (y/n)");
 				char response = sc.next().charAt(0);
 				
 				if (response == 'y') {
-					System.out.println(user.toString());
-					System.out.print("O que deseja mudar: (nome / email / senha) ");
-					String mudar = sc.next();
-					
-					if (mudar.equals("nome")) {
-						System.out.print("Entre com o nome desejado: ");
-						String name = sc.next();
-						
-						user.setName(name);
-						System.out.println(user.toString());
-					}
-					if (mudar.equals("email")) {
-						System.out.print("Entre com o email desejado: ");
-						String email = sc.next();
-						
-						user.setEmail(email);
-						System.out.println(user.toString());
-					}
-					if (mudar.equals("senha")) {
-						System.out.print("Entre com a senha desejado: ");
-						String senha = sc.next();
-						
-						user.setSenha(senha);
-						System.out.println(user.toString());
-					}
-					
-					if(response == 'n') {
-						User();
-					}
-					
+					UserFunc();
 				}
+					
+				else {
+					User();
+				}
+				
+			
 			}
 			
 			if (func.equals("Adm")) {
@@ -281,11 +215,22 @@ public class ProgramJavaDeveloper {
 						System.out.println(user.toString());
 					}
 					if (mudar.equals("senha")) {
-						System.out.print("Entre com a senha desejado: ");
-						String senha = sc.next();
+						boolean senhaValida;
+						do {
+				            System.out.print("Digite sua senha: ");
+				            String UserInputsenha = sc.nextLine();
+				            
+				            senhaValida = PasswordValidators.validatePassword(UserInputsenha);
+		
+				            if (!senhaValida) {
+				                senhaInvalida();
+				            }
+
+			        } while (!senhaValida);
+				        
+						System.out.println("Senha valida! acesso concedido!");
+						User();
 						
-						adm.setSenha(senha);
-						System.out.println(user.toString());
 					}
 					
 					if(response == 'n') {
@@ -299,23 +244,35 @@ public class ProgramJavaDeveloper {
 			throw new ExececaoPadrao("Erro!, corrija suas credenciais");
 		} 
 	}
+	
+	public static void Adm() {
+		try {
+			System.out.println("Bem Vindo Administrador!");
+			System.out.println("FUNCIONALIDADES DO ADMINSTRADOR. ");
+			System.out.println("(digite exatamente como esta escrito abaixo)");
+			InformAdm();
+		} catch (Exception e) {
+			System.err.println("Erro de exibição"+ e.getMessage());
+		}
+		
+	}
+	
+	
 		
 	public static void userFunc() throws ExececaoPadrao{
 		try {
-			System.out.print("O que deseja fazer?: ");
-			String admFunci = sc.next();
+			System.out.println();
+			System.out.println(user.toString());
 			
-			if (admFunci.equals("Exibir usuario")) {
+			System.out.print("Deseja Mudar Alguma credencial: (y/n)");
+			char response = sc.next().charAt(0);
+			
+			if (response == 'y') {
 				System.out.println(user.toString());
+				System.out.print("O que deseja mudar: (nome / email / senha) ");
+				String mudar = sc.next();
 				
-				System.out.print("Deseja Mudar Alguma credencial: (y/n)");
-				char response = sc.next().charAt(0);
-				
-				if (response == 'y') {
-					System.out.println(user.toString());
-					System.out.print("O que deseja mudar: (nome / email / senha) ");
-					String mudar = sc.next();
-					
+				try {
 					if (mudar.equals("nome")) {
 						System.out.print("Entre com o nome desejado: ");
 						String name = sc.next();
@@ -331,17 +288,31 @@ public class ProgramJavaDeveloper {
 						System.out.println(user.toString());
 					}
 					if (mudar.equals("senha")) {
-						System.out.print("Entre com a senha desejado: ");
-						String senha = sc.next();
+						boolean senhaValida;
 						
-						user.setSenha(senha);
-						System.out.println(user.toString());
+				        do {
+				            System.out.print("Digite sua senha: ");
+				            String UserInputsenha = sc.nextLine();
+				            
+				            senhaValida = PasswordValidators.validatePassword(UserInputsenha);
+
+				            if (!senhaValida) {
+				                senhaInvalida();
+				            }
+
+				        } while (!senhaValida);
+				        
+						System.out.println("Senha valida! acesso concedido!");
+						User();
+						
 					}
-				}
-				
+				} catch (Exception e) {
+					e.getMessage();
+				}	
 			}
-			
-		}catch (Exception e) {
+		
+	
+			} catch (Exception e) {
 			throw new ExececaoPadrao("Erro!, corrija suas credenciais");
 		}
 	}
@@ -393,6 +364,16 @@ public class ProgramJavaDeveloper {
 			System.err.println("Erro em exibir os Usuários. " + e.getMessage());
 		}
 		return;
+	}
+	
+	public static void senhaInvalida() {
+		System.out.println("Senha Invalida!!");
+		System.out.println("Sua senha deve conter: ");
+		System.out.println("1. Deve ter no mínimo 8 caracteres");
+		System.out.println("2. Deve conter pelo menos uma letra maiúscula.");
+		System.out.println("3. Deve conter pelo menos uma letra minúscula.");
+		System.out.println("4. Deve conter pelo menos um número.");
+		System.out.println("5. Deve conter pelo menos um caractere especial (por exemplo: @, #, !, etc.).");
 	}
 	
 }
