@@ -49,13 +49,13 @@ public class ProgramJavaDeveloper {
 			char response = sc.next().charAt(0);
 			
 			if (response == 'y') {
-				LoginUser();
+				loginUser();
 				
 			} 
 			
 			else if (response == 'n') {
 				
-				LoginAdm();
+				loginAdm();
 				
 			} else {
 				throw new ExececaoPadrao("Erro na sintaxe!. Digite da forma descrita: (User/Adm).");
@@ -67,10 +67,10 @@ public class ProgramJavaDeveloper {
 		}
 	}
 	
-	public static void LoginAdm() throws ExececaoPadrao{
+	public static void loginAdm() throws ExececaoPadrao{
 		try {
 			
-		    System.out.print("Entre com seu nome de login: ");
+		    System.out.print("Entre com seu nome de login administrador: ");
 		    String name = sc.next();
 		
 		    System.out.print("Entre com seu ID Unico: ");
@@ -82,14 +82,14 @@ public class ProgramJavaDeveloper {
 			adm = new Administrador(id, name, senha);
 			System.out.println();
 			
-			Adm();
+			admFunc();
 			
 		} catch (Exception e) {
 			throw new ExececaoPadrao("Erro ao fazer login como Administrador!", e);
 		}
 	}
 	
-	public static void LoginUser() throws ExececaoPadrao{
+	public static void loginUser() throws ExececaoPadrao{
 		try {
 			
 			String name;
@@ -109,7 +109,7 @@ public class ProgramJavaDeveloper {
 			System.out.println();
 			System.out.println(user.toString());
 			
-			Adm();
+			UserFunc();
 		
 		} catch(Exception e) {
 			throw new ExececaoPadrao("Erro ao fazer login como Usuário! ", e);
@@ -119,13 +119,13 @@ public class ProgramJavaDeveloper {
 	public static void UserFunc() throws ExececaoPadrao{
 		try {
 			
-			System.out.print("O que deseja fazer?: ");
+			System.out.print("O que deseja fazer?:  (Exibir Usuario) ");
 			String admFunci = sc.next();
 			
-			if (admFunci.equals("Exibir Usuarios")) {
+			if (admFunci.equals("Exibir Usuario")) {
 				System.out.println(user.toString());
 				
-				System.out.print("Deseja Mudar Alguma credencial: (y/n)");
+				System.out.print("Deseja mudar alguma credencial: (y/n)");
 				char response = sc.next().charAt(0);
 				
 				if (response == 'y') {
@@ -153,6 +153,11 @@ public class ProgramJavaDeveloper {
 						user.setSenha(senha);
 						System.out.println(user.toString());
 					}
+					
+					if(response == 'n') {
+						User();
+					}
+					
 				}
 			}
 			
@@ -181,6 +186,7 @@ public class ProgramJavaDeveloper {
 						System.out.println(adm.toString());
 					}
 				}
+				Adm();
 			}			
 		}catch (Exception e) {
 			throw new ExececaoPadrao("Erro!, corrija suas credenciais");
@@ -192,11 +198,7 @@ public class ProgramJavaDeveloper {
 			System.out.println("Bem Vindo Administrador!");
 			System.out.println("FUNCIONALIDADES DO ADMINSTRADOR. ");
 			System.out.println("(digite exatamente como esta escrito abaixo)");
-			System.out.println();
-			System.out.print("	Exibir Usuarios	 |	Exibir Adm	");
-			System.out.println();
-			
-			admFunc();
+			InformAdm();
 		} catch (Exception e) {
 			System.err.println("Erro de exibição"+ e.getMessage());
 		}
@@ -204,13 +206,23 @@ public class ProgramJavaDeveloper {
 	}
 	
 	public static void admFunc() throws ExececaoPadrao{
+		
 		try {
 			System.out.print("O que deseja fazer?: ");
 			System.out.println();
-			System.out.println("Exibir Usuario | Exibir Administrador");
+			System.out.println("User | Adm");
 			String func = sc.next();
 			
-			if (func.equals("Exibir Usuario")) {
+			if (func.equals("User")) {
+				
+				try {
+					if(user.getName() == null && user.getEmail() == null && user.getSenha() == null) {
+						System.out.print("Usuario não existe:\nCrie um novo usuario para prosseguir:\n");
+						loginUser();
+					}
+				} catch (Exception e) {
+					e.getMessage();
+				}
 				System.out.println(user.toString());
 				
 				System.out.print("Deseja Mudar Alguma credencial: (y/n)");
@@ -242,10 +254,15 @@ public class ProgramJavaDeveloper {
 						user.setSenha(senha);
 						System.out.println(user.toString());
 					}
+					
+					if(response == 'n') {
+						User();
+					}
+					
 				}
 			}
 			
-			if (func.equals("Exibir Administrador")) {
+			if (func.equals("Adm")) {
 				System.out.println(adm.toString());
 				
 				System.out.print("Deseja Mudar Alguma credencial: (y/n)");
@@ -270,6 +287,11 @@ public class ProgramJavaDeveloper {
 						adm.setSenha(senha);
 						System.out.println(user.toString());
 					}
+					
+					if(response == 'n') {
+						Adm();
+					}
+					
 				}
 			} 
 			
@@ -332,12 +354,7 @@ public class ProgramJavaDeveloper {
 			System.out.println("FUNCIONALIDADES DO USUARIO. ");
 			System.out.println("(digite exatamente como esta escrito abaixo)");
 			System.out.println();
-			
-			System.out.print(" Exibir Usuarios ");
-			
-			System.out.println();
-			
-			userFunc();
+			InformUser();
 		} catch (Exception e) {
 			System.err.println("Erro de exibição" + e.getMessage());
 		}
@@ -355,10 +372,12 @@ public class ProgramJavaDeveloper {
 			System.out.println("Exibir Administrador: ");
 			System.out.println();
 			System.out.println(adm.toString());
+			System.out.println();
+			
 		} catch (Exception e) {
 			System.err.println("Erro em exibir o Adm. " + e.getMessage());
 		}
-		
+		return;
 	}
 	
 	public static void InformUser() {
@@ -368,9 +387,12 @@ public class ProgramJavaDeveloper {
 			System.out.println("Exibir Usuário: ");
 			System.out.println();
 			System.out.println(user.toString());
+			System.out.println();
+			
 		} catch (Exception e) {
 			System.err.println("Erro em exibir os Usuários. " + e.getMessage());
 		}
+		return;
 	}
 	
 }
