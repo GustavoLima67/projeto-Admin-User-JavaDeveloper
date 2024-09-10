@@ -1,5 +1,6 @@
 package com.adm_user_JavaDeveloper.java_developer;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.adm_user_JavaDeveloper.java_developer.entities.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
+import com.adm_user_JavaDeveloper.java_developer.notifications.MailgunEmailSender;
 import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
 
 @SpringBootApplication
@@ -61,16 +63,37 @@ public class ProgramJavaDeveloper {
 	
 	public static void loginUser() throws ExececaoPadrao{
 		try {
+			
+			
 			System.out.print("Entre com seu nome de Usuário: ");
 			String name = sc.next();
 			
 			System.out.print("Entre com email: ");
 			String email = sc.next();
 			
-			System.out.print("Entre com sua senha: ");
-			String senha = sc.next();
-		
-			user = new Usuario(name, email, senha);
+			boolean senhaValida;
+			String UserInputsenha;
+            sc.nextLine();
+			do {
+				System.out.print("Entre com uma senha valida: ");
+	            UserInputsenha = sc.nextLine();
+	            
+	            senhaValida = PasswordValidators.validatePassword(UserInputsenha);
+
+	            if (!senhaValida) {
+	                senhaInvalida();
+	            }
+			}  while (!senhaValida);
+			System.out.println("Senha valida! acesso concedido!");
+			
+			try {
+				MailgunEmailSender.sendEmail(email, "Cadastro feito com sucesso", "Você foi cadastrado como Usuario em um projeto do Dev Gustavo. \nSe não for relevante desconsidere esse email!.");
+			}catch (Exception e) {
+				throw new ExececaoPadrao("Erro no cadastro do email tente novamente");
+			}
+			
+			user = new Usuario(name, email, UserInputsenha);
+			System.out.println("Usuario Criado" + user);
 			System.out.println();
 			
 			UserFunc();
@@ -87,9 +110,9 @@ public class ProgramJavaDeveloper {
 			
 			System.out.print("Deseja mudar alguma credencial: (y/n)");
 			char response = sc.next().charAt(0);
+			System.out.println();
 			
 			if (response == 'y') {
-				System.out.println(user.toString());
 				System.out.print("O que deseja mudar: (nome / email / senha) ");
 				String mudar = sc.next();
 				
@@ -103,6 +126,12 @@ public class ProgramJavaDeveloper {
 				else if (mudar.equals("email")) {
 					System.out.print("Entre com o email desejado: ");
 					String email = sc.next();
+					try {
+						MailgunEmailSender.sendEmail(email, "Cadastro feito com sucesso", "Bem vindo Usuario!.");
+					}catch (IOException e) {
+						e.printStackTrace();
+					}
+					
 					
 					user.setEmail(email);
 					System.out.println(user.toString());
