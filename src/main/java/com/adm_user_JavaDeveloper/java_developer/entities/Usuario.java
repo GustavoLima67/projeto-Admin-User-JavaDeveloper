@@ -5,26 +5,26 @@ import jakarta.persistence.Entity;
 @Entity
 public class Usuario {
 	
-	private String email;
+	private String phoneNumber;
 	private String name;
 	private String senha;
 	
 	public Usuario() {
 	}
 	
-	public Usuario(String name, String email, String senha) {
+	public Usuario(String name, String phoneNumber, String senha) {
 		super();
 		this.name = name;
-		this.email = email;
+		this.phoneNumber = phoneNumber;
 		this.senha = senha;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 	
 	public String getName() {
@@ -45,7 +45,7 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario:  nome: " + getName() + ", email: " + getEmail() + ", senha: " + getSenha();
+		return "Usuario:  nome: " + getName() + ", email: " + getPhoneNumber() + ", senha: " + getSenha();
 	}
 	
 	

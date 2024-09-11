@@ -1,6 +1,5 @@
 package com.adm_user_JavaDeveloper.java_developer;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,8 +7,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.adm_user_JavaDeveloper.java_developer.entities.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
-import com.adm_user_JavaDeveloper.java_developer.notifications.MailgunEmailSender;
+import com.adm_user_JavaDeveloper.java_developer.validators.NumberCellValidators;
 import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 
 @SpringBootApplication
 public class ProgramJavaDeveloper {
@@ -18,9 +20,15 @@ public class ProgramJavaDeveloper {
 	public static Administrador adm = new Administrador();
 	public static Usuario user = new Usuario();
 	
+	public static final String ACCOUNT_SID = "AC4b437239aec2ab656a95cf5f9c218312";
+    public static final String AUTH_TOKEN = "6d24cba3cc3b220a5d3a72b450078c18";
+
+
 	
 
 	public static void main(String[] args) {
+		
+		
 		try {
 			
 			LoginUserAdm();
@@ -51,7 +59,7 @@ public class ProgramJavaDeveloper {
 				loginAdm();
 				
 			} else {
-				throw new ExececaoPadrao("Erro na sintaxe!. Digite da forma descrita: (User/Adm).");
+				throw new ExececaoPadrao("Erro na sintaxe!. Digite da forma descrita: (y/n).");
 				
 			}
 			
@@ -63,18 +71,36 @@ public class ProgramJavaDeveloper {
 	
 	public static void loginUser() throws ExececaoPadrao{
 		try {
-			
+			String phoneNumber;
+			boolean validPhone;
+			boolean senhaValida;
+			String UserInputsenha;
 			
 			System.out.print("Entre com seu nome de Usuário: ");
 			String name = sc.next();
-			
-			System.out.print("Entre com email: ");
-			String email = sc.next();
-			
-			boolean senhaValida;
-			String UserInputsenha;
+			sc.nextLine();
+			try {
+				do {
+					
+					System.out.print("Entre com seu numero de Telefone: ");
+					phoneNumber = sc.next();
+					
+					validPhone = NumberCellValidators.isValidPhoneNumber(phoneNumber);
+					
+					if (!validPhone) {
+						System.out.println("Numero de telefone invalido. Tente novamente.");
+					}
+
+				} while(!validPhone);
+				
+				sendSms(phoneNumber);
+				
+			}catch (Exception e) {
+				throw new ExececaoPadrao("Erro no cadastro do numero de telefone, tente novamente");
+			}
             sc.nextLine();
-			do {
+            
+        	do {
 				System.out.print("Entre com uma senha valida: ");
 	            UserInputsenha = sc.nextLine();
 	            
@@ -84,15 +110,9 @@ public class ProgramJavaDeveloper {
 	                senhaInvalida();
 	            }
 			}  while (!senhaValida);
+            user = new Usuario(name, phoneNumber, UserInputsenha);
+            
 			System.out.println("Senha valida! acesso concedido!");
-			
-			try {
-				MailgunEmailSender.sendEmail(email, "Cadastro feito com sucesso", "Você foi cadastrado como Usuario em um projeto do Dev Gustavo. \nSe não for relevante desconsidere esse email!.");
-			}catch (Exception e) {
-				throw new ExececaoPadrao("Erro no cadastro do email tente novamente");
-			}
-			
-			user = new Usuario(name, email, UserInputsenha);
 			System.out.println("Usuario Criado" + user);
 			System.out.println();
 			
@@ -103,7 +123,7 @@ public class ProgramJavaDeveloper {
 		}
 	}
 
-	public static void UserFunc() throws ExececaoPadrao{
+	public static void UserFunc(){
 		try {
 			
 			System.out.println(user.toString());
@@ -113,7 +133,7 @@ public class ProgramJavaDeveloper {
 			System.out.println();
 			
 			if (response == 'y') {
-				System.out.print("O que deseja mudar: (nome / email / senha) ");
+				System.out.print("O que deseja mudar: (nome / telefone / senha) ");
 				String mudar = sc.next();
 				
 				if (mudar.equals("nome")) {
@@ -121,20 +141,33 @@ public class ProgramJavaDeveloper {
 					String name = sc.next();
 					
 					user.setName(name);
-					System.out.println(user.toString());
 				}
-				else if (mudar.equals("email")) {
-					System.out.print("Entre com o email desejado: ");
-					String email = sc.next();
+				else if (mudar.equals("telefone")) {
+					boolean validPhone;
+					String phoneNumber;
+					
 					try {
-						MailgunEmailSender.sendEmail(email, "Cadastro feito com sucesso", "Bem vindo Usuario!.");
-					}catch (IOException e) {
-						e.printStackTrace();
+						do {
+							
+							System.out.print("Entre com seu numero de Telefone: ");
+							phoneNumber = sc.nextLine();
+							
+							validPhone = NumberCellValidators.isValidPhoneNumber(phoneNumber);
+							
+							if (!validPhone) {
+								System.out.println("Numero de telefone invalido. Tente novamente.");
+							}
+
+						} while(!validPhone);
+						
+						Message message = Message.creator(new PhoneNumber(phoneNumber), new PhoneNumber("+12513021245"), "Numero de Telefone validado no 'Projeto JavaDeveloper' com sucesso!").create();
+						System.out.println("Mensagem Enviada com Sucesso!" + message.getSid());
+						
+					}catch (Exception e) {
+						throw new ExececaoPadrao("Erro no cadastro do numero de telefone, tente novamente");
 					}
 					
-					
-					user.setEmail(email);
-					System.out.println(user.toString());
+					user.setPhoneNumber(phoneNumber);
 				}
 				else if (mudar.equals("senha")) { 
 					
@@ -155,14 +188,13 @@ public class ProgramJavaDeveloper {
 					User();
 					
 				}
-				
-				if(response == 'n') {
-					User();
-				}
+			}
+			if(response == 'n') {
+				User();
 			}
 		}
 		catch (Exception e) {
-			throw new ExececaoPadrao("Erro!, corrija suas credenciais");
+			e.getMessage();
 		}
 	}
 	
@@ -201,7 +233,7 @@ public class ProgramJavaDeveloper {
 			if (func.equals("User")) {
 				
 				try {
-					if(user.getName() == null && user.getEmail() == null && user.getSenha() == null) {
+					if(user.getName() == null && user.getPhoneNumber() == null && user.getSenha() == null) {
 						System.out.print("Usuario não existe:\nCrie um novo usuario para prosseguir:\n");
 						loginUser();
 					}
@@ -286,67 +318,6 @@ public class ProgramJavaDeveloper {
 		
 	}
 	
-	
-		
-	public static void userFunc() throws ExececaoPadrao{
-		try {
-			System.out.println();
-			System.out.println(user.toString());
-			
-			System.out.print("Deseja Mudar Alguma credencial: (y/n)");
-			char response = sc.next().charAt(0);
-			
-			if (response == 'y') {
-				System.out.println(user.toString());
-				System.out.print("O que deseja mudar: (nome / email / senha) ");
-				String mudar = sc.next();
-				
-				try {
-					if (mudar.equals("nome")) {
-						System.out.print("Entre com o nome desejado: ");
-						String name = sc.next();
-						
-						user.setName(name);
-						System.out.println(user.toString());
-					}
-					if (mudar.equals("email")) {
-						System.out.print("Entre com o email desejado: ");
-						String email = sc.next();
-						
-						user.setEmail(email);
-						System.out.println(user.toString());
-					}
-					if (mudar.equals("senha")) {
-						boolean senhaValida;
-						
-				        do {
-				            System.out.print("Digite sua senha: ");
-				            String UserInputsenha = sc.nextLine();
-				            
-				            senhaValida = PasswordValidators.validatePassword(UserInputsenha);
-
-				            if (!senhaValida) {
-				                senhaInvalida();
-				            }
-
-				        } while (!senhaValida);
-				        
-						System.out.println("Senha valida! acesso concedido!");
-						User();
-						
-					}
-				} catch (Exception e) {
-					e.getMessage();
-				}	
-			}
-		
-	
-			} catch (Exception e) {
-			throw new ExececaoPadrao("Erro!, corrija suas credenciais");
-		}
-	}
-	
-	
 	public static void User() {
 		
 		try {
@@ -360,6 +331,17 @@ public class ProgramJavaDeveloper {
 		}
 		
 	}
+	
+	public static void sendSms(String phoneNumber) {
+	 Twilio.init(ACCOUNT_SID,AUTH_TOKEN);
+   	 Message message = Message.creator(
+                new PhoneNumber(phoneNumber), 
+                new PhoneNumber("+12513021245"),    
+                "Seu número foi validado no 'Projeto JavaDeveloper Adm / User' com sucesso!")
+            .create();
+
+        System.out.println("Mensagem enviada com sucesso: " + message.getSid());
+   }
 	
 	public static void Inform() {
 		InformAdm();
