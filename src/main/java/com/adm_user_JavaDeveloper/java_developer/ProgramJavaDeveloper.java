@@ -20,8 +20,8 @@ public class ProgramJavaDeveloper {
 	public static Administrador adm = new Administrador();
 	public static Usuario user = new Usuario();
 	
-	public static final String ACCOUNT_SID = "AC4b437239aec2ab656a95cf5f9c218312";
-    public static final String AUTH_TOKEN = "6d24cba3cc3b220a5d3a72b450078c18";
+	public static final String ACCOUNT_SID = "";
+    public static final String AUTH_TOKEN = "";
 
 
 	
