@@ -13,9 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class ConfiguracaoSeguranca extends WebSecurityConfiguration {
 	
 	
-    protected void configure(HttpSecurity http) throws Exception {
+    @SuppressWarnings({ "removal" })
+	protected void configure(HttpSecurity http) throws Exception {
         http
-            .authorizeRequests()
+            .authorizeHttpRequests()
                 .anyRequest().authenticated() 
                 .and()
             .formLogin()
