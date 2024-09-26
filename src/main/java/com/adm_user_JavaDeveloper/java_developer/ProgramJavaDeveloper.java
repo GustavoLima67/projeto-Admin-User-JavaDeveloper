@@ -1,11 +1,17 @@
 package com.adm_user_JavaDeveloper.java_developer;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.adm_user_JavaDeveloper.java_developer.db.DB;
 import com.adm_user_JavaDeveloper.java_developer.entities.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
@@ -21,6 +27,9 @@ public class ProgramJavaDeveloper {
 	public static Administrador adm = new Administrador();
 	public static Usuario user = new Usuario();
 	
+	public static Connection conn = null;
+	public static PreparedStatement st = null;
+	
 	public static final String ACCOUNT_SID = "AC4b437239aec2ab656a95cf5f9c218312";
     public static final String AUTH_TOKEN = "de5bbfcd665068c60746184b467bcaf2";
 
@@ -35,7 +44,7 @@ public class ProgramJavaDeveloper {
 		
 	}
 	
-	public static void LoginUserAdm() throws ExececaoPadrao{
+	public static void LoginUserAdm() throws ExececaoPadrao { 
 		
 		try {
 			
@@ -96,20 +105,41 @@ public class ProgramJavaDeveloper {
 			}
 			
 			boolean senhaValida;
-			String UserInputsenha;
+			String userInputsenha;
 			
 			do {
 				System.out.print("Entre com uma senha valida: ");
-	            UserInputsenha = sc.nextLine();
+	            userInputsenha = sc.nextLine();
 	            
-	            senhaValida = PasswordValidators.validatePassword(UserInputsenha);
+	            senhaValida = PasswordValidators.validatePassword(userInputsenha);
 
 	            if (!senhaValida) {
 	                senhaInvalida();
 	            }
 			}  while (!senhaValida);
         	
-            user = new Usuario(name, phoneNumber, UserInputsenha);
+			user = new Usuario(name, phoneNumber, userInputsenha);
+            
+            SimpleDateFormat simpleDate = new SimpleDateFormat("DD/mm/yyyy");
+            
+            try {
+            	
+            	conn = DB.getConnection();
+            	
+            	st = conn.prepareStatement("INSERT INTO usuario (Nome, Senha, Telefone, DataNascimento)" + "VALUES" + "(?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            	
+            	
+            	((PreparedStatement) st).setString(1, name);
+            	st.setString(2, userInputsenha);
+            	st.setString(3, phoneNumber);
+            	st.setDate(4, new java.sql.Date(simpleDate.parse("23/03/2003").getTime()));
+            	
+            	
+            }catch(IOException e) {
+            	e.printStackTrace();
+            }
+            
+            
             
 			System.out.println("Senha valida! acesso concedido!");
 			System.out.println();
