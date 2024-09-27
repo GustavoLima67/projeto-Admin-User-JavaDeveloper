@@ -1,10 +1,14 @@
 package com.adm_user_JavaDeveloper.java_developer;
 
-import java.io.IOException;
+import java.io.IOError;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,6 +33,7 @@ public class ProgramJavaDeveloper {
 	
 	public static Connection conn = null;
 	public static PreparedStatement st = null;
+	public static ResultSet rs = null;
 	
 	public static final String ACCOUNT_SID = "AC4b437239aec2ab656a95cf5f9c218312";
     public static final String AUTH_TOKEN = "de5bbfcd665068c60746184b467bcaf2";
@@ -77,8 +82,8 @@ public class ProgramJavaDeveloper {
 			boolean validPhone;
 			System.out.print("Entre com seu nome de Usuário: ");
 			String name = sc.next();
-			sc.nextLine();
 			
+			sc.nextLine();
 			try {
 				do {
 					
@@ -96,8 +101,9 @@ public class ProgramJavaDeveloper {
 				try {
 					sendSms(phoneNumber);
 					System.out.println("Menssagem enviada com sucesso!");
-				}catch (Exception e) {
-					System.out.println("Erro ao enviar o SMS" + e.getMessage());
+				}catch (IOError e) {
+					System.out.println("Erro ao enviar o SMS" );
+					 e.printStackTrace();
 				}
 				
 			} catch (Exception e) {
@@ -117,37 +123,62 @@ public class ProgramJavaDeveloper {
 	                senhaInvalida();
 	            }
 			}  while (!senhaValida);
-        	
-			user = new Usuario(name, phoneNumber, userInputsenha);
+			System.out.println("Senha valida! acesso concedido!");
+			
+
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate dataNascimento = null;
+            boolean dataValida = false;
             
-            SimpleDateFormat simpleDate = new SimpleDateFormat("DD/mm/yyyy");
-            
+            do {
+            	System.out.print("Entre com sua data de nascimento: (dd/MM/yyyy) ");
+            	String dataNasciInput = sc.nextLine();
+            	try {
+            		dataNascimento = LocalDate.parse(dataNasciInput, formatter);
+            		dataValida = true;
+            	} catch(DateTimeParseException e) {
+            		System.out.println("Data inválida, tente novamente" );
+            		e.printStackTrace();
+            	}
+            	
+            } while(!dataValida);
+            	
             try {
             	
             	conn = DB.getConnection();
             	
-            	st = conn.prepareStatement("INSERT INTO usuario (Nome, Senha, Telefone, DataNascimento)" + "VALUES" + "(?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            	
-            	
-            	((PreparedStatement) st).setString(1, name);
+            	st = conn.prepareStatement("INSERT INTO usuario (Nome, Senha, Telefone, DataNascimento)" + " VALUES" + " (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            	st.setString(1, name);
             	st.setString(2, userInputsenha);
             	st.setString(3, phoneNumber);
-            	st.setDate(4, new java.sql.Date(simpleDate.parse("23/03/2003").getTime()));
+            	st.setDate(4, java.sql.Date.valueOf(dataNascimento));
             	
+            	int linhasAfetadas = st.executeUpdate();
             	
-            }catch(IOException e) {
+            	if (linhasAfetadas > 0) {
+            		rs = st.getGeneratedKeys();
+            		while(rs.next()) {
+            			int id = rs.getInt(1);
+            			System.out.println("Usuario inserido com sucesso! Id: " + id);
+            		}
+            	} else {
+            		System.out.println("Sem nenhuma linha afetada");
+            	}
+            	 	
+            }catch(SQLException e) {
             	e.printStackTrace();
+            } finally {
+            	DB.closeStatement(st);
+            	DB.closeResultSet(rs);
+            	DB.closeConnection();
             }
             
-            
-            
-			System.out.println("Senha valida! acesso concedido!");
+            user = new Usuario(name, phoneNumber, userInputsenha, dataNascimento);
 			System.out.println();
-			
 			User();
 		
-		} catch(Exception e) {
-			e.getMessage();
+		} catch(IOError e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -156,7 +187,8 @@ public class ProgramJavaDeveloper {
 			System.out.println();
 			System.out.println(user.toString());
 			System.out.println();
-			System.out.print("O que deseja mudar: (nome / telefone / senha) ");
+			
+			System.out.print("O que deseja mudar: (nome / telefone / senha / dataNascimento) ");
 			String mudar = sc.next();
 			
 			if (mudar.equals("nome")) {
@@ -375,6 +407,7 @@ public class ProgramJavaDeveloper {
 				}
 				
 			} while(response != 'n');
+			
 			
 		} catch (Exception e) {
 			System.err.println("Erro de exibição" + e.getMessage());
