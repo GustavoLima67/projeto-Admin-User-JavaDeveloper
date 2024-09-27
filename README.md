@@ -105,6 +105,8 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
 - Caso opte por se registrar como Usuário, será necessário validar o número de telefone e criar uma senha válida (seguindo as regras de complexidade).
 - Como Administrador, é possível alterar informações dos usuários cadastrados e realizar modificações nas suas próprias credenciais.
 
+![Imagem exemplo Método](images/loginUser.png)
+
 
 **Exemplo de Login como Usuário:**
 ````
