@@ -107,6 +107,7 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
 
 ![Imagem exemplo Método](https://github.com/user-attachments/assets/89dec528-b7fb-49ed-9515-7e3a68fe18cf)
 
+- Vemos um exemplo do código-fonte. Apenas mostrando minhas práticas de código e clean code
 
 **Exemplo de Login como Usuário:**
 ````
