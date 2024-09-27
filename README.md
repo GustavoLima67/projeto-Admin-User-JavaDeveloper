@@ -1,14 +1,14 @@
-**Java Developer Admin/User**
+# Projeto JavaDeveloper
 
-Este é um projeto desenvolvido em Java usando Spring Boot e Maven, com integração à API Twilio para envio de mensagens SMS e validação de senhas. O sistema permite o gerenciamento de dois tipos de usuários: Usuário e Administrador. Cada um tem funcionalidades específicas, como alterar dados pessoais, exibir informações e receber mensagens SMS de confirmação.
+Este é um projeto Java que implementa um sistema de gerenciamento de usuários e administradores. A aplicação permite que usuários se cadastrem e que administradores gerenciem as informações dos usuários. O projeto utiliza o Spring Boot para a construção da API e o MySQL como banco de dados.
 
-**Funcionalidades**
-- Login para Usuário e Administrador
-- Validação de números de telefone
-- Envio de SMS via Twilio
-- Validação de senha
-- Alteração de dados do usuário e administrador
-- Exibição das informações cadastradas
+## Funcionalidades
+
+- **Cadastro de Usuários**: Usuários podem se cadastrar fornecendo nome, telefone, senha e data de nascimento.
+- **Login de Usuários e Administradores**: Usuários e administradores podem efetuar login no sistema.
+- **Envio de SMS**: O sistema envia mensagens SMS para o número de telefone fornecido durante o cadastro.
+- **Gerenciamento de Informações**: Usuários podem atualizar suas informações pessoais, como nome, telefone e senha.
+
 
 Principais funcionalidades por tipo de usuário:
 
@@ -23,13 +23,35 @@ Principais funcionalidades por tipo de usuário:
 - Acesso às informações de usuários cadastrados.
 - Requisitos
 
-**Antes de iniciar, certifique-se de ter as seguintes ferramentas instaladas:**
+## Tecnologias Utilizadas
 
-- Java 11 ou superior
-- Maven
+- Java
 - Spring Boot
-- Conta no Twilio (para envio de SMS)
-- MySQL (ou outro banco de dados que desejar integrar)
+- MySQL
+- JDBC
+- Twilio API para envio de SMS
+
+## Configuração do Ambiente
+
+### Pré-requisitos
+
+- JDK 11 ou superior
+- MySQL
+- Maven
+
+### Configuração do Banco de Dados
+
+1. Crie um banco de dados chamado `projetoadmjdbc`.
+2. Execute o script SQL para criar as tabelas necessárias:
+   ```sql
+   CREATE TABLE usuario (
+       id INT AUTO_INCREMENT PRIMARY KEY,
+       Nome VARCHAR(255) NOT NULL,
+       Senha VARCHAR(255) NOT NULL,
+       Telefone VARCHAR(20) NOT NULL,
+       DataNascimento DATE NOT NULL
+   );
+
 
 **Instalação**
 *Clone este repositório:*
@@ -51,7 +73,28 @@ twilio.auth.token=SEU_AUTH_TOKEN
 twilio.phone.number=SEU_PHONE_NUMBER
 ````
 
-- Compile e execute o projeto:
+# Configuração do Twilio
+
+- Crie uma conta no Twilio e obtenha suas credenciais (ACCOUNT_SID e AUTH_TOKEN).
+- Substitua os valores das constantes ACCOUNT_SID e AUTH_TOKEN no código pelo que você obteve do Twilio.
+
+# Arquivo de Propriedades
+- Crie um arquivo chamado application.properties na pasta src/main/resources e adicione as seguintes propriedades:
+````
+spring.application.name=java_developer
+
+# Configurações do MySQL
+spring.datasource.url=jdbc:mysql://localhost:3306/seu_banco_de_Dados
+spring.datasource.username=seu_usuario
+spring.datasource.password=sua_senha
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+# Configurações do JPA/Hibernate
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+  
+````
 
 *mvn spring-boot:run*
 
