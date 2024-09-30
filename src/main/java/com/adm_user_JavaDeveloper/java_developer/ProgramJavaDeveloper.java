@@ -1,7 +1,6 @@
 package com.adm_user_JavaDeveloper.java_developer;
 
 import java.io.IOError;
-import java.net.Authenticator;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +12,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -41,7 +41,10 @@ public class ProgramJavaDeveloper {
 	public static final String accountSid = AuthenticatorTwilio.getAccountSid();
     public static final String accountAuthToken = AuthenticatorTwilio.getAuthToken();
 
-    public static void main(String[] args) {
+	public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+
+	public static void main(String[] args) {
 		try {
 			LoginUserAdm();
 			
@@ -130,7 +133,7 @@ public class ProgramJavaDeveloper {
 			System.out.println("Senha valida! acesso concedido!");
 			
 
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			
             LocalDate dataNascimento = null;
             boolean dataValida = false;
             
@@ -199,6 +202,7 @@ public class ProgramJavaDeveloper {
 				System.out.print("Entre com o nome desejado: ");
 				String name = sc.next();
 				
+				st.setString(1, name);
 				user.setName(name);
 			}
 			else if (mudar.equals("telefone")) {
@@ -227,6 +231,7 @@ public class ProgramJavaDeveloper {
 				}
 				
 				user.setPhoneNumber(phoneNumber);
+				st.setString(2, phoneNumber);
 			}
 			else if (mudar.equals("senha")) { 
 				
@@ -244,12 +249,34 @@ public class ProgramJavaDeveloper {
 		            }
 
 	        } while (!senhaValida);
+
 				user.setSenha(UserInputsenha);
-		        
+				st.setString(3, UserInputsenha);
 				System.out.println("Senha valida! acesso concedido!");
-				User();
-				
 			}
+
+			else if (mudar.equals("dataNascimento")) {
+				LocalDate dataNascimento = null;
+            	boolean dataValida = false;
+            
+            do {
+            	System.out.print("Entre com sua data de nascimento: (dd/MM/yyyy) ");
+            	String dataNasciInput = sc.nextLine();
+            	try {
+            		dataNascimento = LocalDate.parse(dataNasciInput, formatter);
+            		dataValida = true;
+
+					user.setDate(dataNascimento);
+					st.setDate(4, java.sql.Date.valueOf(dataNascimento));
+
+            	} catch(DateTimeParseException e) {
+            		System.out.println("Data inválida, tente novamente" );
+            		e.printStackTrace();
+            	}
+            	
+            } while(!dataValida);
+			}
+
 		}
 		catch (Exception e) {
 			e.getMessage();
@@ -258,12 +285,7 @@ public class ProgramJavaDeveloper {
 	
 	public static void loginAdm() throws ExececaoPadrao{
 		try {
-			
-			System.out.print("Entre com seu ID Unico: ");
-		    Long id = sc.nextLong();
-		    
-		    sc.nextLine();
-		    System.out.print("Entre com seu nome de login administrador: ");
+			System.out.print("Entre com seu nome de login administrador: ");
 		    String name = sc.next();
 		
 		    boolean senhaValida;
@@ -280,8 +302,54 @@ public class ProgramJavaDeveloper {
 	                senhaInvalida();
 	            }
 			}  while (!senhaValida);
+
+			LocalDate dataNascimento = null;
+			boolean dataValida = false;
+			do {
+				System.out.print("Entre com sua data de nascimento: ");
+				String dataNascimInput = sc.nextLine();
+
+				try {
+					dataNascimento = LocalDate.parse(dataNascimInput, formatter);
+					dataValida = true;
+				} catch(DateTimeParseException e) {
+					System.out.println("Senha inválida! Tente novamente");
+					e.printStackTrace();
+				}
+
+			} while (!dataValida);
+
+			try { 
+				conn = DB.getConnection();
+
+				st = conn.prepareStatement("INSERT INTO administrador (Nome, Senha, DataNascimento) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+				st.setString(1, name);
+				st.setString(2, UserInputsenha);
+				st.setDate(3, java.sql.Date.valueOf(dataNascimento));
+
+				int linhasAfetadas = st.executeUpdate();
+
+				if(linhasAfetadas > 0) {
+					rs = st.getGeneratedKeys();
+					while (rs.next()) {
+						int idAdm = rs.getInt(1);
+						System.out.println("Administrador inserido com sucesso! Id: " + idAdm);
+            		}
+            	} else {
+            		System.out.println("Sem nenhuma linha afetada");
+            	}
+
+
+			} catch (SQLException e) {
+				System.out.println("Erro na entrada de valores SQL" + e.getMessage());
+				e.printStackTrace();
+			} finally {
+				DB.closeStatement(st);
+				DB.closeResultSet(rs);
+				DB.closeConnection();
+			}
         	
-            adm = new Administrador(id, name, UserInputsenha);
+            adm = new Administrador(name, UserInputsenha, dataNascimento);
             
 			System.out.println();
 			
@@ -312,13 +380,11 @@ public class ProgramJavaDeveloper {
 						loginUser();
 					}
 					else {
-						admFunc();
+						UserFunc();
 					}
 				} catch (Exception e) {
 					e.getMessage();
 				}
-				User();
-			
 			}
 			
 			if (func.equals("Adm")) {
@@ -329,8 +395,10 @@ public class ProgramJavaDeveloper {
 				if (mudar.equals("nome")) {
 					System.out.print("Entre com o nome desejado: ");
 					String name = sc.next();
-					
+
+					st.setString(1, name);
 					adm.setName(name);
+
 					System.out.println(adm.toString());
 				}
 				if (mudar.equals("senha")) {
@@ -349,9 +417,31 @@ public class ProgramJavaDeveloper {
 		        } while (!senhaValida);
 					System.out.println("Senha valida! acesso concedido!");
 					
+					st.setString(2, UserInputsenha);
 					adm.setSenha(UserInputsenha);
 					System.out.println(adm.toString());
 				}
+
+				else if(mudar.equals("dataNascimento")) {
+					LocalDate dataNascimento = null;
+					boolean dataValida = false;
+					do {
+						System.out.print("Entre com uma data de nascimento diferente: ");
+						String dataNascimInput = sc.nextLine();
+
+						try {
+							dataNascimento = LocalDate.parse(dataNascimInput, formatter);
+							dataValida = true;
+
+							adm.setDataNascimento(dataNascimento);
+							st.setDate(3, java.sql.Date.valueOf(dataNascimInput));
+
+						} catch(DateTimeParseException e) {
+							System.out.println("Senha inválida! Tente novamente");
+							e.printStackTrace();
+						}
+					} while (!dataValida);
+			}
 				Adm();
 			} else { 
 				System.out.println("Resposta inválida, tente novamente");
