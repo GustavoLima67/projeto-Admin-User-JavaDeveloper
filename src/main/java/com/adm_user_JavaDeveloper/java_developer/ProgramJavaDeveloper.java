@@ -19,6 +19,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.adm_user_JavaDeveloper.java_developer.db.DB;
 import com.adm_user_JavaDeveloper.java_developer.entities.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
+import com.adm_user_JavaDeveloper.java_developer.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
 import com.adm_user_JavaDeveloper.java_developer.twilio.AuthenticatorTwilio;
 import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
@@ -61,19 +62,18 @@ public class ProgramJavaDeveloper {
 			
 			System.out.print("Você é um Usuário?: (s/n) ");
 			char response = sc.next().charAt(0);
-			
-			if (response == 's') {
-				loginUser();
-				
-			} 
-			
-			else if (response == 'n') {
-				
-				loginAdm();
-				
-			} else {
-				throw new ExececaoPadrao("Erro na sintaxe!. Digite da forma descrita: (y/n).");
-				
+
+			Response userResponse = Response.fromChar(response);
+
+			switch (userResponse) {
+				case YES:
+					loginUser();
+					break;
+				case NO:
+					loginAdm();
+					break;
+				default:
+					throw new ExececaoPadrao("Erro na sintexe, digite da forma descrita (s/n). ");
 			}
 			
 		} catch (Exception e) {
@@ -464,13 +464,18 @@ public class ProgramJavaDeveloper {
 				sc.nextLine();
 				response = sc.next().charAt(0);
 				
-				if (response == 'y') {
-					admFunc();
-				} else if (response == 'n' ) {
-					InformAdm();
-				} else {
-					System.out.println("Resposta inválida, informe 'y' ou 'n'. ");
+				Response userResponse = Response.fromChar(response);
+
+				switch (userResponse) {
+					case YES:
+						admFunc();
+						break;
+					case NO:
+						InformAdm();
+					default:
+						throw new ExececaoPadrao("Erro na sintexe, digite da forma descrita (s / n): ");
 				}
+
 			} while(response != 'n');
 			
 			
@@ -482,23 +487,25 @@ public class ProgramJavaDeveloper {
 	
 	public static void User() {
 		try {
-			
 			char response;
-			
 			do {
 				System.out.println("Bem Vindo "+user.getName()+"!");
 				System.out.println("FUNCIONALIDADES DO USUARIO. ");
-				System.out.print("Quer mudar suas informações: (y/n) ");
+				System.out.print("Quer mudar suas informações: (s/n) ");
 				response = sc.next().charAt(0);
 				
-				if (response == 'y') {
-					UserFunc();
-				} else if(response == 'n'){
-					InformUser();
-				} else {
-					System.out.println("Resposta inválida, informe 'y' ou 'n'. ");
+				Response userResponse = Response.fromChar(response);
+
+				switch (userResponse) {
+					case YES:
+						UserFunc();
+						break;
+					case NO: 
+						InformUser();
+						break;
+					default:
+						throw new ExececaoPadrao("Erro na sintexe!, digite da forma descrita (s/n)");
 				}
-				
 			} while(response != 'n');
 			
 			
