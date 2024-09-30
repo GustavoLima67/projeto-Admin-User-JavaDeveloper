@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Twilio
+src/main/java/com/adm_user_javaDeveloper/java_developer/twilio/AuthenticatorTwilio

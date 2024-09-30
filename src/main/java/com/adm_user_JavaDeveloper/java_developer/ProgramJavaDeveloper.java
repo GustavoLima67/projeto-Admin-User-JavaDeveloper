@@ -1,6 +1,7 @@
 package com.adm_user_JavaDeveloper.java_developer;
 
 import java.io.IOError;
+import java.net.Authenticator;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,8 +20,10 @@ import com.adm_user_JavaDeveloper.java_developer.db.DB;
 import com.adm_user_JavaDeveloper.java_developer.entities.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
+import com.adm_user_JavaDeveloper.java_developer.twilio.AuthenticatorTwilio;
 import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
 import com.twilio.Twilio;
+import com.twilio.exception.ApiException;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 
@@ -35,8 +38,8 @@ public class ProgramJavaDeveloper {
 	public static PreparedStatement st = null;
 	public static ResultSet rs = null;
 	
-	public static final String ACCOUNT_SID = "AC4b437239aec2ab656a95cf5f9c218312";
-    public static final String AUTH_TOKEN = "de5bbfcd665068c60746184b467bcaf2";
+	public static final String accountSid = AuthenticatorTwilio.getAccountSid();
+    public static final String accountAuthToken = AuthenticatorTwilio.getAuthToken();
 
     public static void main(String[] args) {
 		try {
@@ -53,10 +56,10 @@ public class ProgramJavaDeveloper {
 		
 		try {
 			
-			System.out.print("Você é um Usuário?: (y/n) ");
+			System.out.print("Você é um Usuário?: (s/n) ");
 			char response = sc.next().charAt(0);
 			
-			if (response == 'y') {
+			if (response == 's') {
 				loginUser();
 				
 			} 
@@ -99,13 +102,14 @@ public class ProgramJavaDeveloper {
 				} while(!validPhone);
 				
 				try {
+
 					sendSms(phoneNumber);
 					System.out.println("Menssagem enviada com sucesso!");
-				}catch (IOError e) {
-					System.out.println("Erro ao enviar o SMS" );
-					 e.printStackTrace();
-				}
 				
+				} catch(ApiException e) {
+					System.out.println("Error na Api de envio SMS " + e.getMessage());
+					e.printStackTrace();
+				}
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
@@ -240,7 +244,6 @@ public class ProgramJavaDeveloper {
 		            }
 
 	        } while (!senhaValida);
-				
 				user.setSenha(UserInputsenha);
 		        
 				System.out.println("Senha valida! acesso concedido!");
@@ -424,8 +427,8 @@ public class ProgramJavaDeveloper {
 		return matcher.matches();
 	}
 	
-	public static void sendSms(String phoneNumber) {
-	 Twilio.init(ACCOUNT_SID,AUTH_TOKEN);
+	public static void sendSms(String phoneNumber) throws ExececaoPadrao {
+	 Twilio.init(accountSid, accountAuthToken);
 	 try {
 
 	   	 Message message = Message.creator(
@@ -437,7 +440,7 @@ public class ProgramJavaDeveloper {
 	        System.out.println("Mensagem enviada com sucesso: " + message.getSid());
  
 	 	} catch (Exception e) {
-	 		System.out.println("Erro ao enviar o SMS.");
+	 		throw new ExececaoPadrao("Erro na no envio da mensagem: " + e.getMessage());
 	 	}
 	 
 	}
