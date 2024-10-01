@@ -58,9 +58,7 @@ public class ProgramJavaDeveloper {
 	public static void admOuUsuario() throws ExececaoPadrao { 
 		
 		try {
-			
 			System.out.println("Bem-vindo");
-
 			Sistema.logarNoSistema(() -> Sistema.loginUser(), () -> Sistema.loginAdm());
 
 		} catch (Exception e) {
@@ -70,43 +68,17 @@ public class ProgramJavaDeveloper {
 	}
 	
 	public static void loginUser() {
+		String name = "";
+
 		try {
-			String phoneNumber = "";
-			boolean validPhone;
-			System.out.print("Entre com seu nome de Usuário: ");
-			String name = sc.next();
+			Sistema.entradaDeNumero(name);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 			
-			sc.nextLine();
-			try {
-				do {
-					
-					System.out.print("Entre com seu numero de Telefone: ");
-					phoneNumber = sc.nextLine();
-					
-					validPhone = isValidPhoneNumber(phoneNumber);
-					
-					if (!validPhone) {
-						System.out.println("Numero de telefone invalido. Tente novamente.");
-					}
-
-				} while(!validPhone);
-				
-				try {
-
-					sendSms(phoneNumber);
-					System.out.println("Menssagem enviada com sucesso!");
-				
-				} catch(ApiException e) {
-					System.out.println("Error na Api de envio SMS " + e.getMessage());
-					e.printStackTrace();
-				}
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-			}
-			
-			boolean senhaValida;
-			String userInputsenha;
-			
+		boolean senhaValida;
+		String userInputsenha;
+		
 			do {
 				System.out.print("Entre com uma senha valida: ");
 	            userInputsenha = sc.nextLine();
