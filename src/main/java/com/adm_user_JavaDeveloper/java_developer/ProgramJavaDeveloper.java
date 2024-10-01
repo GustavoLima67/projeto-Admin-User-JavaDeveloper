@@ -16,12 +16,12 @@ import java.util.regex.Pattern;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.adm_user_JavaDeveloper.java_developer.authenticator.TwilioAuthentication;
 import com.adm_user_JavaDeveloper.java_developer.db.DB;
 import com.adm_user_JavaDeveloper.java_developer.entities.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
-import com.adm_user_JavaDeveloper.java_developer.twilio.AuthenticatorTwilio;
 import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
 import com.twilio.Twilio;
 import com.twilio.exception.ApiException;
@@ -39,50 +39,36 @@ public class ProgramJavaDeveloper {
 	public static PreparedStatement st = null;
 	public static ResultSet rs = null;
 	
-	public static final String accountSid = AuthenticatorTwilio.getAccountSid();
-    public static final String accountAuthToken = AuthenticatorTwilio.getAuthToken();
+	public static final String accountSid = TwilioAuthentication.getAccountSid();
+    public static final String accountAuthToken = TwilioAuthentication.getAuthToken();
 
 	public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception{
 		try {
-			LoginUserAdm();
-			
-		} catch(Exception e) {
-			System.err.println("Error!"+ e);
-			e.printStackTrace();
-		}
-		
-	}
-	
-	public static void LoginUserAdm() throws ExececaoPadrao { 
-		
-		try {
-			
-			System.out.print("Você é um Usuário?: (s/n) ");
-			char response = sc.next().charAt(0);
-
-			Response userResponse = Response.fromChar(response);
-
-			switch (userResponse) {
-				case YES:
-					loginUser();
-					break;
-				case NO:
-					loginAdm();
-					break;
-				default:
-					throw new ExececaoPadrao("Erro na sintexe, digite da forma descrita (s/n). ");
-			}
-			
+			admOuUsuario();	
 		} catch (Exception e) {
-			throw new ExececaoPadrao("Corrija suas credenciais.", e);
+			throw new ExececaoPadrao("Error na chamada da função!");
 		}
 		
 	}
 	
-	public static void loginUser(){
+	public static void admOuUsuario() throws ExececaoPadrao { 
+		
+		try {
+			
+			System.out.println("Bem-vindo");
+
+			//Sistema.logarNoSistema(Sistema::loginUser, Sistema::loginAdm);
+
+		} catch (Exception e) {
+			throw new IllegalArgumentException(e.getMessage());
+		}
+		
+	}
+	
+	public static void loginUser() {
 		try {
 			String phoneNumber = "";
 			boolean validPhone;
@@ -581,5 +567,4 @@ public class ProgramJavaDeveloper {
 		System.out.println("4. Deve conter pelo menos um número.");
 		System.out.println("5. Deve conter pelo menos um caractere especial (por exemplo: @, #, !, etc.).");
 	}
-	
 }

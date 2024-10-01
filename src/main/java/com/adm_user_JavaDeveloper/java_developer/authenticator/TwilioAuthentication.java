@@ -1,6 +1,6 @@
-package com.adm_user_JavaDeveloper.java_developer.twilio;
+package com.adm_user_JavaDeveloper.java_developer.authenticator;
 
-public class AuthenticatorTwilio {
+public class TwilioAuthentication {
     
     public static String getAccountSid() {
         return "AC4b437239aec2ab656a95cf5f9c218312";
