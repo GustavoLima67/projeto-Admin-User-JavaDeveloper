@@ -22,6 +22,7 @@ import com.adm_user_JavaDeveloper.java_developer.entities.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
+import com.adm_user_JavaDeveloper.java_developer.metodos.Sistema;
 import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
 import com.twilio.Twilio;
 import com.twilio.exception.ApiException;
@@ -60,7 +61,7 @@ public class ProgramJavaDeveloper {
 			
 			System.out.println("Bem-vindo");
 
-			//Sistema.logarNoSistema(Sistema::loginUser, Sistema::loginAdm);
+			Sistema.logarNoSistema(() -> Sistema.loginUser(), () -> Sistema.loginAdm());
 
 		} catch (Exception e) {
 			throw new IllegalArgumentException(e.getMessage());
