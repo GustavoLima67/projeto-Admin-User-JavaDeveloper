@@ -5,7 +5,6 @@ import java.util.Scanner;
 import com.adm_user_JavaDeveloper.java_developer.ProgramJavaDeveloper;
 import com.adm_user_JavaDeveloper.java_developer.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
-import com.adm_user_JavaDeveloper.java_developer.validators.ValidPhoneNumber;
 
 public class Sistema {
     
@@ -48,27 +47,4 @@ public class Sistema {
         }
     }
 
-    public static void entradaDeNumero(String name) {
-            String phoneNumber = "";
-			boolean validPhone;
-			System.out.print("Entre com seu nome de Usuário: ");
-			name = sc.next();
-
-            sc.nextLine();
-			try {
-				do {
-					System.out.print("Entre com seu numero de Telefone: ");
-					phoneNumber = sc.nextLine();
-					
-					validPhone = ValidPhoneNumber.isValidPhoneNumber(phoneNumber);
-					
-					if (!validPhone) {
-						System.out.println("Numero de telefone invalido. Tente novamente.");
-					}
-
-				} while(!validPhone);
-            } catch(IllegalAccessError e) {
-                e.printStackTrace();
-            }
-        }
 }

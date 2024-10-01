@@ -22,6 +22,7 @@ import com.adm_user_JavaDeveloper.java_developer.entities.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
+import com.adm_user_JavaDeveloper.java_developer.metodos.FuncUsuarios;
 import com.adm_user_JavaDeveloper.java_developer.metodos.Sistema;
 import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
 import com.twilio.Twilio;
@@ -71,77 +72,76 @@ public class ProgramJavaDeveloper {
 		String name = "";
 
 		try {
-			Sistema.entradaDeNumero(name);
+			FuncUsuarios.entradaDeNome(name);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-			
-		boolean senhaValida;
-		String userInputsenha;
+
+		String phoneNumber = "";
+
+		try {
+			FuncUsuarios.entradaDeNumero(phoneNumber);
+		} catch (Exception e) {
+			e.getMessage();
+		}
+
+		String userInputsenha = "";
+
+		try {
+			FuncUsuarios.entradaDeSenha(userInputsenha);	
+		} catch (Exception e) {
+			e.getMessage();
+		}
 		
-			do {
-				System.out.print("Entre com uma senha valida: ");
-	            userInputsenha = sc.nextLine();
-	            
-	            senhaValida = PasswordValidators.validatePassword(userInputsenha);
-
-	            if (!senhaValida) {
-	                senhaInvalida();
-	            }
-			}  while (!senhaValida);
-			System.out.println("Senha valida! acesso concedido!");
+		LocalDate dataNascimento = null;
+		boolean dataValida = false;
+		
+		do {
+			System.out.print("Entre com sua data de nascimento: (dd/MM/yyyy) ");
+			String dataNasciInput = sc.nextLine();
+			try {
+				dataNascimento = LocalDate.parse(dataNasciInput, formatter);
+				dataValida = true;
+			} catch(DateTimeParseException e) {
+				System.out.println("Data inválida, tente novamente" );
+				e.printStackTrace();
+			}
 			
-
+		} while(!dataValida);
 			
-            LocalDate dataNascimento = null;
-            boolean dataValida = false;
-            
-            do {
-            	System.out.print("Entre com sua data de nascimento: (dd/MM/yyyy) ");
-            	String dataNasciInput = sc.nextLine();
-            	try {
-            		dataNascimento = LocalDate.parse(dataNasciInput, formatter);
-            		dataValida = true;
-            	} catch(DateTimeParseException e) {
-            		System.out.println("Data inválida, tente novamente" );
-            		e.printStackTrace();
-            	}
-            	
-            } while(!dataValida);
-            	
-            try {
-            	
-            	conn = DB.getConnection();
-            	
-            	st = conn.prepareStatement("INSERT INTO usuario (Nome, Senha, Telefone, DataNascimento)" + " VALUES" + " (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            	st.setString(1, name);
-            	st.setString(2, userInputsenha);
-            	st.setString(3, phoneNumber);
-            	st.setDate(4, java.sql.Date.valueOf(dataNascimento));
-            	
-            	int linhasAfetadas = st.executeUpdate();
-            	
-            	if (linhasAfetadas > 0) {
-            		rs = st.getGeneratedKeys();
-            		while(rs.next()) {
-            			int id = rs.getInt(1);
-            			System.out.println("Usuario inserido com sucesso! Id: " + id);
-            		}
-            	} else {
-            		System.out.println("Sem nenhuma linha afetada");
-            	}
-            	 	
-            }catch(SQLException e) {
-            	e.printStackTrace();
-            } finally {
-            	DB.closeStatement(st);
-            	DB.closeResultSet(rs);
-            	DB.closeConnection();
-            }
-            
-            user = new Usuario(name, phoneNumber, userInputsenha, dataNascimento);
-			System.out.println();
-			User();
+		try {
+			
+			conn = DB.getConnection();
+			
+			st = conn.prepareStatement("INSERT INTO usuario (Nome, Senha, Telefone, DataNascimento)" + " VALUES" + " (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+			st.setString(1, name);
+			st.setString(2, userInputsenha);
+			st.setString(3, phoneNumber);
+			st.setDate(4, java.sql.Date.valueOf(dataNascimento));
+			
+			int linhasAfetadas = st.executeUpdate();
+			
+			if (linhasAfetadas > 0) {
+				rs = st.getGeneratedKeys();
+				while(rs.next()) {
+					int id = rs.getInt(1);
+					System.out.println("Usuario inserido com sucesso! Id: " + id);
+				}
+			} else {
+				System.out.println("Sem nenhuma linha afetada");
+			}
+				
+		}catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+			DB.closeConnection();
+		}
+		
+		user = new Usuario(name, phoneNumber, userInputsenha, dataNascimento);
+		System.out.println();
+		User();
 		
 		} catch(IOError e) {
 			e.printStackTrace();
