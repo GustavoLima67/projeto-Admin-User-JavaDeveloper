@@ -25,7 +25,6 @@ import com.adm_user_JavaDeveloper.java_developer.metodos.FuncUsuarios;
 import com.adm_user_JavaDeveloper.java_developer.metodos.Sistema;
 import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
 import com.twilio.Twilio;
-import com.twilio.exception.ApiException;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 
@@ -68,49 +67,20 @@ public class ProgramJavaDeveloper {
 	}
 	
 	public static void loginUser() {
-		String name = "";
-
-		try {
-			FuncUsuarios.entradaDeNome(name);
-
-			String phoneNumber = "";
-			FuncUsuarios.entradaDeNumero(phoneNumber);
 		
-			String userInputsenha = "";
-			FuncUsuarios.entradaDeSenha(userInputsenha);	
+		try {
+			String name = FuncUsuarios.entradaDeNome();
+
+			
+			String phoneNumber = FuncUsuarios.entradaDeNumero();
+		
+			
+			String userInputsenha = FuncUsuarios.entradaDeSenha();	
 		
 			LocalDate dataNascimento = FuncUsuarios.entradaDataNascimento();
-	
-			try {
-			
-				conn = DB.getConnection();
-				
-				st = conn.prepareStatement("INSERT INTO usuario (Nome, Senha, Telefone, DataNascimento)" + " VALUES" + " (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-				st.setString(1, name);
-				st.setString(2, userInputsenha);
-				st.setString(3, phoneNumber);
-				st.setDate(4, java.sql.Date.valueOf(dataNascimento));
-				
-				int linhasAfetadas = st.executeUpdate();
-				
-				if (linhasAfetadas > 0) {
-					rs = st.getGeneratedKeys();
-					while(rs.next()) {
-						int id = rs.getInt(1);
-						System.out.println("Usuario inserido com sucesso! Id: " + id);
-					}
-				} else {
-					System.out.println("Sem nenhuma linha afetada");
-				}
-				
-			}catch(SQLException e) {
-				e.printStackTrace();
-			} finally {
-				DB.closeStatement(st);
-				DB.closeResultSet(rs);
-				DB.closeConnection();
-			}
-		
+
+			conn = FuncUsuarios.dbConnection(name, phoneNumber, userInputsenha, dataNascimento);
+
 		user = new Usuario(name, phoneNumber, userInputsenha, dataNascimento);
 		System.out.println();
 		User();

@@ -2,11 +2,21 @@ package com.adm_user_JavaDeveloper.java_developer.metodos;
 
 import java.util.Scanner;
 
+import org.hibernate.annotations.processing.SQL;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import com.adm_user_JavaDeveloper.java_developer.ProgramJavaDeveloper;
+import com.adm_user_JavaDeveloper.java_developer.db.DB;
 import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
 import com.adm_user_JavaDeveloper.java_developer.validators.ValidPhoneNumber;
 
@@ -14,16 +24,21 @@ public class FuncUsuarios {
 
     private static Scanner sc = new Scanner(System.in);
 	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    public static Connection conn = null;
+	public static PreparedStatement st = null;
+	public static ResultSet rs = null;
+	
     
-    public static String entradaDeNome(String name) {
+    public static String entradaDeNome() {
         System.out.print("Entre com seu nome de Usuário: ");
-        name = sc.next();
+        String name = sc.next();
         
         return name;
     }
 
-    public static String entradaDeNumero(String phoneNumber) {
-        
+    public static String entradaDeNumero() {
+        String phoneNumber = " ";
         boolean validPhone;
         sc.nextLine();
         try {
@@ -43,7 +58,8 @@ public class FuncUsuarios {
         return phoneNumber;
     }
 
-    public static String entradaDeSenha(String userInputsenha) {
+    public static String entradaDeSenha() {
+        String userInputsenha;
         boolean senhaValida;
 
         do {
@@ -79,5 +95,37 @@ public class FuncUsuarios {
             } while(!dataValida);
         }
         return dataNascimento;
+    }
+
+    public static Connection dbConnection(String name, String userInputsenha, String phoneNumber, LocalDate dataNascimento) {
+        conn = DB.getConnection(); 
+        try {
+            st = conn.prepareStatement("INSERT INTO usuario (Nome, Senha, Telefone, DataNascimento)" + " VALUES" + " (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            st.setString(1, name);
+            st.setString(2, userInputsenha);
+            st.setString(3, phoneNumber);
+            st.setDate(4, java.sql.Date.valueOf(dataNascimento)); 
+
+            int linhasAfetadas = st.executeUpdate();
+        
+            if (linhasAfetadas > 0) {
+                rs = st.getGeneratedKeys();
+                while(rs.next()) {
+                    int id = rs.getInt(1);
+                    System.out.println("Usuario inserido com sucesso! Id: " + id);
+                }
+            } else {
+                System.out.println("Sem nenhuma linha afetada");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
+            DB.closeConnection();
+        }
+        
+        return conn; 
     }
 }
