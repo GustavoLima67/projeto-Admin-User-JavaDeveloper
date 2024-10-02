@@ -139,6 +139,5 @@ public class UsuariosFuncionalidades {
             }
         }
         return dataNascimento;
-        
     }
 }
