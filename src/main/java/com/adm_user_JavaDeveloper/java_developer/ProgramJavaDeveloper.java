@@ -1,6 +1,5 @@
 package com.adm_user_JavaDeveloper.java_developer;
 
-import java.io.IOError;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -73,81 +72,53 @@ public class ProgramJavaDeveloper {
 
 		try {
 			FuncUsuarios.entradaDeNome(name);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
 
-		String phoneNumber = "";
-
-		try {
+			String phoneNumber = "";
 			FuncUsuarios.entradaDeNumero(phoneNumber);
-		} catch (Exception e) {
-			e.getMessage();
-		}
-
-		String userInputsenha = "";
-
-		try {
+		
+			String userInputsenha = "";
 			FuncUsuarios.entradaDeSenha(userInputsenha);	
-		} catch (Exception e) {
-			e.getMessage();
-		}
 		
-		LocalDate dataNascimento = null;
-		boolean dataValida = false;
-		
-		do {
-			System.out.print("Entre com sua data de nascimento: (dd/MM/yyyy) ");
-			String dataNasciInput = sc.nextLine();
+			LocalDate dataNascimento = FuncUsuarios.entradaDataNascimento();
+	
 			try {
-				dataNascimento = LocalDate.parse(dataNasciInput, formatter);
-				dataValida = true;
-			} catch(DateTimeParseException e) {
-				System.out.println("Data inválida, tente novamente" );
-				e.printStackTrace();
-			}
 			
-		} while(!dataValida);
-			
-		try {
-			
-			conn = DB.getConnection();
-			
-			st = conn.prepareStatement("INSERT INTO usuario (Nome, Senha, Telefone, DataNascimento)" + " VALUES" + " (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-			st.setString(1, name);
-			st.setString(2, userInputsenha);
-			st.setString(3, phoneNumber);
-			st.setDate(4, java.sql.Date.valueOf(dataNascimento));
-			
-			int linhasAfetadas = st.executeUpdate();
-			
-			if (linhasAfetadas > 0) {
-				rs = st.getGeneratedKeys();
-				while(rs.next()) {
-					int id = rs.getInt(1);
-					System.out.println("Usuario inserido com sucesso! Id: " + id);
-				}
-			} else {
-				System.out.println("Sem nenhuma linha afetada");
-			}
+				conn = DB.getConnection();
 				
-		}catch(SQLException e) {
-			e.printStackTrace();
-		} finally {
-			DB.closeStatement(st);
-			DB.closeResultSet(rs);
-			DB.closeConnection();
-		}
+				st = conn.prepareStatement("INSERT INTO usuario (Nome, Senha, Telefone, DataNascimento)" + " VALUES" + " (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+				st.setString(1, name);
+				st.setString(2, userInputsenha);
+				st.setString(3, phoneNumber);
+				st.setDate(4, java.sql.Date.valueOf(dataNascimento));
+				
+				int linhasAfetadas = st.executeUpdate();
+				
+				if (linhasAfetadas > 0) {
+					rs = st.getGeneratedKeys();
+					while(rs.next()) {
+						int id = rs.getInt(1);
+						System.out.println("Usuario inserido com sucesso! Id: " + id);
+					}
+				} else {
+					System.out.println("Sem nenhuma linha afetada");
+				}
+				
+			}catch(SQLException e) {
+				e.printStackTrace();
+			} finally {
+				DB.closeStatement(st);
+				DB.closeResultSet(rs);
+				DB.closeConnection();
+			}
 		
 		user = new Usuario(name, phoneNumber, userInputsenha, dataNascimento);
 		System.out.println();
 		User();
-		
-		} catch(IOError e) {
-			e.printStackTrace();
-		}
-	}
 
+	} catch (Exception e) {
+		System.out.println(e.getMessage());
+	}
+}
 	public static void UserFunc(){
 		try {
 			System.out.println();
