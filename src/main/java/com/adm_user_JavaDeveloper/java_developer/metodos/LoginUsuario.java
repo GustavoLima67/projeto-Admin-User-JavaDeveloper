@@ -2,8 +2,6 @@ package com.adm_user_JavaDeveloper.java_developer.metodos;
 
 import java.util.Scanner;
 
-import org.hibernate.annotations.processing.SQL;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +18,7 @@ import com.adm_user_JavaDeveloper.java_developer.db.DB;
 import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
 import com.adm_user_JavaDeveloper.java_developer.validators.ValidPhoneNumber;
 
-public class FuncUsuarios {
+public class LoginUsuario {
 
     private static Scanner sc = new Scanner(System.in);
 	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -30,14 +28,14 @@ public class FuncUsuarios {
 	public static ResultSet rs = null;
 	
     
-    public static String entradaDeNome() {
+    public static String getUserName() {
         System.out.print("Entre com seu nome de Usuário: ");
         String name = sc.next();
         
         return name;
     }
 
-    public static String entradaDeNumero() {
+    public static String getUserPhone() {
         String phoneNumber = " ";
         boolean validPhone;
         sc.nextLine();
@@ -58,7 +56,7 @@ public class FuncUsuarios {
         return phoneNumber;
     }
 
-    public static String entradaDeSenha() {
+    public static String getUserPassword() {
         String userInputsenha;
         boolean senhaValida;
 
@@ -76,7 +74,7 @@ public class FuncUsuarios {
         return userInputsenha;
     } 
 
-    public static LocalDate entradaDataNascimento() {
+    public static LocalDate getUserBirthDate() {
         LocalDate dataNascimento = null;
         boolean dataValida = false;
 		
@@ -97,7 +95,7 @@ public class FuncUsuarios {
         return dataNascimento;
     }
 
-    public static Connection dbConnection(String name, String userInputsenha, String phoneNumber, LocalDate dataNascimento) {
+    public static Connection executeDbConnection(String name, String userInputsenha, String phoneNumber, LocalDate dataNascimento) {
         conn = DB.getConnection(); 
         try {
             st = conn.prepareStatement("INSERT INTO usuario (Nome, Senha, Telefone, DataNascimento)" + " VALUES" + " (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);

@@ -21,8 +21,9 @@ import com.adm_user_JavaDeveloper.java_developer.entities.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
-import com.adm_user_JavaDeveloper.java_developer.metodos.FuncUsuarios;
+import com.adm_user_JavaDeveloper.java_developer.metodos.LoginUsuario;
 import com.adm_user_JavaDeveloper.java_developer.metodos.Sistema;
+import com.adm_user_JavaDeveloper.java_developer.metodos.UsuariosFuncionalidades;
 import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
@@ -67,119 +68,42 @@ public class ProgramJavaDeveloper {
 	}
 	
 	public static void loginUser() {
-		
 		try {
-			String name = FuncUsuarios.entradaDeNome();
+			String name = LoginUsuario.getUserName();
 
+			String phoneNumber = LoginUsuario.getUserPhone();
 			
-			String phoneNumber = FuncUsuarios.entradaDeNumero();
+			String userInputsenha = LoginUsuario.getUserPassword();	
 		
-			
-			String userInputsenha = FuncUsuarios.entradaDeSenha();	
-		
-			LocalDate dataNascimento = FuncUsuarios.entradaDataNascimento();
+			LocalDate dataNascimento = LoginUsuario.getUserBirthDate();
 
-			conn = FuncUsuarios.dbConnection(name, phoneNumber, userInputsenha, dataNascimento);
+			conn = LoginUsuario.executeDbConnection(name, phoneNumber, userInputsenha, dataNascimento);
 
-		user = new Usuario(name, phoneNumber, userInputsenha, dataNascimento);
-		System.out.println();
-		User();
-
-	} catch (Exception e) {
-		System.out.println(e.getMessage());
+			user = new Usuario(name, phoneNumber, userInputsenha, dataNascimento);
+			System.out.println();
+			User();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
-}
+
 	public static void UserFunc(){
 		try {
-			System.out.println();
-			System.out.println(user.toString());
-			System.out.println();
+			UsuariosFuncionalidades.sendInformUSer();
+
+			UsuariosFuncionalidades.readUserOptions();
+
+			UsuariosFuncionalidades.processUserName();
+	
+			UsuariosFuncionalidades.processUserPhoneNumber();
+
+			UsuariosFuncionalidades.processUserPassword();
+
+			UsuariosFuncionalidades.processBirthDate();
 			
-			System.out.print("O que deseja mudar: (nome / telefone / senha / dataNascimento) ");
-			String mudar = sc.next();
-			
-			if (mudar.equals("nome")) {
-				System.out.print("Entre com o nome desejado: ");
-				String name = sc.next();
-				
-				st.setString(1, name);
-				user.setName(name);
-			}
-			else if (mudar.equals("telefone")) {
-				boolean validPhone;
-				String phoneNumber;
-				
-				try {
-					do {
-						
-						System.out.print("Entre com seu numero de Telefone: ");
-						phoneNumber = sc.nextLine();
-						
-						validPhone = isValidPhoneNumber(phoneNumber);
-						
-						if (!validPhone) {
-							System.out.println("Numero de telefone invalido. Tente novamente.");
-						}
-
-					} while(!validPhone);
-					
-					Message message = Message.creator(new PhoneNumber(phoneNumber), new PhoneNumber("+12513021245"), "Numero de Telefone validado no 'Projeto JavaDeveloper' com sucesso!").create();
-					System.out.println("Mensagem Enviada com Sucesso!" + message.getSid());
-					
-				}catch (Exception e) {
-					throw new ExececaoPadrao("Erro no cadastro do numero de telefone, tente novamente");
-				}
-				
-				user.setPhoneNumber(phoneNumber);
-				st.setString(2, phoneNumber);
-			}
-			else if (mudar.equals("senha")) { 
-				
-				boolean senhaValida;
-				String UserInputsenha;
-				sc.nextLine();
-				do {
-		            System.out.print("Digite sua senha: ");
-		            UserInputsenha = sc.nextLine();
-		            
-		            senhaValida = PasswordValidators.validatePassword(UserInputsenha);
-
-		            if (!senhaValida) {
-		                senhaInvalida();
-		            }
-
-	        } while (!senhaValida);
-
-				user.setSenha(UserInputsenha);
-				st.setString(3, UserInputsenha);
-				System.out.println("Senha valida! acesso concedido!");
-			}
-
-			else if (mudar.equals("dataNascimento")) {
-				LocalDate dataNascimento = null;
-            	boolean dataValida = false;
-            
-            do {
-            	System.out.print("Entre com sua data de nascimento: (dd/MM/yyyy) ");
-            	String dataNasciInput = sc.nextLine();
-            	try {
-            		dataNascimento = LocalDate.parse(dataNasciInput, formatter);
-            		dataValida = true;
-
-					user.setDate(dataNascimento);
-					st.setDate(4, java.sql.Date.valueOf(dataNascimento));
-
-            	} catch(DateTimeParseException e) {
-            		System.out.println("Data inválida, tente novamente" );
-            		e.printStackTrace();
-            	}
-            	
-            } while(!dataValida);
-			}
-
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.getMessage();
+			e.printStackTrace();
 		}
 	}
 	
