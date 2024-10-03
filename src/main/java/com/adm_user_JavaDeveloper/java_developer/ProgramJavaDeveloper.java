@@ -3,8 +3,6 @@ package com.adm_user_JavaDeveloper.java_developer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -16,7 +14,6 @@ import java.util.regex.Pattern;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.adm_user_JavaDeveloper.java_developer.authenticator.TwilioAuthentication;
-import com.adm_user_JavaDeveloper.java_developer.db.DB;
 import com.adm_user_JavaDeveloper.java_developer.entities.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.enums.Response;
@@ -108,7 +105,7 @@ public class ProgramJavaDeveloper {
 		}
 	}
 	
-	public static void loginAdm() throws ExececaoPadrao{
+	public static void processAdm() throws ExececaoPadrao{
 		try {
 			String name = LoginAdm.getAdmName();
 
@@ -116,40 +113,11 @@ public class ProgramJavaDeveloper {
 
 			LocalDate dataNascimento = LoginAdm.getDateAdm();
 
-			try { 
-				conn = DB.getConnection();
-
-				st = conn.prepareStatement("INSERT INTO administrador (Nome, Senha, DataNascimento) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-				st.setString(1, name);
-				st.setString(2, passwordAdm);
-				st.setDate(3, java.sql.Date.valueOf(dataNascimento));
-
-				int linhasAfetadas = st.executeUpdate();
-
-				if(linhasAfetadas > 0) {
-					rs = st.getGeneratedKeys();
-					while (rs.next()) {
-						int idAdm = rs.getInt(1);
-						System.out.println("Administrador inserido com sucesso! Id: " + idAdm);
-            		}
-            	} else {
-            		System.out.println("Sem nenhuma linha afetada");
-            	}
-
-
-			} catch (SQLException e) {
-				System.out.println("Erro na entrada de valores SQL" + e.getMessage());
-				e.printStackTrace();
-			} finally {
-				DB.closeStatement(st);
-				DB.closeResultSet(rs);
-				DB.closeConnection();
-			}
+			conn = LoginAdm.executeDbConnection(name, passwordAdm, dataNascimento);
         	
             adm = new Administrador(name, passwordAdm, dataNascimento);
             
 			System.out.println();
-			
 			admFunc();
 			
 		} catch (Exception e) {
