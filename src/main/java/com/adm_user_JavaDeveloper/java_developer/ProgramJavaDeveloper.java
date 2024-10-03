@@ -18,6 +18,7 @@ import com.adm_user_JavaDeveloper.java_developer.entities.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
+import com.adm_user_JavaDeveloper.java_developer.metodos.AdmFuncionalidades;
 import com.adm_user_JavaDeveloper.java_developer.metodos.LoginAdm;
 import com.adm_user_JavaDeveloper.java_developer.metodos.LoginUsuario;
 import com.adm_user_JavaDeveloper.java_developer.metodos.Sistema;
@@ -117,9 +118,7 @@ public class ProgramJavaDeveloper {
         	
             adm = new Administrador(name, passwordAdm, dataNascimento);
             
-			System.out.println();
 			admFunc();
-			
 		} catch (Exception e) {
 			throw new ExececaoPadrao("Erro ao fazer login como Administrador!", e);
 		}
@@ -128,29 +127,13 @@ public class ProgramJavaDeveloper {
 	public static void admFunc() throws ExececaoPadrao{
 		
 		try {
-			System.out.println();
-			System.out.println(adm.toString());
-			System.out.println();
 			
-			System.out.print("O que deseja fazer?: (Escreva exatamente como esta abaixo) ");
-			System.out.println();
-			System.out.print("User | Adm");
-			String func = sc.nextLine();
+			System.out.println(adm.toString() + "\n");
+
 			
-			if (func.equals("User")) {
-				
-				try {
-					if(user.getName() == null && user.getPhoneNumber() == null && user.getSenha() == null) {
-						System.out.print("Usuario não existe:\nCrie um novo usuario para prosseguir:\n");
-						loginUser();
-					}
-					else {
-						UserFunc();
-					}
-				} catch (Exception e) {
-					e.getMessage();
-				}
-			}
+			String func = AdmFuncionalidades.getAdmFuncionalidades();
+			
+			AdmFuncionalidades.processAdm(func);
 			
 			if (func.equals("Adm")) {
 				System.out.println(adm.toString());

@@ -40,7 +40,7 @@ public class Sistema {
     public static void loginAdm() {
         try {
             System.out.println("Bem-vindo! Entre com suas informações para cadastro.");
-            ProgramJavaDeveloper.loginAdm();
+            ProgramJavaDeveloper.processAdm();
         } catch (IllegalAccessError | ExececaoPadrao e) {
             e.getMessage();
             e.printStackTrace();;
