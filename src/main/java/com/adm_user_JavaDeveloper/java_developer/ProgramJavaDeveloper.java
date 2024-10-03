@@ -21,6 +21,7 @@ import com.adm_user_JavaDeveloper.java_developer.entities.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
+import com.adm_user_JavaDeveloper.java_developer.metodos.LoginAdm;
 import com.adm_user_JavaDeveloper.java_developer.metodos.LoginUsuario;
 import com.adm_user_JavaDeveloper.java_developer.metodos.Sistema;
 import com.adm_user_JavaDeveloper.java_developer.metodos.UsuariosFuncionalidades;
@@ -109,46 +110,18 @@ public class ProgramJavaDeveloper {
 	
 	public static void loginAdm() throws ExececaoPadrao{
 		try {
-			System.out.print("Entre com seu nome de login administrador: ");
-		    String name = sc.next();
-		
-		    boolean senhaValida;
-			String UserInputsenha;
-			
-			sc.nextLine();
-			do {
-				System.out.print("Entre com uma senha valida: ");
-	            UserInputsenha = sc.nextLine();
-	            
-	            senhaValida = PasswordValidators.validatePassword(UserInputsenha);
+			String name = LoginAdm.getAdmName();
 
-	            if (!senhaValida) {
-	                senhaInvalida();
-	            }
-			}  while (!senhaValida);
+			String passwordAdm = LoginAdm.getPasswordAdm();
 
-			LocalDate dataNascimento = null;
-			boolean dataValida = false;
-			do {
-				System.out.print("Entre com sua data de nascimento: ");
-				String dataNascimInput = sc.nextLine();
-
-				try {
-					dataNascimento = LocalDate.parse(dataNascimInput, formatter);
-					dataValida = true;
-				} catch(DateTimeParseException e) {
-					System.out.println("Senha inválida! Tente novamente");
-					e.printStackTrace();
-				}
-
-			} while (!dataValida);
+			LocalDate dataNascimento = LoginAdm.getDateAdm();
 
 			try { 
 				conn = DB.getConnection();
 
 				st = conn.prepareStatement("INSERT INTO administrador (Nome, Senha, DataNascimento) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 				st.setString(1, name);
-				st.setString(2, UserInputsenha);
+				st.setString(2, passwordAdm);
 				st.setDate(3, java.sql.Date.valueOf(dataNascimento));
 
 				int linhasAfetadas = st.executeUpdate();
@@ -173,7 +146,7 @@ public class ProgramJavaDeveloper {
 				DB.closeConnection();
 			}
         	
-            adm = new Administrador(name, UserInputsenha, dataNascimento);
+            adm = new Administrador(name, passwordAdm, dataNascimento);
             
 			System.out.println();
 			
