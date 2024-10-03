@@ -74,7 +74,7 @@ public class Administrador {
 
 	@Override
 	public String toString() {
-		return "Administrador: Nome: " + getName() + ", Id: " + getId() + ", Senha: " + getSenha() + "Data de nascimento: " + getDataNascimento();
+		return "Administrador: Nome: " + getName() + ", Senha: " + getSenha() + "Data de nascimento: " + getDataNascimento();
 	}
 	
 

@@ -10,6 +10,7 @@ public class Sistema {
     
     private static Scanner sc = new Scanner(System.in);
 
+   
     public static void logarNoSistema(interfaceAcaoLogar usuarioAcao, interfaceAcaoLogar administradorAcao) throws ExececaoPadrao {
         System.out.print("Você é um usuário?: (s / n) ");
         char response = sc.next().charAt(0);
@@ -31,6 +32,7 @@ public class Sistema {
     public static void loginUser() {
         try {
             System.out.println("Bem-vindo! Entre com suas informações para cadastro.");
+            System.out.println();
             ProgramJavaDeveloper.loginUser();
         } catch(IllegalAccessError e) {
             e.printStackTrace();
@@ -40,6 +42,7 @@ public class Sistema {
     public static void loginAdm() {
         try {
             System.out.println("Bem-vindo! Entre com suas informações para cadastro.");
+            System.out.println();
             ProgramJavaDeveloper.processAdm();
         } catch (IllegalAccessError | ExececaoPadrao e) {
             e.getMessage();

@@ -23,7 +23,6 @@ import com.adm_user_JavaDeveloper.java_developer.metodos.LoginAdm;
 import com.adm_user_JavaDeveloper.java_developer.metodos.LoginUsuario;
 import com.adm_user_JavaDeveloper.java_developer.metodos.Sistema;
 import com.adm_user_JavaDeveloper.java_developer.metodos.UsuariosFuncionalidades;
-import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
@@ -128,68 +127,23 @@ public class ProgramJavaDeveloper {
 		
 		try {
 			
-			System.out.println(adm.toString() + "\n");
+			System.out.println();
+			System.out.println(adm.toString());
+			System.out.println();
 
-			
-			String func = AdmFuncionalidades.getAdmFuncionalidades();
-			AdmFuncionalidades.processEqualsUser(func);
+			AdmFuncionalidades.getUserOuAdm(() -> AdmFuncionalidades.processEqualsUser(), () -> AdmFuncionalidades.processEqualsAdm());
 
-			String mudar = ""; 
-			AdmFuncionalidades.processEqualsAdm(mudar);
-			
+			String mudar = "";
 			AdmFuncionalidades.updateEqualsName(mudar);
-			
-				if (mudar.equals("senha")) {
-					boolean senhaValida;
-					String UserInputsenha;
-					do {
-			            System.out.print("Digite sua senha: ");
-			            UserInputsenha = sc.nextLine();
-			            
-			            senhaValida = PasswordValidators.validatePassword(UserInputsenha);
-	
-			            if (!senhaValida) {
-			                senhaInvalida();
-			            }
 
-		        } while (!senhaValida);
-					System.out.println("Senha valida! acesso concedido!");
-					
-					st.setString(2, UserInputsenha);
-					adm.setSenha(UserInputsenha);
-					System.out.println(adm.toString());
-				}
+			AdmFuncionalidades.updateEqualsPassword();
 
-				else if(mudar.equals("dataNascimento")) {
-					LocalDate dataNascimento = null;
-					boolean dataValida = false;
-					do {
-						System.out.print("Entre com uma data de nascimento diferente: ");
-						String dataNascimInput = sc.nextLine();
-
-						try {
-							dataNascimento = LocalDate.parse(dataNascimInput, formatter);
-							dataValida = true;
-
-							adm.setDataNascimento(dataNascimento);
-							st.setDate(3, java.sql.Date.valueOf(dataNascimInput));
-
-						} catch(DateTimeParseException e) {
-							System.out.println("Senha inválida! Tente novamente");
-							e.printStackTrace();
-						}
-					} while (!dataValida);
-			
-				Adm();
-			} else { 
-				System.out.println("Resposta inválida, tente novamente");
-				admFunc();
-			}
+			AdmFuncionalidades.updateEqualsBirthDate();
 
 		}catch (Exception e) {
-			throw new ExececaoPadrao("Erro!, corrija suas credenciais");
+			throw new ExececaoPadrao("Resposta inválida!, Tente novamente");
 		} 
-	
+	}
 	
 	public static void Adm() {
 		try {

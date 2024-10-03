@@ -32,6 +32,8 @@ public class LoginAdm {
     public static String getPasswordAdm() {
         boolean passwordValid;
         String userInputPassword;
+        sc.nextLine();
+        
         do {
             System.out.print("Entre com uma senha valida: ");
             userInputPassword = sc.nextLine();
@@ -50,16 +52,15 @@ public class LoginAdm {
         LocalDate dataNascimento = null;
         boolean dataValida = false;
         do {
-            System.out.print("Entre com sua data de nascimento: ");
+            System.out.print("Entre com sua data de nascimento: (dd/MM/yyyy) ");
             String dataNascimInput = sc.nextLine();
 
             try {
                 dataNascimento = LocalDate.parse(dataNascimInput, formatter);
-                
-                if (!dataValida) {
-                    System.out.println("Data inválida! Tente novamente");
-                }
+                dataValida = true;
+
             } catch(DateTimeParseException e) {
+                System.out.println("Data inválida! Tente novamente");
                 e.printStackTrace();
             }
         } while (!dataValida);
