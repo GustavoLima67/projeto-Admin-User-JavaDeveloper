@@ -132,23 +132,13 @@ public class ProgramJavaDeveloper {
 
 			
 			String func = AdmFuncionalidades.getAdmFuncionalidades();
-			
-			AdmFuncionalidades.processAdm(func);
-			
-			if (func.equals("Adm")) {
-				System.out.println(adm.toString());
-				System.out.print("O que deseja mudar: (nome / senha) ");
-				String mudar = sc.next();
-				
-				if (mudar.equals("nome")) {
-					System.out.print("Entre com o nome desejado: ");
-					String name = sc.next();
+			AdmFuncionalidades.processEqualsUser(func);
 
-					st.setString(1, name);
-					adm.setName(name);
-
-					System.out.println(adm.toString());
-				}
+			String mudar = ""; 
+			AdmFuncionalidades.processEqualsAdm(mudar);
+			
+			AdmFuncionalidades.updateEqualsName(mudar);
+			
 				if (mudar.equals("senha")) {
 					boolean senhaValida;
 					String UserInputsenha;
@@ -189,7 +179,7 @@ public class ProgramJavaDeveloper {
 							e.printStackTrace();
 						}
 					} while (!dataValida);
-			}
+			
 				Adm();
 			} else { 
 				System.out.println("Resposta inválida, tente novamente");
@@ -199,7 +189,7 @@ public class ProgramJavaDeveloper {
 		}catch (Exception e) {
 			throw new ExececaoPadrao("Erro!, corrija suas credenciais");
 		} 
-	}
+	
 	
 	public static void Adm() {
 		try {
