@@ -6,66 +6,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.Scanner;
 
-import com.adm_user_JavaDeveloper.java_developer.ProgramJavaDeveloper;
 import com.adm_user_JavaDeveloper.java_developer.db.DB;
-import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
 
-public class LoginAdm {
+public class LoginSistemaAdm {
     
-    private static Scanner sc = new Scanner(System.in);
-	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
     private static Connection conn = null;
 	private static PreparedStatement st = null;
 	private static ResultSet rs = null;
 
     public static String getAdmName() {
-        System.out.print("Entre com seu nome de login administrador: ");
-        String name = sc.next();
-        return name;
+        return LoginSistema.getName();
     }
 
     public static String getPasswordAdm() {
-        boolean passwordValid;
-        String userInputPassword;
-        sc.nextLine();
-        
-        do {
-            System.out.print("Entre com uma senha valida: ");
-            userInputPassword = sc.nextLine();
-            
-            passwordValid = PasswordValidators.validatePassword(userInputPassword);
-
-            if (!passwordValid) {
-                ProgramJavaDeveloper.senhaInvalida();
-            }
-			}  while (!passwordValid);
-
-        return userInputPassword;
+        return LoginSistema.getPassword();
     }
 
     public static LocalDate getDateAdm() {
-        LocalDate dataNascimento = null;
-        boolean dataValida = false;
-        do {
-            System.out.print("Entre com sua data de nascimento: (dd/MM/yyyy) ");
-            String dataNascimInput = sc.nextLine();
-
-            try {
-                dataNascimento = LocalDate.parse(dataNascimInput, formatter);
-                dataValida = true;
-
-            } catch(DateTimeParseException e) {
-                System.out.println("Data inválida! Tente novamente");
-                e.printStackTrace();
-            }
-        } while (!dataValida);
-
-        return dataNascimento;
+       return LoginSistema.getBirthDate();
     }
 
     public static Connection executeDbConnection(String name, String passwordAdm, LocalDate dataNascimento) {

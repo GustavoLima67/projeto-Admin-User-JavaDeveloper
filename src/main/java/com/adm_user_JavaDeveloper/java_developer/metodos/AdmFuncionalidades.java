@@ -4,25 +4,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Scanner;
-import java.util.function.Function;
 
 import com.adm_user_JavaDeveloper.java_developer.ProgramJavaDeveloper;
 import com.adm_user_JavaDeveloper.java_developer.entities.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
-import com.adm_user_JavaDeveloper.java_developer.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.enums.ResponseString;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
-import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
 
 public class AdmFuncionalidades {
  
     
     private static Scanner sc = new Scanner(System.in);
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     
 	private static Usuario user = new Usuario();
@@ -66,7 +59,7 @@ public class AdmFuncionalidades {
                     ProgramJavaDeveloper.loginUser();
                 }
                 else {
-                    ProgramJavaDeveloper.UserFunc();
+                    ProgramJavaDeveloper.InformUser();
                 }
             } catch (Exception e) {
                 e.getMessage();
@@ -75,16 +68,28 @@ public class AdmFuncionalidades {
         return func;
     }
 
-    public static String processEqualsAdm(String mudar) {
-        String func = sc.next();
-        if (func.equals("Adm")) {
+    public static String processEqualsAdm() {
+        String response = sc.next();
+
+        ResponseString.fromChar(response);
+
+        if (response.equals("Adm")) {
             System.out.print("O que deseja mudar: (nome / senha / dataNascimento) ");
-            mudar = sc.next();
+            String mudar = sc.next();
+            if (mudar.equals("nome")) {
+                FuncionalidadesPrincipais.processName(mudar);
+            }
+            else if (mudar.equals("senha")) {
+                FuncionalidadesPrincipais.processPassword(mudar);
+            }
+            else if (mudar.equals("dataNascimento")) {
+                FuncionalidadesPrincipais.processBirthDate(mudar);
+            }
         } 
-        return mudar;
+        return response;
     }
 
-    public static void updateEqualsName(String mudar) {
+    public static String updateEqualsName(String mudar) {
         mudar = sc.nextLine();
         if (mudar.equals("nome")) {
             System.out.print("Entre com o nome desejado: ");
@@ -98,58 +103,11 @@ public class AdmFuncionalidades {
             }
             System.out.println(adm.toString());
         }
-    }
-
-    public static String updateEqualsPassword() {
-        String mudar = sc.nextLine();
-        if (mudar.equals("senha")) {
-            boolean senhaValida;
-            String UserInputsenha;
-            do {
-                System.out.print("Digite sua senha: ");
-                UserInputsenha = sc.nextLine();
-                
-                senhaValida = PasswordValidators.validatePassword(UserInputsenha);
-
-                if (!senhaValida) {
-                    ProgramJavaDeveloper.senhaInvalida();
-                }
-            } while(!senhaValida);
-
-            System.out.println("Senha valida! acesso concedido!");
-			try {
-                st.setString(2, UserInputsenha);
-                adm.setSenha(UserInputsenha);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }		
-            System.out.println(adm.toString());
-        }
         return mudar;
     }
-    
-    public static String updateEqualsBirthDate() {
-        String mudar = sc.nextLine();
-         if(mudar.equals("dataNascimento")) {
-            LocalDate dataNascimento = null;
-            boolean dataValida = false;
-            do {
-                System.out.print("Entre com uma data de nascimento diferente: ");
-                String dataNascimInput = sc.nextLine();
 
-                try {
-                    dataNascimento = LocalDate.parse(dataNascimInput, formatter);
-                    dataValida = true;
-
-                    adm.setDataNascimento(dataNascimento);
-                    st.setDate(3, java.sql.Date.valueOf(dataNascimInput));
-
-                } catch(DateTimeParseException | SQLException e) {
-                    System.out.println("Data inválida! Tente novamente");
-                    e.printStackTrace();
-                }
-            } while (!dataValida); 
-        }
-        return mudar;
+    public static String updateEqualsPassword(String mudar) {
+        return FuncionalidadesPrincipais.processPassword(mudar);
     }
+
 }

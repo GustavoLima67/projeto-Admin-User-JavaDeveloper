@@ -16,7 +16,7 @@ import com.adm_user_JavaDeveloper.java_developer.validators.ValidPhoneNumber;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 
-public class UsuariosFuncionalidades {
+public class FuncionalidadesPrincipais {
     
     private static Usuario user = new Usuario();
     private static Scanner sc = new Scanner(System.in);
@@ -36,8 +36,8 @@ public class UsuariosFuncionalidades {
         return mudar;
     }
 
-    public static String processUserName() {
-        String mudar = sc.nextLine(); 
+    public static String processName(String mudar) {
+        mudar = sc.nextLine(); 
 
         if (mudar.equals("nome")) {
             System.out.print("Entre com o nome desejado: ");
@@ -54,7 +54,7 @@ public class UsuariosFuncionalidades {
         return mudar;
     }
 
-    public static String processUserPhoneNumber() throws ExececaoPadrao{
+    public static String processPhoneNumber() throws ExececaoPadrao{
         String mudar = sc.nextLine();
         String phoneNumber;
         if (mudar.equals("telefone")) {
@@ -84,8 +84,8 @@ public class UsuariosFuncionalidades {
         return mudar;
     }
 
-    public static String processUserPassword() {
-        String mudar = sc.nextLine();
+    public static String processPassword(String mudar) {
+        mudar = sc.nextLine();
         if (mudar.equals("senha")) { 
             boolean senhaValida;
             String UserInputsenha;
@@ -113,8 +113,8 @@ public class UsuariosFuncionalidades {
         return mudar;
     }
 
-    public static LocalDate processBirthDate() {
-        String mudar = sc.nextLine();
+    public static LocalDate processBirthDate(String mudar) {
+        mudar = sc.nextLine();
         boolean dataValida = false;
         LocalDate dataNascimento = null;
 

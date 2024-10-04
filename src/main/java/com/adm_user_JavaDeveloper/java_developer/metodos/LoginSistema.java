@@ -18,7 +18,7 @@ import com.adm_user_JavaDeveloper.java_developer.db.DB;
 import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
 import com.adm_user_JavaDeveloper.java_developer.validators.ValidPhoneNumber;
 
-public class LoginUsuario {
+public class LoginSistema {
 
     private static Scanner sc = new Scanner(System.in);
 	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -28,14 +28,14 @@ public class LoginUsuario {
 	public static ResultSet rs = null;
 	
     
-    public static String getUserName() {
-        System.out.print("Entre com seu nome de Usuário: ");
+    public static String getName() {
+        System.out.print("Entre com seu nome de login: ");
         String name = sc.next();
         
         return name;
     }
 
-    public static String getUserPhone() {
+    public static String getPhone() {
         String phoneNumber = " ";
         boolean validPhone;
         sc.nextLine();
@@ -56,10 +56,10 @@ public class LoginUsuario {
         return phoneNumber;
     }
 
-    public static String getUserPassword() {
+    public static String getPassword() {
         String userInputsenha;
         boolean senhaValida;
-
+        sc.nextLine();
         do {
             System.out.print("Entre com uma senha valida: ");
             userInputsenha = sc.nextLine();
@@ -74,7 +74,7 @@ public class LoginUsuario {
         return userInputsenha;
     } 
 
-    public static LocalDate getUserBirthDate() {
+    public static LocalDate getBirthDate() {
         LocalDate dataNascimento = null;
         boolean dataValida = false;
 		

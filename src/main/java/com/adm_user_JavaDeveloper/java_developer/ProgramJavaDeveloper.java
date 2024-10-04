@@ -1,13 +1,10 @@
 package com.adm_user_JavaDeveloper.java_developer;
 
-import static com.adm_user_JavaDeveloper.java_developer.metodos.AdmFuncionalidades.getUserOuAdm;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,10 +18,10 @@ import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
 import com.adm_user_JavaDeveloper.java_developer.metodos.AdmFuncionalidades;
-import com.adm_user_JavaDeveloper.java_developer.metodos.LoginAdm;
-import com.adm_user_JavaDeveloper.java_developer.metodos.LoginUsuario;
+import com.adm_user_JavaDeveloper.java_developer.metodos.LoginSistemaAdm;
+import com.adm_user_JavaDeveloper.java_developer.metodos.LoginSistema;
 import com.adm_user_JavaDeveloper.java_developer.metodos.Sistema;
-import com.adm_user_JavaDeveloper.java_developer.metodos.UsuariosFuncionalidades;
+import com.adm_user_JavaDeveloper.java_developer.metodos.FuncionalidadesPrincipais;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
@@ -69,15 +66,15 @@ public class ProgramJavaDeveloper {
 	
 	public static void loginUser() {
 		try {
-			String name = LoginUsuario.getUserName();
+			String name = LoginSistema.getName();
 
-			String phoneNumber = LoginUsuario.getUserPhone();
+			String phoneNumber = LoginSistema.getPhone();
 			
-			String userInputsenha = LoginUsuario.getUserPassword();	
+			String userInputsenha = LoginSistema.getPassword();	
 		
-			LocalDate dataNascimento = LoginUsuario.getUserBirthDate();
+			LocalDate dataNascimento = LoginSistema.getBirthDate();
 
-			conn = LoginUsuario.executeDbConnection(name, phoneNumber, userInputsenha, dataNascimento);
+			conn = LoginSistema.executeDbConnection(name, phoneNumber, userInputsenha, dataNascimento);
 
 			user = new Usuario(name, phoneNumber, userInputsenha, dataNascimento);
 			System.out.println();
@@ -89,17 +86,18 @@ public class ProgramJavaDeveloper {
 
 	public static void UserFunc(){
 		try {
-			UsuariosFuncionalidades.sendInformUSer();
+			String mudar = "";
+			FuncionalidadesPrincipais.sendInformUSer();
 
-			UsuariosFuncionalidades.readUserOptions();
+			FuncionalidadesPrincipais.readUserOptions();
 
-			UsuariosFuncionalidades.processUserName();
+			FuncionalidadesPrincipais.processName(mudar);
 	
-			UsuariosFuncionalidades.processUserPhoneNumber();
+			FuncionalidadesPrincipais.processPhoneNumber();
 
-			UsuariosFuncionalidades.processUserPassword();
+			FuncionalidadesPrincipais.processPassword(mudar);
 
-			UsuariosFuncionalidades.processBirthDate();
+			FuncionalidadesPrincipais.processBirthDate(mudar);
 			
 		} catch (Exception e) {
 			e.getMessage();
@@ -109,13 +107,13 @@ public class ProgramJavaDeveloper {
 	
 	public static void processAdm() throws ExececaoPadrao{
 		try {
-			String name = LoginAdm.getAdmName();
+			String name = LoginSistemaAdm.getAdmName();
 
-			String passwordAdm = LoginAdm.getPasswordAdm();
+			String passwordAdm = LoginSistemaAdm.getPasswordAdm();
 
-			LocalDate dataNascimento = LoginAdm.getDateAdm();
+			LocalDate dataNascimento = LoginSistemaAdm.getDateAdm();
 
-			conn = LoginAdm.executeDbConnection(name, passwordAdm, dataNascimento);
+			conn = LoginSistemaAdm.executeDbConnection(name, passwordAdm, dataNascimento);
         	
             adm = new Administrador(name, passwordAdm, dataNascimento);
             
@@ -134,15 +132,13 @@ public class ProgramJavaDeveloper {
 			System.out.println();
 			
 			String mudar = "";
+			AdmFuncionalidades.getUserOuAdm(() -> AdmFuncionalidades.processEqualsUser(), () -> AdmFuncionalidades.processEqualsAdm());
 
-			AdmFuncionalidades.getUserOuAdm(() -> AdmFuncionalidades.processEqualsUser(), () -> AdmFuncionalidades.processEqualsAdm(mudar));
-
-			
 			AdmFuncionalidades.updateEqualsName(mudar);
 
-			AdmFuncionalidades.updateEqualsPassword();
+			AdmFuncionalidades.updateEqualsPassword(mudar);
 
-			AdmFuncionalidades.updateEqualsBirthDate();
+			FuncionalidadesPrincipais.processBirthDate(mudar);
 
 		}catch (Exception e) {
 			throw new IllegalArgumentException(e.getMessage());
