@@ -86,7 +86,7 @@ public class LoginAdm {
                     System.out.println("Administrador inserido com sucesso! Id: " + idAdm);
                 }
             } else {
-                System.out.println("Sem nenhuma linha afetada");
+                System.out.println("Erro ao inserir administrador");
             }
 
 

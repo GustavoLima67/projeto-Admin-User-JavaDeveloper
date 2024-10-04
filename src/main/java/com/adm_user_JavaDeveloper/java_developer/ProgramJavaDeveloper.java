@@ -115,7 +115,7 @@ public class ProgramJavaDeveloper {
 
 			LocalDate dataNascimento = LoginAdm.getDateAdm();
 
-			//conn = LoginAdm.executeDbConnection(name, passwordAdm, dataNascimento);
+			conn = LoginAdm.executeDbConnection(name, passwordAdm, dataNascimento);
         	
             adm = new Administrador(name, passwordAdm, dataNascimento);
             
