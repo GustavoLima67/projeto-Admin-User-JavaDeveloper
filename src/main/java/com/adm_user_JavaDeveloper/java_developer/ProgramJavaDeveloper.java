@@ -121,6 +121,8 @@ public class ProgramJavaDeveloper {
 		} catch (Exception e) {
 			throw new ExececaoPadrao("Erro ao fazer login como Administrador!", e);
 		}
+
+		
 	}
 	
 	public static void admFunc() throws ExececaoPadrao{
