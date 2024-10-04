@@ -17,11 +17,11 @@ public enum ResponseString {
 
     public static ResponseString fromChar(String response) {
         for(ResponseString ur : values() ) {
-            if(ur.getResponseString() == response) {
+            if(ur.getResponseString().equals(response)) {
                 return ur;
             }
         }
-        throw new IllegalArgumentException("Resposta inválida" + response);
+        throw new IllegalArgumentException("Resposta inválida " + response);
     }
 
 }

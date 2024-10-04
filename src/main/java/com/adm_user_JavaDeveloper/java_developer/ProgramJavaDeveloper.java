@@ -1,5 +1,7 @@
 package com.adm_user_JavaDeveloper.java_developer;
 
+import static com.adm_user_JavaDeveloper.java_developer.metodos.AdmFuncionalidades.getUserOuAdm;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -113,16 +115,14 @@ public class ProgramJavaDeveloper {
 
 			LocalDate dataNascimento = LoginAdm.getDateAdm();
 
-			conn = LoginAdm.executeDbConnection(name, passwordAdm, dataNascimento);
+			//conn = LoginAdm.executeDbConnection(name, passwordAdm, dataNascimento);
         	
             adm = new Administrador(name, passwordAdm, dataNascimento);
             
 			admFunc();
 		} catch (Exception e) {
-			throw new ExececaoPadrao("Erro ao fazer login como Administrador!", e);
+			e.printStackTrace();
 		}
-
-		
 	}
 	
 	public static void admFunc() throws ExececaoPadrao{
@@ -132,10 +132,12 @@ public class ProgramJavaDeveloper {
 			System.out.println();
 			System.out.println(adm.toString());
 			System.out.println();
-
-			AdmFuncionalidades.getUserOuAdm(() -> AdmFuncionalidades.processEqualsUser(), () -> AdmFuncionalidades.processEqualsAdm());
-
+			
 			String mudar = "";
+
+			AdmFuncionalidades.getUserOuAdm(() -> AdmFuncionalidades.processEqualsUser(), () -> AdmFuncionalidades.processEqualsAdm(mudar));
+
+			
 			AdmFuncionalidades.updateEqualsName(mudar);
 
 			AdmFuncionalidades.updateEqualsPassword();
@@ -143,7 +145,8 @@ public class ProgramJavaDeveloper {
 			AdmFuncionalidades.updateEqualsBirthDate();
 
 		}catch (Exception e) {
-			throw new ExececaoPadrao("Resposta inválida!, Tente novamente");
+			throw new IllegalArgumentException(e.getMessage());
+			
 		} 
 	}
 	

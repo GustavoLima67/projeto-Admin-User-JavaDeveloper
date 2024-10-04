@@ -37,8 +37,8 @@ public class AdmFuncionalidades {
     public static void getUserOuAdm(interfaceAcaoLogar userAcao, interfaceAcaoLogar admAcao) throws ExececaoPadrao {
         System.out.print("O que deseja fazer?: (Escreva exatamente como esta abaixo) ");
         System.out.println();
-        System.out.println("User | Adm");
-        System.out.println("Escreva: ");
+        System.out.println("'User' | 'Adm'");
+        System.out.print("Escreva: ");
         String response = sc.next();
 
         ResponseString userResponse = ResponseString.fromChar(response);
@@ -57,10 +57,11 @@ public class AdmFuncionalidades {
     }
 
     public static String processEqualsUser() {
-        String func = sc.nextLine();
+
+        String func = sc.next();
         if (func.equals("User")) {
             try {
-                if(user.getName() == null && user.getPhoneNumber() == null && user.getSenha() == null) {
+                if(user == null) {
                     System.out.print("Usuario não existe:\nCrie um novo usuario para prosseguir:\n");
                     ProgramJavaDeveloper.loginUser();
                 }
@@ -74,13 +75,13 @@ public class AdmFuncionalidades {
         return func;
     }
 
-    public static String processEqualsAdm() {
-        String func = sc.nextLine();
+    public static String processEqualsAdm(String mudar) {
+        String func = sc.next();
         if (func.equals("Adm")) {
             System.out.print("O que deseja mudar: (nome / senha / dataNascimento) ");
-            String mudar = sc.next();
+            mudar = sc.next();
         } 
-        return func;
+        return mudar;
     }
 
     public static void updateEqualsName(String mudar) {
