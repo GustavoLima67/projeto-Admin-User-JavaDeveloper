@@ -7,14 +7,11 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Scanner;
 
-import org.hibernate.query.IllegalSelectQueryException;
-
 import com.adm_user_JavaDeveloper.java_developer.ProgramJavaDeveloper;
 import com.adm_user_JavaDeveloper.java_developer.db.DB;
 import com.adm_user_JavaDeveloper.java_developer.entities.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
-import com.twilio.rest.api.v2010.account.availablephonenumbercountry.Local;
 
 public class AdmFuncionalidades {
  
@@ -33,49 +30,54 @@ public class AdmFuncionalidades {
         System.out.println("'User' | 'Adm'");
         System.out.print("Escreva: ");
         String response = sc.nextLine();
+
+
         if (response.equals("User")) {
-            procesarIqualUsuario(response);
+            procesarIqualUsuario();
         }
         if (response.equals("Adm")) {
-            procesarIgualAdm(response);
+            procesarIgualAdm();
         }
         
     }
 
-    public static String procesarIqualUsuario(String response) {
-        response = sc.next();
-
-        if (response.equals("User")) {
-            try {
-                if(user == null) {
-                    System.out.print("Usuario não existe:\nCrie um novo usuario para prosseguir:\n");
-                    ProgramJavaDeveloper.getUser();
-                }
-                else {
-                    ProgramJavaDeveloper.InformUser();
-                }
-            } catch (Exception e) {
-                e.getMessage();
+    public static String procesarIqualUsuario() {
+    
+        try {
+            if(user == null) {
+                System.out.print("Usuario não existe:\nCrie um novo usuario para prosseguir:\n");
+                ProgramJavaDeveloper.getUser();
             }
+            else {
+                ProgramJavaDeveloper.InformUser();
+            }
+        } catch (Exception e) {
+            e.getMessage();
         }
-        return response;
+
+        return "User";
     }
 
-    public static String procesarIgualAdm(String response) {
-        if (response.equals("Adm")) {
-            System.out.print("O que deseja mudar: (nome / senha / dataNascimento) ");
-            String mudar = sc.nextLine();
-            if (mudar.equals("nome")) {
-                atualizarIgualSenha(mudar);
-            }
-            else if (mudar.equals("senha")) {
-                FuncionalidadesPrincipais.procesarSenha(mudar);
-            }
-            else if (mudar.equals("dataNascimento")) {
-                FuncionalidadesPrincipais.procesarData(mudar);
-            }
-        } 
-        return response;
+    public static String procesarIgualAdm() {
+        System.out.print("O que deseja mudar: (nome / senha / dataNascimento) ");
+        String mudar = sc.nextLine();
+
+        switch (mudar.toLowerCase()) {
+            case "nome":
+                atualizarIgualNome(mudar);  
+                break;
+            case "senha":
+                FuncionalidadesPrincipais.procesarSenha(mudar); 
+                break;
+            case "datanascimento":
+                FuncionalidadesPrincipais.procesarData(mudar);  
+                break;
+            default:
+                System.out.println("Opção inválida.");
+                break;
+        }
+        
+        return "Adm"; 
     }
 
     public static String atualizarIgualNome(String mudar) {

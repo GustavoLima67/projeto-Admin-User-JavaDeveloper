@@ -129,8 +129,9 @@ public class ProgramJavaDeveloper {
 			System.out.println(adm.toString());
 			System.out.println();
 			
-			String mudar = "";
-			AdmFuncionalidades.getUserOuAdm(() -> AdmFuncionalidades.procesarIqualUsuario(mudar), () -> AdmFuncionalidades.procesarIgualAdm(mudar));
+			String mudar = "";    
+			
+			AdmFuncionalidades.getUserOuAdm(() ->  AdmFuncionalidades.procesarIqualUsuario(), () -> AdmFuncionalidades.procesarIgualAdm());
 
 			String upName = AdmFuncionalidades.atualizarIgualNome(mudar);
 
@@ -139,6 +140,7 @@ public class ProgramJavaDeveloper {
 			LocalDate procesDate = FuncionalidadesPrincipais.procesarData(mudar);
 
 			AdmFuncionalidades.procesarConnectionSQL(upName, upPassw, procesDate);
+			
 		}catch (Exception e) {
 			throw new IllegalArgumentException(e.getMessage());
 			
