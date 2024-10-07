@@ -54,8 +54,8 @@ public class FuncionalidadesPrincipais {
         return mudar;
     }
 
-    public static String processPhoneNumber() throws ExececaoPadrao{
-        String mudar = sc.nextLine();
+    public static String processPhoneNumber(String mudar) throws ExececaoPadrao{
+        mudar = sc.nextLine();
         String phoneNumber;
         if (mudar.equals("telefone")) {
             boolean validPhone;

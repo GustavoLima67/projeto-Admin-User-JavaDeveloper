@@ -9,7 +9,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
+import org.hibernate.sql.ast.tree.Statement;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.adm_user_JavaDeveloper.java_developer.authenticator.TwilioAuthentication;
@@ -21,6 +21,7 @@ import com.adm_user_JavaDeveloper.java_developer.metodos.AdmFuncionalidades;
 import com.adm_user_JavaDeveloper.java_developer.metodos.LoginSistemaAdm;
 import com.adm_user_JavaDeveloper.java_developer.metodos.LoginSistema;
 import com.adm_user_JavaDeveloper.java_developer.metodos.Sistema;
+import com.ctc.wstx.shaded.msv_core.reader.State;
 import com.adm_user_JavaDeveloper.java_developer.metodos.FuncionalidadesPrincipais;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
@@ -93,7 +94,7 @@ public class ProgramJavaDeveloper {
 
 			FuncionalidadesPrincipais.processName(mudar);
 	
-			FuncionalidadesPrincipais.processPhoneNumber();
+			FuncionalidadesPrincipais.processPhoneNumber(mudar);
 
 			FuncionalidadesPrincipais.processPassword(mudar);
 
@@ -132,14 +133,20 @@ public class ProgramJavaDeveloper {
 			System.out.println();
 			
 			String mudar = "";
-			AdmFuncionalidades.getUserOuAdm(() -> AdmFuncionalidades.processEqualsUser(), () -> AdmFuncionalidades.processEqualsAdm());
+			AdmFuncionalidades.getUserOuAdm(() -> AdmFuncionalidades.processEqualsUser(mudar), () -> AdmFuncionalidades.processEqualsAdm(mudar));
 
-			AdmFuncionalidades.updateEqualsName(mudar);
+			String upName = AdmFuncionalidades.updateEqualsName(mudar);
 
-			AdmFuncionalidades.updateEqualsPassword(mudar);
+			String upPassw = AdmFuncionalidades.updateEqualsPassword(mudar);
 
-			FuncionalidadesPrincipais.processBirthDate(mudar);
+			LocalDate procesDate = FuncionalidadesPrincipais.processBirthDate(mudar);
 
+
+			LoginSistema.conn.prepareStatement("UPDATE administrador SET Name = ?, Password = ?,  BirthDate = ? WHERE id = (SELECT MAX(id) FROM administrador) ");
+			st.setString(1, upName);
+			st.setString(2, upPassw);
+			st.setDate(3, java.sql.Date.valueOf(procesDate));
+		
 		}catch (Exception e) {
 			throw new IllegalArgumentException(e.getMessage());
 			
