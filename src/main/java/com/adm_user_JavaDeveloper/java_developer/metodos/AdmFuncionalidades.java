@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 import org.hibernate.query.IllegalSelectQueryException;
@@ -13,13 +14,12 @@ import com.adm_user_JavaDeveloper.java_developer.db.DB;
 import com.adm_user_JavaDeveloper.java_developer.entities.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
+import com.twilio.rest.api.v2010.account.availablephonenumbercountry.Local;
 
 public class AdmFuncionalidades {
  
     
     private static Scanner sc = new Scanner(System.in);
-
-    
 	private static Usuario user = new Usuario();
     private static Administrador adm = new Administrador();
     
@@ -34,22 +34,22 @@ public class AdmFuncionalidades {
         System.out.print("Escreva: ");
         String response = sc.nextLine();
         if (response.equals("User")) {
-            processEqualsUser(response);
+            procesarIqualUsuario(response);
         }
         if (response.equals("Adm")) {
-            processEqualsAdm(response);
+            procesarIgualAdm(response);
         }
         
     }
 
-    public static String processEqualsUser(String response) {
+    public static String procesarIqualUsuario(String response) {
         response = sc.next();
 
         if (response.equals("User")) {
             try {
                 if(user == null) {
                     System.out.print("Usuario não existe:\nCrie um novo usuario para prosseguir:\n");
-                    ProgramJavaDeveloper.loginUser();
+                    ProgramJavaDeveloper.getUser();
                 }
                 else {
                     ProgramJavaDeveloper.InformUser();
@@ -61,7 +61,7 @@ public class AdmFuncionalidades {
         return response;
     }
 
-    public static String processEqualsAdm(String response) {
+    public static String procesarIgualAdm(String response) {
         if (response.equals("Adm")) {
             System.out.print("O que deseja mudar: (nome / senha / dataNascimento) ");
             String mudar = sc.nextLine();
@@ -69,16 +69,16 @@ public class AdmFuncionalidades {
                 updateEqualsName(mudar);
             }
             else if (mudar.equals("senha")) {
-                FuncionalidadesPrincipais.processPassword(mudar);
+                FuncionalidadesPrincipais.procesarSenha(mudar);
             }
             else if (mudar.equals("dataNascimento")) {
-                FuncionalidadesPrincipais.processBirthDate(mudar);
+                FuncionalidadesPrincipais.procesarData(mudar);
             }
         } 
         return response;
     }
 
-    public static String updateEqualsName(String mudar) {
+    public static String atualizarIgualNome(String mudar) {
         mudar = sc.nextLine();
         try {
             if (mudar.equals("nome")) {
@@ -97,14 +97,27 @@ public class AdmFuncionalidades {
         return mudar;
     }
 
-    public static String updateEqualsPassword(String mudar) {
-        return FuncionalidadesPrincipais.processPassword(mudar);
+    public static String atualizarIgualSenha(String mudar) {
+        return FuncionalidadesPrincipais.procesarSenha(mudar);
     }
 
-    public static Connection processDbConnection() {
+    public static Connection procesarConnectionSQL(String upName, String upPassw, LocalDate procesDate){
         try {
             conn = DB.getConnection();
-        } catch (IllegalSelectQueryException e) {
+
+            st = conn.prepareStatement("UPDATE administrador SET Name = ?, Password = ?,  BirthDate = ? WHERE id = (SELECT MAX(id) FROM administrador) ");
+			st.setString(1, upName);
+			st.setString(2, upPassw);
+			st.setDate(3, java.sql.Date.valueOf(procesDate));
+
+            int linhasAtualizadas = st.executeUpdate();
+            if (linhasAtualizadas > 0) {
+                System.out.println("Tabela atualizada com sucesso");
+            }
+            else {
+                System.out.println("Nenhuma linha afetada");
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }finally {
             DB.closeResultSet(rs);
@@ -113,5 +126,6 @@ public class AdmFuncionalidades {
         }
         return conn;
     }
+
 
 }

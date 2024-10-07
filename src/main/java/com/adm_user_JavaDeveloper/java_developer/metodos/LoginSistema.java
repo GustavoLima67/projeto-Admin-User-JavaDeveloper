@@ -28,14 +28,14 @@ public class LoginSistema {
 	public static ResultSet rs = null;
 	
     
-    public static String getName() {
+    public static String pegarNome() {
         System.out.print("Entre com seu nome de login: ");
         String name = sc.next();
         
         return name;
     }
 
-    public static String getPhone() {
+    public static String pegarTelefone() {
         String phoneNumber = " ";
         boolean validPhone;
         sc.nextLine();
@@ -56,7 +56,7 @@ public class LoginSistema {
         return phoneNumber;
     }
 
-    public static String getPassword() {
+    public static String pegarSenha() {
         String userInputsenha;
         boolean senhaValida;
         sc.nextLine();
@@ -74,7 +74,7 @@ public class LoginSistema {
         return userInputsenha;
     } 
 
-    public static LocalDate getBirthDate() {
+    public static LocalDate pegarDataNascimento() {
         LocalDate dataNascimento = null;
         boolean dataValida = false;
 		
@@ -126,4 +126,6 @@ public class LoginSistema {
         
         return conn; 
     }
+
+
 }

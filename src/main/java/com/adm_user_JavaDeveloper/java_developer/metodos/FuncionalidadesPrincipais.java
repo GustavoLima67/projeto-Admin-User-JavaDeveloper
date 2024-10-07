@@ -24,19 +24,19 @@ public class FuncionalidadesPrincipais {
     public static PreparedStatement st = null;
 	public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public static void sendInformUSer() {
+    public static void exibirInfomacoesUsuario() {
         System.out.println();
         System.out.println(user.toString());
         System.out.println();
     }
 
-    public static String readUserOptions() {
+    public static String lerOpcoesUsuario() {
         System.out.print("O que deseja mudar: (nome / telefone / senha / dataNascimento) ");
         String mudar = sc.next();
         return mudar;
     }
 
-    public static String processName(String mudar) {
+    public static String procesarNome(String mudar) {
         mudar = sc.nextLine(); 
 
         if (mudar.equals("nome")) {
@@ -54,7 +54,7 @@ public class FuncionalidadesPrincipais {
         return mudar;
     }
 
-    public static String processPhoneNumber(String mudar) throws ExececaoPadrao{
+    public static String procesarTelefone(String mudar) throws ExececaoPadrao{
         mudar = sc.nextLine();
         String phoneNumber;
         if (mudar.equals("telefone")) {
@@ -84,7 +84,7 @@ public class FuncionalidadesPrincipais {
         return mudar;
     }
 
-    public static String processPassword(String mudar) {
+    public static String procesarSenha(String mudar) {
         mudar = sc.nextLine();
         if (mudar.equals("senha")) { 
             boolean senhaValida;
@@ -113,7 +113,7 @@ public class FuncionalidadesPrincipais {
         return mudar;
     }
 
-    public static LocalDate processBirthDate(String mudar) {
+    public static LocalDate procesarData(String mudar) {
         mudar = sc.nextLine();
         boolean dataValida = false;
         LocalDate dataNascimento = null;
@@ -140,4 +140,6 @@ public class FuncionalidadesPrincipais {
         }
         return dataNascimento;
     }
+
+
 }

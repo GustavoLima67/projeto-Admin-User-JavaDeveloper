@@ -9,7 +9,6 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.hibernate.sql.ast.tree.Statement;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.adm_user_JavaDeveloper.java_developer.authenticator.TwilioAuthentication;
@@ -18,10 +17,9 @@ import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
 import com.adm_user_JavaDeveloper.java_developer.metodos.AdmFuncionalidades;
-import com.adm_user_JavaDeveloper.java_developer.metodos.LoginSistemaAdm;
+import com.adm_user_JavaDeveloper.java_developer.metodos.SistemaDoAdm;
 import com.adm_user_JavaDeveloper.java_developer.metodos.LoginSistema;
-import com.adm_user_JavaDeveloper.java_developer.metodos.Sistema;
-import com.ctc.wstx.shaded.msv_core.reader.State;
+import com.adm_user_JavaDeveloper.java_developer.metodos.SistemaDoUsuario;
 import com.adm_user_JavaDeveloper.java_developer.metodos.FuncionalidadesPrincipais;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
@@ -46,18 +44,18 @@ public class ProgramJavaDeveloper {
 
 	public static void main(String[] args) throws Exception{
 		try {
-			admOuUsuario();	
+			executeAdmOuUsuario();	
 		} catch (Exception e) {
 			throw new ExececaoPadrao("Error na chamada da função!");
 		}
 		
 	}
 	
-	public static void admOuUsuario() throws ExececaoPadrao { 
+	public static void executeAdmOuUsuario() throws ExececaoPadrao { 
 		
 		try {
 			System.out.println("Bem-vindo");
-			Sistema.logarNoSistema(() -> Sistema.loginUser(), () -> Sistema.loginAdm());
+			SistemaDoUsuario.logarNoSistema(() -> SistemaDoUsuario.loginUser(), () -> SistemaDoUsuario.loginAdm());
 
 		} catch (Exception e) {
 			throw new IllegalArgumentException(e.getMessage());
@@ -65,15 +63,15 @@ public class ProgramJavaDeveloper {
 		
 	}
 	
-	public static void loginUser() {
+	public static void getUser() {
 		try {
-			String name = LoginSistema.getName();
+			String name = LoginSistema.pegarNome();
 
-			String phoneNumber = LoginSistema.getPhone();
+			String phoneNumber = LoginSistema.pegarTelefone();
 			
-			String userInputsenha = LoginSistema.getPassword();	
+			String userInputsenha = LoginSistema.pegarSenha();	
 		
-			LocalDate dataNascimento = LoginSistema.getBirthDate();
+			LocalDate dataNascimento = LoginSistema.pegarDataNascimento();
 
 			conn = LoginSistema.executeDbConnection(name, phoneNumber, userInputsenha, dataNascimento);
 
@@ -88,17 +86,17 @@ public class ProgramJavaDeveloper {
 	public static void UserFunc(){
 		try {
 			String mudar = "";
-			FuncionalidadesPrincipais.sendInformUSer();
+			FuncionalidadesPrincipais.exibirInfomacoesUsuario();
 
-			FuncionalidadesPrincipais.readUserOptions();
+			FuncionalidadesPrincipais.lerOpcoesUsuario();
 
-			FuncionalidadesPrincipais.processName(mudar);
+			FuncionalidadesPrincipais.procesarNome(mudar);
 	
-			FuncionalidadesPrincipais.processPhoneNumber(mudar);
+			FuncionalidadesPrincipais.procesarTelefone(mudar);
 
-			FuncionalidadesPrincipais.processPassword(mudar);
+			FuncionalidadesPrincipais.procesarSenha(mudar);
 
-			FuncionalidadesPrincipais.processBirthDate(mudar);
+			FuncionalidadesPrincipais.procesarData(mudar);
 			
 		} catch (Exception e) {
 			e.getMessage();
@@ -108,23 +106,22 @@ public class ProgramJavaDeveloper {
 	
 	public static void processAdm() throws ExececaoPadrao{
 		try {
-			String name = LoginSistemaAdm.getAdmName();
+			String name = SistemaDoAdm.pegarNomeAdm();
 
-			String passwordAdm = LoginSistemaAdm.getPasswordAdm();
+			String passwordAdm = SistemaDoAdm.pegarSenhaAdm();
 
-			LocalDate dataNascimento = LoginSistemaAdm.getDateAdm();
+			LocalDate dataNascimento = SistemaDoAdm.pegarDataAdm();
 
-			conn = LoginSistemaAdm.executeDbConnection(name, passwordAdm, dataNascimento);
         	
             adm = new Administrador(name, passwordAdm, dataNascimento);
             
-			admFunc();
+			getAdmFunc();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public static void admFunc() throws ExececaoPadrao{
+	public static void getAdmFunc() throws ExececaoPadrao{
 		
 		try {
 			
@@ -133,20 +130,15 @@ public class ProgramJavaDeveloper {
 			System.out.println();
 			
 			String mudar = "";
-			AdmFuncionalidades.getUserOuAdm(() -> AdmFuncionalidades.processEqualsUser(mudar), () -> AdmFuncionalidades.processEqualsAdm(mudar));
+			AdmFuncionalidades.getUserOuAdm(() -> AdmFuncionalidades.procesarIqualUsuario(mudar), () -> AdmFuncionalidades.procesarIgualAdm(mudar));
 
-			String upName = AdmFuncionalidades.updateEqualsName(mudar);
+			String upName = AdmFuncionalidades.atualizarIgualNome(mudar);
 
-			String upPassw = AdmFuncionalidades.updateEqualsPassword(mudar);
+			String upPassw = AdmFuncionalidades.atualizarIgualSenha(mudar);
 
-			LocalDate procesDate = FuncionalidadesPrincipais.processBirthDate(mudar);
+			LocalDate procesDate = FuncionalidadesPrincipais.procesarData(mudar);
 
-
-			LoginSistema.conn.prepareStatement("UPDATE administrador SET Name = ?, Password = ?,  BirthDate = ? WHERE id = (SELECT MAX(id) FROM administrador) ");
-			st.setString(1, upName);
-			st.setString(2, upPassw);
-			st.setDate(3, java.sql.Date.valueOf(procesDate));
-		
+			AdmFuncionalidades.procesarConnectionSQL(upName, upPassw, procesDate);
 		}catch (Exception e) {
 			throw new IllegalArgumentException(e.getMessage());
 			
@@ -168,7 +160,7 @@ public class ProgramJavaDeveloper {
 
 				switch (userResponse) {
 					case YES:
-						admFunc();
+						getAdmFunc();
 						break;
 					case NO:
 						InformAdm();

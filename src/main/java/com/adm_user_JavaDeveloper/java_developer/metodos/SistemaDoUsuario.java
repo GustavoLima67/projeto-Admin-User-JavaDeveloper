@@ -6,7 +6,7 @@ import com.adm_user_JavaDeveloper.java_developer.ProgramJavaDeveloper;
 import com.adm_user_JavaDeveloper.java_developer.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
 
-public class Sistema {
+public class SistemaDoUsuario {
     
     private static Scanner sc = new Scanner(System.in);
 
@@ -33,7 +33,7 @@ public class Sistema {
         try {
             System.out.println("Bem-vindo! Entre com suas informações para cadastro.");
             System.out.println();
-            ProgramJavaDeveloper.loginUser();
+            ProgramJavaDeveloper.getUser();
         } catch(IllegalAccessError e) {
             e.printStackTrace();
         }

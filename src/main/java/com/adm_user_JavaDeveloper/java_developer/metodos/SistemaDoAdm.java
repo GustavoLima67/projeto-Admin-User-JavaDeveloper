@@ -9,22 +9,22 @@ import java.time.LocalDate;
 
 import com.adm_user_JavaDeveloper.java_developer.db.DB;
 
-public class LoginSistemaAdm {
+public class SistemaDoAdm {
     
     private static Connection conn = null;
 	private static PreparedStatement st = null;
 	private static ResultSet rs = null;
 
-    public static String getAdmName() {
-        return LoginSistema.getName();
+    public static String pegarNomeAdm() {
+        return LoginSistema.pegarNome();
     }
 
-    public static String getPasswordAdm() {
-        return LoginSistema.getPassword();
+    public static String pegarSenhaAdm() {
+        return LoginSistema.pegarSenha();
     }
 
-    public static LocalDate getDateAdm() {
-       return LoginSistema.getBirthDate();
+    public static LocalDate pegarDataAdm() {
+       return LoginSistema.pegarDataNascimento();
     }
 
     public static Connection executeDbConnection(String name, String passwordAdm, LocalDate dataNascimento) {
