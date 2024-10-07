@@ -66,7 +66,7 @@ public class AdmFuncionalidades {
             System.out.print("O que deseja mudar: (nome / senha / dataNascimento) ");
             String mudar = sc.nextLine();
             if (mudar.equals("nome")) {
-                updateEqualsName(mudar);
+                atualizarIgualSenha(mudar);
             }
             else if (mudar.equals("senha")) {
                 FuncionalidadesPrincipais.procesarSenha(mudar);
