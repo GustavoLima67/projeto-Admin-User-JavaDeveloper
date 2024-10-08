@@ -1,42 +1,30 @@
 package com.adm_user_JavaDeveloper.java_developer;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.adm_user_JavaDeveloper.java_developer.authenticator.TwilioAuthentication;
 import com.adm_user_JavaDeveloper.java_developer.entities.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
+
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
+
 import com.adm_user_JavaDeveloper.java_developer.metodos.AdmFuncionalidades;
 import com.adm_user_JavaDeveloper.java_developer.metodos.ExibirNoSistema;
 import com.adm_user_JavaDeveloper.java_developer.metodos.SistemaDoAdm;
 import com.adm_user_JavaDeveloper.java_developer.metodos.LoginSistema;
 import com.adm_user_JavaDeveloper.java_developer.metodos.SistemaDoUsuario;
 import com.adm_user_JavaDeveloper.java_developer.metodos.FuncionalidadesPrincipais;
-import com.twilio.Twilio;
-import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.type.PhoneNumber;
 
 @SpringBootApplication
 public class ProgramJavaDeveloper {
 	
-	public static Scanner sc = new Scanner(System.in);
-	public static Administrador adm = new Administrador();
-	public static Usuario user = new Usuario();
 	
-	public static Connection conn = null;
-	public static PreparedStatement st = null;
-	public static ResultSet rs = null;
+	private static Administrador adm = new Administrador();
+	private static Usuario user = new Usuario();
 	
-	public static final String accountSid = TwilioAuthentication.getAccountSid();
-    public static final String accountAuthToken = TwilioAuthentication.getAuthToken();
-
+	
 	public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 
@@ -71,7 +59,7 @@ public class ProgramJavaDeveloper {
 		
 			LocalDate dataNascimento = LoginSistema.pegarDataNascimento();
 
-			conn = LoginSistema.executeDbConnection(name, phoneNumber, userInputsenha, dataNascimento);
+			LoginSistema.executeDbConnection(name, phoneNumber, userInputsenha, dataNascimento);
 
 			user = new Usuario(name, phoneNumber, userInputsenha, dataNascimento);
 			System.out.println();
@@ -163,24 +151,6 @@ public class ProgramJavaDeveloper {
 			System.err.println("Erro de exibição" + e.getMessage());
 		}
 		
-	}
-	
-	public static void sendSms(String phoneNumber) throws ExececaoPadrao {
-	 Twilio.init(accountSid, accountAuthToken);
-	 try {
-
-	   	 Message message = Message.creator(
-	                new PhoneNumber(phoneNumber), 
-	                new PhoneNumber("+12513021245"),    
-	                "Seu número foi cadastrado no 'Projeto JavaDeveloper Adm / User' com sucesso!")
-	            .create();
-
-	        System.out.println("Mensagem enviada com sucesso: " + message.getSid());
- 
-	 	} catch (Exception e) {
-	 		throw new ExececaoPadrao("Erro na no envio da mensagem: " + e.getMessage());
-	 	}
-	 
 	}
 	
 	public static void informacoesAdm() {
