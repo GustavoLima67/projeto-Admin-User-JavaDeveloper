@@ -11,7 +11,6 @@ import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
 
 import com.adm_user_JavaDeveloper.java_developer.metodos.AdmFuncionalidades;
-import com.adm_user_JavaDeveloper.java_developer.metodos.ExibirNoSistema;
 import com.adm_user_JavaDeveloper.java_developer.metodos.SistemaDoAdm;
 import com.adm_user_JavaDeveloper.java_developer.metodos.LoginSistema;
 import com.adm_user_JavaDeveloper.java_developer.metodos.SistemaDoUsuario;
@@ -20,9 +19,6 @@ import com.adm_user_JavaDeveloper.java_developer.metodos.FuncionalidadesPrincipa
 @SpringBootApplication
 public class ProgramJavaDeveloper {
 	
-	
-	private static Administrador adm = new Administrador();
-	private static Usuario user = new Usuario();
 	
 	
 	public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -61,7 +57,7 @@ public class ProgramJavaDeveloper {
 
 			LoginSistema.executeDbConnection(name, phoneNumber, userInputsenha, dataNascimento);
 
-			user = new Usuario(name, phoneNumber, userInputsenha, dataNascimento);
+			new Usuario(name, phoneNumber, userInputsenha, dataNascimento);
 			System.out.println();
 			User();
 		} catch (Exception e) {
@@ -72,7 +68,7 @@ public class ProgramJavaDeveloper {
 	public static void UserFunc(){
 		try {
 			String mudar = "";
-			FuncionalidadesPrincipais.exibirInfomacoesUsuario();
+			FuncionalidadesPrincipais.pegarToString();
 
 			FuncionalidadesPrincipais.lerOpcoesUsuario();
 
@@ -99,7 +95,7 @@ public class ProgramJavaDeveloper {
 			LocalDate dataNascimento = SistemaDoAdm.pegarDataAdm();
 
         	
-            adm = new Administrador(name, passwordAdm, dataNascimento);
+            new Administrador(name, passwordAdm, dataNascimento);
             
 			pegarFuncionalidadesAdm();
 		} catch (Exception e) {
@@ -111,9 +107,7 @@ public class ProgramJavaDeveloper {
 		
 		try {
 			
-			System.out.println();
-			System.out.println(adm.toString());
-			System.out.println();
+			AdmFuncionalidades.pegarToString();
 			
 			String mudar = "";    
 			
@@ -145,27 +139,12 @@ public class ProgramJavaDeveloper {
 	
 	public static void User() {
 		try {
-			ExibirNoSistema.exibirUsuario();
+			FuncionalidadesPrincipais.InformUser();
 			
 		} catch (Exception e) {
 			System.err.println("Erro de exibição" + e.getMessage());
 		}
 		
-	}
-	
-	public static void InformUser() {
-		
-		try {
-			System.out.println();
-			System.out.println("Exibir Usuário: ");
-			System.out.println();
-			System.out.println(user.toString());
-			System.out.println();
-			System.out.println("Obrigador por se cadastrar " + user.getName() + "!. :)");
-		} catch (Exception e) {
-			System.err.println("Erro em exibir os Usuários. " + e.getMessage());
-		}
-		return;
 	}
 	
 	public static void senhaInvalida() {

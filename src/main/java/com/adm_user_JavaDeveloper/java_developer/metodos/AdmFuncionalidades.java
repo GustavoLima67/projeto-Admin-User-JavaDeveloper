@@ -25,6 +25,12 @@ public class AdmFuncionalidades {
 	private static ResultSet rs = null;
 
 
+    public static void pegarToString() {
+        System.out.println();
+        System.out.println(adm.toString());
+        System.out.println();
+    }
+
     public static void getUserOuAdm(interfaceAcaoLogar userAcao, interfaceAcaoLogar admAcao) throws ExececaoPadrao {
         System.out.println("O que deseja fazer?: (Escreva exatamente como esta abaixo) ");
         System.out.println("'User' | 'Adm'");
@@ -49,7 +55,7 @@ public class AdmFuncionalidades {
                 ProgramJavaDeveloper.getUser();
             }
             else {
-                ProgramJavaDeveloper.InformUser();
+                FuncionalidadesPrincipais.InformUser();
             }
         } catch (Exception e) {
             e.getMessage();

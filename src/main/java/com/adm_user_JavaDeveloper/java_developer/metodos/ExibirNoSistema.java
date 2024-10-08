@@ -59,7 +59,7 @@ public class ExibirNoSistema {
 						ProgramJavaDeveloper.UserFunc();
 						break;
 					case NO: 
-						ProgramJavaDeveloper.InformUser();
+						FuncionalidadesPrincipais.InformUser();
 						break;
 					default:
 						throw new ExececaoPadrao("Erro na sintexe!, digite da forma descrita (s/n)");

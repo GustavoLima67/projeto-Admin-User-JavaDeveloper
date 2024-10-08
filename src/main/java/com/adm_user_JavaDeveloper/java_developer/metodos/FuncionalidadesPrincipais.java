@@ -24,7 +24,7 @@ public class FuncionalidadesPrincipais {
     public static PreparedStatement st = null;
 	public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public static void exibirInfomacoesUsuario() {
+    public static void pegarToString() {
         System.out.println();
         System.out.println(user.toString());
         System.out.println();
@@ -141,5 +141,18 @@ public class FuncionalidadesPrincipais {
         return dataNascimento;
     }
 
+    public static void InformUser() {
+		try {
+			System.out.println();
+			System.out.println("Exibir Usuário: ");
+			System.out.println();
+			System.out.println(user.toString());
+			System.out.println();
+			System.out.println("Obrigador por se cadastrar " + user.getName() + "!. :)");
+		} catch (Exception e) {
+			System.err.println("Erro em exibir os Usuários. " + e.getMessage());
+		}
+		return;
+	}
 
 }
