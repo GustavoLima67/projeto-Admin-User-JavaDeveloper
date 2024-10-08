@@ -8,7 +8,6 @@ import java.time.format.DateTimeParseException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import com.adm_user_JavaDeveloper.java_developer.ProgramJavaDeveloper;
 import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
 import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
@@ -154,5 +153,4 @@ public class FuncionalidadesPrincipais {
 		}
 		return;
 	}
-
 }
