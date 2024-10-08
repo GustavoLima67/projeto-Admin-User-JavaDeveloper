@@ -6,15 +6,12 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.adm_user_JavaDeveloper.java_developer.authenticator.TwilioAuthentication;
 import com.adm_user_JavaDeveloper.java_developer.entities.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
-import com.adm_user_JavaDeveloper.java_developer.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
 import com.adm_user_JavaDeveloper.java_developer.metodos.AdmFuncionalidades;
 import com.adm_user_JavaDeveloper.java_developer.metodos.ExibirNoSistema;
@@ -166,15 +163,6 @@ public class ProgramJavaDeveloper {
 			System.err.println("Erro de exibição" + e.getMessage());
 		}
 		
-	}
-	
-	public static boolean isValidPhoneNumber(String phoneNumber) {
-	    String regex = "^\\+?[1-9]{1}[0-9]{1,3}[1-9]{1}[0-9]{1,4}[0-9]{4,5}[0-9]{4}$";
-	    
-	    Pattern pattern = Pattern.compile(regex);
-	    Matcher matcher = pattern.matcher(phoneNumber);
-		
-		return matcher.matches();
 	}
 	
 	public static void sendSms(String phoneNumber) throws ExececaoPadrao {
