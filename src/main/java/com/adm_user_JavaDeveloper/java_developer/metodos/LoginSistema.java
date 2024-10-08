@@ -13,7 +13,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import com.adm_user_JavaDeveloper.java_developer.ProgramJavaDeveloper;
 import com.adm_user_JavaDeveloper.java_developer.db.DB;
 import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
 import com.adm_user_JavaDeveloper.java_developer.validators.ValidPhoneNumber;
