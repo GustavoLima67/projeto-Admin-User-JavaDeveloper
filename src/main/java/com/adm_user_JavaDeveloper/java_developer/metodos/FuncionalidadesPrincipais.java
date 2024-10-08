@@ -97,7 +97,7 @@ public class FuncionalidadesPrincipais {
                 senhaValida = PasswordValidators.validatePassword(UserInputsenha);
 
                 if (!senhaValida) {
-                    ProgramJavaDeveloper.senhaInvalida();
+                    PasswordValidators.senhaInvalida();
                 }
         } while (!senhaValida);
         System.out.println("Senha valida! acesso concedido!");
