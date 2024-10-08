@@ -17,6 +17,7 @@ import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
 import com.adm_user_JavaDeveloper.java_developer.metodos.AdmFuncionalidades;
+import com.adm_user_JavaDeveloper.java_developer.metodos.ExibirNoSistema;
 import com.adm_user_JavaDeveloper.java_developer.metodos.SistemaDoAdm;
 import com.adm_user_JavaDeveloper.java_developer.metodos.LoginSistema;
 import com.adm_user_JavaDeveloper.java_developer.metodos.SistemaDoUsuario;
@@ -115,13 +116,13 @@ public class ProgramJavaDeveloper {
         	
             adm = new Administrador(name, passwordAdm, dataNascimento);
             
-			getAdmFunc();
+			pegarFuncionalidadesAdm();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public static void getAdmFunc() throws ExececaoPadrao{
+	public static void pegarFuncionalidadesAdm() throws ExececaoPadrao{
 		
 		try {
 			
@@ -149,29 +150,7 @@ public class ProgramJavaDeveloper {
 	
 	public static void Adm() {
 		try {
-			
-			char response;
-			do {
-				System.out.println("Bem Vindo "+adm.getName()+"!");
-				System.out.println("FUNCIONALIDADES DO ADMINSTRADOR. ");
-				System.out.print("Quer mudar suas informações: (y/n) ");
-				sc.nextLine();
-				response = sc.next().charAt(0);
-				
-				Response userResponse = Response.fromChar(response);
-
-				switch (userResponse) {
-					case YES:
-						getAdmFunc();
-						break;
-					case NO:
-						InformAdm();
-					default:
-						throw new ExececaoPadrao("Erro na sintexe, digite da forma descrita (s / n): ");
-				}
-
-			} while(response != 'n');
-			
+			ExibirNoSistema.exibirAdm();
 			
 		} catch (Exception e) {
 			System.err.println("Erro de exibição"+ e.getMessage());
@@ -181,27 +160,7 @@ public class ProgramJavaDeveloper {
 	
 	public static void User() {
 		try {
-			char response;
-			do {
-				System.out.println("Bem Vindo "+user.getName()+"!");
-				System.out.println("FUNCIONALIDADES DO USUARIO. ");
-				System.out.print("Quer mudar suas informações: (s/n) ");
-				response = sc.next().charAt(0);
-				
-				Response userResponse = Response.fromChar(response);
-
-				switch (userResponse) {
-					case YES:
-						UserFunc();
-						break;
-					case NO: 
-						InformUser();
-						break;
-					default:
-						throw new ExececaoPadrao("Erro na sintexe!, digite da forma descrita (s/n)");
-				}
-			} while(response != 'n');
-			
+			ExibirNoSistema.exibirUsuario();
 			
 		} catch (Exception e) {
 			System.err.println("Erro de exibição" + e.getMessage());
@@ -236,7 +195,7 @@ public class ProgramJavaDeveloper {
 	 
 	}
 	
-	public static void InformAdm() {
+	public static void informacoesAdm() {
 		try {
 			System.out.println();
 			System.out.println("Exibir Administrador: ");
