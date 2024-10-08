@@ -67,7 +67,7 @@ public class LoginSistema {
             senhaValida = PasswordValidators.validatePassword(userInputsenha);
 
             if (!senhaValida) {
-                ProgramJavaDeveloper.senhaInvalida();
+                PasswordValidators.senhaInvalida();
             }
         }  while (!senhaValida);
         System.out.println("Senha valida! acesso concedido!");
