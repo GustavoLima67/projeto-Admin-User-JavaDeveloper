@@ -129,5 +129,18 @@ public class AdmFuncionalidades {
         return conn;
     }
 
-
+    public static void informacoesAdm() {
+		try {
+			System.out.println();
+			System.out.println("Exibir Administrador: ");
+			System.out.println();
+			System.out.println(adm.toString());
+			System.out.println();
+			System.out.println("Obrigado pelo esforço administrador " +adm.getName() + "!. :)");
+			
+		} catch (Exception e) {
+			System.err.println("Erro em exibir o Adm. " + e.getMessage());
+		}
+		return;
+	}
 }

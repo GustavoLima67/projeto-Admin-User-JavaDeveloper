@@ -32,7 +32,7 @@ public class ExibirNoSistema {
 						ProgramJavaDeveloper.pegarFuncionalidadesAdm();
 						break;
 					case NO:
-						ProgramJavaDeveloper.informacoesAdm();
+						AdmFuncionalidades.informacoesAdm();
 					default:
 						throw new ExececaoPadrao("Erro na sintexe, digite da forma descrita (s / n): ");
 				}
