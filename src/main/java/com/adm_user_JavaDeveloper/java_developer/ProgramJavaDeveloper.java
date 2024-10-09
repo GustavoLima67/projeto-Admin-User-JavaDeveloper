@@ -67,18 +67,17 @@ public class ProgramJavaDeveloper {
 
 	public static void UserFunc(){
 		try {
-			String mudar = "";
 			FuncionalidadesPrincipais.pegarToString();
 
 			FuncionalidadesPrincipais.lerOpcoesUsuario();
 
-			FuncionalidadesPrincipais.procesarNome(mudar);
+			FuncionalidadesPrincipais.procesarNome();
 	
-			FuncionalidadesPrincipais.procesarTelefone(mudar);
+			FuncionalidadesPrincipais.procesarTelefone();
 
-			FuncionalidadesPrincipais.procesarSenha(mudar);
+			FuncionalidadesPrincipais.procesarSenha();
 
-			FuncionalidadesPrincipais.procesarData(mudar);
+			FuncionalidadesPrincipais.procesarData();
 			
 		} catch (Exception e) {
 			e.getMessage();
@@ -109,15 +108,13 @@ public class ProgramJavaDeveloper {
 			
 			AdmFuncionalidades.pegarToString();
 			
-			String mudar = "";    
-			
 			AdmFuncionalidades.getUserOuAdm(() ->  AdmFuncionalidades.procesarIqualUsuario(), () -> AdmFuncionalidades.procesarIgualAdm());
 
-			String upName = AdmFuncionalidades.atualizarIgualNome(mudar);
+			String upName = AdmFuncionalidades.atualizarIgualNome();
 
-			String upPassw = AdmFuncionalidades.atualizarIgualSenha(mudar);
+			String upPassw = AdmFuncionalidades.atualizarIgualSenha();
 
-			LocalDate procesDate = FuncionalidadesPrincipais.procesarData(mudar);
+			LocalDate procesDate = FuncionalidadesPrincipais.procesarData();
 
 			AdmFuncionalidades.procesarConnectionSQL(upName, upPassw, procesDate);
 			

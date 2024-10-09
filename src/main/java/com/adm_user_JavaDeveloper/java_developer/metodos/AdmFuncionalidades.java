@@ -47,8 +47,7 @@ public class AdmFuncionalidades {
         
     }
 
-    public static String procesarIqualUsuario() {
-    
+    public static void procesarIqualUsuario() {
         try {
             if(user == null) {
                 System.out.print("Usuario não existe:\nCrie um novo usuario para prosseguir:\n");
@@ -60,53 +59,34 @@ public class AdmFuncionalidades {
         } catch (Exception e) {
             e.getMessage();
         }
-
-        return "User";
     }
 
-    public static String procesarIgualAdm() {
+    public static void procesarIgualAdm() {
         System.out.print("O que deseja mudar: (nome / senha / dataNascimento) ");
         String mudar = sc.nextLine();
 
         switch (mudar.toLowerCase()) {
             case "nome":
-                atualizarIgualNome(mudar);  
+                atualizarIgualNome();  
                 break;
             case "senha":
-                FuncionalidadesPrincipais.procesarSenha(mudar); 
+                atualizarIgualSenha(); 
                 break;
             case "datanascimento":
-                FuncionalidadesPrincipais.procesarData(mudar);  
+                FuncionalidadesPrincipais.procesarData();  
                 break;
             default:
                 System.out.println("Opção inválida.");
                 break;
         }
-        
-        return "Adm"; 
     }
 
-    public static String atualizarIgualNome(String mudar) {
-        mudar = sc.nextLine();
-        try {
-            if (mudar.equals("nome")) {
-                System.out.print("Entre com o nome desejado: ");
-                String name = sc.next();
-                
-                st.setString(1, name);
-                adm.setName(name);
-
-                }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        System.out.println(adm.toString());
-      
-        return mudar;
+    public static String atualizarIgualNome() {
+        return FuncionalidadesPrincipais.procesarNome();
     }
 
-    public static String atualizarIgualSenha(String mudar) {
-        return FuncionalidadesPrincipais.procesarSenha(mudar);
+    public static String atualizarIgualSenha() {
+        return FuncionalidadesPrincipais.procesarSenha();
     }
 
     public static Connection procesarConnectionSQL(String upName, String upPassw, LocalDate procesDate){
