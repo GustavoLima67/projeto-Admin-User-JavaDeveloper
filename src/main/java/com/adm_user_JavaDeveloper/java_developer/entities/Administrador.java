@@ -76,7 +76,6 @@ public class Administrador {
 	public String toString() {
 		return "Administrador: Nome: " + getName() + ", Senha: " + getSenha() + "Data de nascimento: " + getDataNascimento();
 	}
-	
 
 	
 	

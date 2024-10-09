@@ -67,17 +67,18 @@ public class ProgramJavaDeveloper {
 
 	public static void UserFunc(){
 		try {
+			String entidade = FuncionalidadesPrincipais.procesarEntidade();
 			FuncionalidadesPrincipais.pegarToString();
 
 			FuncionalidadesPrincipais.lerOpcoesUsuario();
 
 			FuncionalidadesPrincipais.procesarNome(FuncionalidadesPrincipais.procesarEntidade());
 	
-			FuncionalidadesPrincipais.procesarTelefone();
+			FuncionalidadesPrincipais.procesarTelefone(entidade);
 
-			FuncionalidadesPrincipais.procesarSenha();
+			FuncionalidadesPrincipais.procesarSenha(entidade);
 
-			FuncionalidadesPrincipais.procesarData();
+			FuncionalidadesPrincipais.procesarData(entidade);
 			
 		} catch (Exception e) {
 			e.getMessage();
@@ -105,16 +106,14 @@ public class ProgramJavaDeveloper {
 	public static void pegarFuncionalidadesAdm() throws ExececaoPadrao{
 		
 		try {
+			String entidade = FuncionalidadesPrincipais.procesarEntidade();
 			
 			AdmFuncionalidades.pegarToString();
-			
 			AdmFuncionalidades.getUserOuAdm(() ->  AdmFuncionalidades.procesarIqualUsuario(), () -> AdmFuncionalidades.procesarIgualAdm());
 
-			String upName = FuncionalidadesPrincipais.procesarNome(FuncionalidadesPrincipais.procesarEntidade());
-
-			String upPassw = FuncionalidadesPrincipais.procesarSenha();
-
-			LocalDate procesDate = FuncionalidadesPrincipais.procesarData();
+			String upName = FuncionalidadesPrincipais.procesarNome(entidade);
+			String upPassw = FuncionalidadesPrincipais.procesarSenha(entidade);
+			LocalDate procesDate = FuncionalidadesPrincipais.procesarData(entidade);
 
 			AdmFuncionalidades.procesarConnectionSQL(upName, upPassw, procesDate);
 			

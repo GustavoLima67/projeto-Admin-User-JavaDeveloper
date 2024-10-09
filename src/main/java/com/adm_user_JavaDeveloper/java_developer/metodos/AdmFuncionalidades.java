@@ -64,16 +64,17 @@ public class AdmFuncionalidades {
     public static void procesarIgualAdm() {
         System.out.print("O que deseja mudar: (nome / senha / dataNascimento) ");
         String mudar = sc.nextLine();
+        String entidade = FuncionalidadesPrincipais.procesarEntidade();
 
         switch (mudar.toLowerCase()) {
             case "nome":
-                FuncionalidadesPrincipais.procesarNome(FuncionalidadesPrincipais.procesarEntidade());  
+                FuncionalidadesPrincipais.procesarNome(entidade);  
                 break;
             case "senha":
-                FuncionalidadesPrincipais.procesarSenha(); 
+                FuncionalidadesPrincipais.procesarSenha(entidade); 
                 break;
             case "datanascimento":
-                FuncionalidadesPrincipais.procesarData();  
+                FuncionalidadesPrincipais.procesarData(entidade);  
                 break;
             default:
                 System.out.println("Opção inválida.");
