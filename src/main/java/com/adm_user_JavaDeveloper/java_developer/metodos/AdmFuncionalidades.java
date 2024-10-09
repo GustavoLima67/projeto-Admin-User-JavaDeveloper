@@ -67,10 +67,10 @@ public class AdmFuncionalidades {
 
         switch (mudar.toLowerCase()) {
             case "nome":
-                atualizarIgualNome();  
+                FuncionalidadesPrincipais.procesarNome(FuncionalidadesPrincipais.procesarEntidade());  
                 break;
             case "senha":
-                atualizarIgualSenha(); 
+                FuncionalidadesPrincipais.procesarSenha(); 
                 break;
             case "datanascimento":
                 FuncionalidadesPrincipais.procesarData();  
@@ -79,14 +79,6 @@ public class AdmFuncionalidades {
                 System.out.println("Opção inválida.");
                 break;
         }
-    }
-
-    public static String atualizarIgualNome() {
-        return FuncionalidadesPrincipais.procesarNome();
-    }
-
-    public static String atualizarIgualSenha() {
-        return FuncionalidadesPrincipais.procesarSenha();
     }
 
     public static Connection procesarConnectionSQL(String upName, String upPassw, LocalDate procesDate){

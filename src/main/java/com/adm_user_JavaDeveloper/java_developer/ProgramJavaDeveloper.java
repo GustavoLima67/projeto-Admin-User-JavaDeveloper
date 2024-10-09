@@ -71,7 +71,7 @@ public class ProgramJavaDeveloper {
 
 			FuncionalidadesPrincipais.lerOpcoesUsuario();
 
-			FuncionalidadesPrincipais.procesarNome();
+			FuncionalidadesPrincipais.procesarNome(FuncionalidadesPrincipais.procesarEntidade());
 	
 			FuncionalidadesPrincipais.procesarTelefone();
 
@@ -110,9 +110,9 @@ public class ProgramJavaDeveloper {
 			
 			AdmFuncionalidades.getUserOuAdm(() ->  AdmFuncionalidades.procesarIqualUsuario(), () -> AdmFuncionalidades.procesarIgualAdm());
 
-			String upName = AdmFuncionalidades.atualizarIgualNome();
+			String upName = FuncionalidadesPrincipais.procesarNome(FuncionalidadesPrincipais.procesarEntidade());
 
-			String upPassw = AdmFuncionalidades.atualizarIgualSenha();
+			String upPassw = FuncionalidadesPrincipais.procesarSenha();
 
 			LocalDate procesDate = FuncionalidadesPrincipais.procesarData();
 

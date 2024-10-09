@@ -36,19 +36,20 @@ public class FuncionalidadesPrincipais {
     public static String lerOpcoesUsuario() throws ExececaoPadrao {
         System.out.print("O que deseja mudar: (nome / telefone / senha / dataNascimento) ");
         String mudar = sc.nextLine();
+        String entidade = procesarEntidade();
     
         switch (mudar.toLowerCase()) {
             case "nome":
-                procesarNome();
+                procesarNome(entidade);
                 break;
             case "telefone": 
-                procesarTelefone();
+                procesarTelefone(entidade);
                 break;
             case "senha":
-                procesarSenha();
+                procesarSenha(entidade);
                 break;
             case "dataNascimento":
-                procesarData();
+                procesarData(entidade);
                 break;
             default:
                 throw new ExececaoPadrao("Erro ao chamar as funções");
@@ -58,32 +59,35 @@ public class FuncionalidadesPrincipais {
         return mudar;
     }
 
-    public static String procesarNome() {
-        System.out.println("qual a entidade que deseja ser atribuida?: (adm / user)");
-        String valor = sc.nextLine();
-        try {
-            if(valor.equals("user")) {
-                System.out.print("Entre com o nome desejado: ");
-                String name = sc.next();
+    public static String procesarEntidade() {
+        System.out.println("Qual a entidade que deseja ser atribuída?: (adm / user)");
+        String entidade = sc.nextLine(); 
     
+        procesarNome(entidade);  
+    
+        return entidade;
+    }
+    
+    public static String procesarNome(String entidade) {
+        System.out.print("Entre com o nome desejado: ");
+        String name = sc.next();
+     
+        try {
+            if(entidade.toLowerCase().equals("user")) {
                 user.setName(name);
-                st.setString(1, name);
             }
-            else if(valor.equals("adm")) {
-                System.out.print("Entre com o nome desejado: ");
-                String name = sc.next();
-
-                adm.setName(name); 
-                st.setString(1, name); 
-            }
+            else if(entidade.toLowerCase().equals("adm")) {
+                adm.setName(name);
+            } 
+            st.setString(1, name);
             st.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return valor;
+        return name;
     }
 
-    public static void procesarTelefone() throws ExececaoPadrao{
+    public static void procesarTelefone(String entidade) throws ExececaoPadrao{
       
         String phoneNumber;
         boolean validPhone;
@@ -102,7 +106,11 @@ public class FuncionalidadesPrincipais {
         System.out.println("Mensagem Enviada com Sucesso!" + message.getSid());
 
         try {
-            user.setPhoneNumber(phoneNumber);
+            if (entidade.equals("user")) {
+                user.setPhoneNumber(phoneNumber);
+            } else if (entidade.equals("adm")) {
+               System.out.println("Adm não contem um numero para contato");
+            }
             st.setString(2, phoneNumber);
             st.executeUpdate();
         }catch (SQLException e) {
@@ -111,7 +119,7 @@ public class FuncionalidadesPrincipais {
     
     }
 
-    public static String procesarSenha() {
+    public static String procesarSenha(String entidade) {
         boolean senhaValida;
         String userInputsenha;
         sc.nextLine();
@@ -128,16 +136,20 @@ public class FuncionalidadesPrincipais {
         System.out.println("Senha valida! acesso concedido!");
 
         try {
-            user.setSenha(userInputsenha);
+            if (entidade.equals("user")) {
+                user.setSenha(userInputsenha);
+            } else if (entidade.equals("adm")) {
+                adm.setSenha(userInputsenha);
+            }
             st.setString(3, userInputsenha);
             st.executeUpdate();
-        } catch (SQLException e) {
+        } catch(SQLException e) {
             e.printStackTrace();
         }
         return userInputsenha;
     }
 
-    public static LocalDate procesarData() {
+    public static LocalDate procesarData(String entidade) {
         boolean dataValida = false;
         LocalDate dataNascimento = null;
 
@@ -149,7 +161,11 @@ public class FuncionalidadesPrincipais {
                     dataNascimento = LocalDate.parse(dataNasciInput, formatter);
                     dataValida = true;
     
-                    user.setDate(dataNascimento);
+                    if (entidade.equals("user")) {
+                        user.setDate(dataNascimento);
+                    } else if (entidade.equals("adm")) {
+                        adm.setDataNascimento(dataNascimento);
+                    }
                     st.setDate(4, java.sql.Date.valueOf(dataNascimento));
                     st.executeUpdate();
                 } catch(DateTimeParseException |  SQLException e) {
