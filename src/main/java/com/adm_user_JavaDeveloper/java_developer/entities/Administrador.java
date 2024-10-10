@@ -40,6 +40,11 @@ public class Administrador {
 		return id;
 	}
 	
+	public void setId(long id) {
+		this.id = id;
+		throw new UnsupportedOperationException("Unimplemented method 'setId'");
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -76,6 +81,7 @@ public class Administrador {
 	public String toString() {
 		return "Administrador: Nome: " + getName() + ", Senha: " + getSenha() + "Data de nascimento: " + getDataNascimento();
 	}
+
 
 	
 	
