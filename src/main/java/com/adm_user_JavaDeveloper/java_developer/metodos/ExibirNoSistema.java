@@ -3,10 +3,12 @@ package com.adm_user_JavaDeveloper.java_developer.metodos;
 import java.util.Scanner;
 
 import com.adm_user_JavaDeveloper.java_developer.ProgramJavaDeveloper;
-import com.adm_user_JavaDeveloper.java_developer.entities.Administrador;
-import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
+import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
+import com.adm_user_JavaDeveloper.java_developer.model.Usuario;
+import com.adm_user_JavaDeveloper.java_developer.services.AdministradorServices;
+import com.adm_user_JavaDeveloper.java_developer.services.UsuarioService;
 
 public class ExibirNoSistema {
 
@@ -32,7 +34,7 @@ public class ExibirNoSistema {
 						ProgramJavaDeveloper.pegarFuncionalidadesAdm();
 						break;
 					case NO:
-						AdmFuncionalidades.informacoesAdm();
+						AdministradorServices.informacoesAdm();
 					default:
 						throw new ExececaoPadrao("Erro na sintexe, digite da forma descrita (s / n): ");
 				}
@@ -59,7 +61,7 @@ public class ExibirNoSistema {
 						ProgramJavaDeveloper.UserFunc();
 						break;
 					case NO: 
-						FuncionalidadesPrincipais.InformUser();
+						UsuarioService.InformUser();
 						break;
 					default:
 						throw new ExececaoPadrao("Erro na sintexe!, digite da forma descrita (s/n)");

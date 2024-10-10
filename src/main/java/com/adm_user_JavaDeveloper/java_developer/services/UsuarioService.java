@@ -1,4 +1,4 @@
-package com.adm_user_JavaDeveloper.java_developer.metodos;
+package com.adm_user_JavaDeveloper.java_developer.services;
 
 import java.util.Scanner;
 
@@ -8,9 +8,9 @@ import java.time.format.DateTimeParseException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import com.adm_user_JavaDeveloper.java_developer.entities.Administrador;
-import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
+import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
+import com.adm_user_JavaDeveloper.java_developer.model.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
 import com.adm_user_JavaDeveloper.java_developer.validators.ValidPhoneNumber;
 import com.twilio.rest.api.v2010.account.Message;
@@ -18,7 +18,7 @@ import com.twilio.rest.api.v2010.account.Message;
 
 import com.twilio.type.PhoneNumber;
 
-public class FuncionalidadesPrincipais {
+public class UsuarioService {
     
     private static Usuario user = new Usuario();
     private static Administrador adm = new Administrador();

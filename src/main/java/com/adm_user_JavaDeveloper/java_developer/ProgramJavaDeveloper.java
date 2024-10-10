@@ -5,16 +5,14 @@ import java.time.format.DateTimeFormatter;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.adm_user_JavaDeveloper.java_developer.entities.Administrador;
-import com.adm_user_JavaDeveloper.java_developer.entities.Usuario;
-
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
-
-import com.adm_user_JavaDeveloper.java_developer.metodos.AdmFuncionalidades;
 import com.adm_user_JavaDeveloper.java_developer.metodos.SistemaDoAdm;
 import com.adm_user_JavaDeveloper.java_developer.metodos.LoginSistema;
 import com.adm_user_JavaDeveloper.java_developer.metodos.SistemaDoUsuario;
-import com.adm_user_JavaDeveloper.java_developer.metodos.FuncionalidadesPrincipais;
+import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
+import com.adm_user_JavaDeveloper.java_developer.model.Usuario;
+import com.adm_user_JavaDeveloper.java_developer.services.AdministradorServices;
+import com.adm_user_JavaDeveloper.java_developer.services.UsuarioService;
 
 @SpringBootApplication
 public class ProgramJavaDeveloper {
@@ -67,18 +65,18 @@ public class ProgramJavaDeveloper {
 
 	public static void UserFunc(){
 		try {
-			String entidade = FuncionalidadesPrincipais.procesarEntidade();
-			FuncionalidadesPrincipais.pegarToString();
+			String entidade = UsuarioService.procesarEntidade();
+			UsuarioService.pegarToString();
 
-			FuncionalidadesPrincipais.lerOpcoesUsuario();
+			UsuarioService.lerOpcoesUsuario();
 
-			FuncionalidadesPrincipais.procesarNome(FuncionalidadesPrincipais.procesarEntidade());
+			UsuarioService.procesarNome(UsuarioService.procesarEntidade());
 	
-			FuncionalidadesPrincipais.procesarTelefone(entidade);
+			UsuarioService.procesarTelefone(entidade);
 
-			FuncionalidadesPrincipais.procesarSenha(entidade);
+			UsuarioService.procesarSenha(entidade);
 
-			FuncionalidadesPrincipais.procesarData(entidade);
+			UsuarioService.procesarData(entidade);
 			
 		} catch (Exception e) {
 			e.getMessage();
@@ -106,16 +104,16 @@ public class ProgramJavaDeveloper {
 	public static void pegarFuncionalidadesAdm() throws ExececaoPadrao{
 		
 		try {
-			String entidade = FuncionalidadesPrincipais.procesarEntidade();
+			String entidade = UsuarioService.procesarEntidade();
 			
-			AdmFuncionalidades.pegarToString();
-			AdmFuncionalidades.getUserOuAdm(() ->  AdmFuncionalidades.procesarIqualUsuario(), () -> AdmFuncionalidades.procesarIgualAdm());
+			AdministradorServices.pegarToString();
+			AdministradorServices.getUserOuAdm(() ->  AdministradorServices.procesarIqualUsuario(), () -> AdministradorServices.procesarIgualAdm());
 
-			String upName = FuncionalidadesPrincipais.procesarNome(entidade);
-			String upPassw = FuncionalidadesPrincipais.procesarSenha(entidade);
-			LocalDate procesDate = FuncionalidadesPrincipais.procesarData(entidade);
+			String upName = UsuarioService.procesarNome(entidade);
+			String upPassw = UsuarioService.procesarSenha(entidade);
+			LocalDate procesDate = UsuarioService.procesarData(entidade);
 
-			AdmFuncionalidades.procesarConnectionSQL(upName, upPassw, procesDate);
+			AdministradorServices.procesarConnectionSQL(upName, upPassw, procesDate);
 			
 		}catch (Exception e) {
 			throw new IllegalArgumentException(e.getMessage());
@@ -125,7 +123,7 @@ public class ProgramJavaDeveloper {
 	
 	public static void Adm() {
 		try {
-			AdmFuncionalidades.informacoesAdm();
+			AdministradorServices.informacoesAdm();
 			
 		} catch (Exception e) {
 			System.err.println("Erro de exibição"+ e.getMessage());
@@ -135,7 +133,7 @@ public class ProgramJavaDeveloper {
 	
 	public static void User() {
 		try {
-			FuncionalidadesPrincipais.InformUser();
+			UsuarioService.InformUser();
 			
 		} catch (Exception e) {
 			System.err.println("Erro de exibição" + e.getMessage());

@@ -1,4 +1,4 @@
-package com.adm_user_JavaDeveloper.java_developer.entities;
+package com.adm_user_JavaDeveloper.java_developer.model;
 
 import java.time.LocalDate;
 
