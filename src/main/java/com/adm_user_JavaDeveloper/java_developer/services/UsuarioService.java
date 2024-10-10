@@ -30,13 +30,23 @@ public class UsuarioService {
     public static PreparedStatement st = null;
 	public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
+    
+    public static String procesarEntidade() {
+        System.out.println("Qual a entidade que deseja ser atribuída?: (adm / user)");
+        String entidade = sc.nextLine(); 
+    
+        procesarNome(entidade);  
+    
+        return entidade;
+    }
+
     public static void pegarToString() {
         System.out.println();
         System.out.println(user.toString());
         System.out.println();
     }
 
-    public static String lerOpcoesUsuario() throws ExececaoPadrao {
+    public static String lerOpcoes() throws ExececaoPadrao {
         System.out.print("O que deseja mudar: (nome / telefone / senha / dataNascimento) ");
         String mudar = sc.nextLine();
         String entidade = procesarEntidade();
@@ -61,15 +71,6 @@ public class UsuarioService {
 
         return mudar;
     }
-
-    public static String procesarEntidade() {
-        System.out.println("Qual a entidade que deseja ser atribuída?: (adm / user)");
-        String entidade = sc.nextLine(); 
-    
-        procesarNome(entidade);  
-    
-        return entidade;
-    }
     
     public static String procesarNome(String entidade) {
         System.out.print("Entre com o nome desejado: ");
@@ -90,7 +91,7 @@ public class UsuarioService {
         return name;
     }
 
-    public static void procesarTelefone(String entidade) throws ExececaoPadrao{
+    public static String procesarTelefone(String entidade) throws ExececaoPadrao{
       
         String phoneNumber;
         boolean validPhone;
@@ -119,7 +120,7 @@ public class UsuarioService {
         }catch (SQLException e) {
             throw new ExececaoPadrao("Erro no cadastro do numero de telefone, tente novamente");
         }
-    
+        return phoneNumber;
     }
 
     public static String procesarSenha(String entidade) {
@@ -180,21 +181,17 @@ public class UsuarioService {
         return dataNascimento;
     }
 
-    public static void InformUser() {
-		try {
-			System.out.println();
-			System.out.println("Exibir Usuário: ");
-			System.out.println();
-			System.out.println(user.toString());
-			System.out.println();
-			System.out.println("Obrigador por se cadastrar " + user.getName() + "!. :)");
-		} catch (Exception e) {
-			System.err.println("Erro em exibir os Usuários. " + e.getMessage());
-		}
-		return;
+    public static void Inform() {
+        System.out.println();
+        System.out.println("Exibir Usuário: ");
+        System.out.println();
+        System.out.println(user.toString());
+        System.out.println();
+        System.out.println("Obrigador por se cadastrar " + user.getName() + "!. :)");
+		
 	}
     
-    public static void exibirUsuario() {
+    public static void exibir() {
         try {
 			char response;
 			do {
@@ -210,7 +207,7 @@ public class UsuarioService {
 						ProgramJavaDeveloper.UserFunc();
 						break;
 					case NO: 
-						UsuarioService.InformUser();
+						UsuarioService.Inform();
 						break;
 					default:
 						throw new ExececaoPadrao("Erro na sintexe!, digite da forma descrita (s/n)");

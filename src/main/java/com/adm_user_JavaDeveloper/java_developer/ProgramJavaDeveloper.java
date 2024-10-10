@@ -68,7 +68,7 @@ public class ProgramJavaDeveloper {
 			String entidade = UsuarioService.procesarEntidade();
 			UsuarioService.pegarToString();
 
-			UsuarioService.lerOpcoesUsuario();
+			UsuarioService.lerOpcoes();
 
 			UsuarioService.procesarNome(UsuarioService.procesarEntidade());
 	
@@ -133,7 +133,7 @@ public class ProgramJavaDeveloper {
 	
 	public static void User() {
 		try {
-			UsuarioService.InformUser();
+			UsuarioService.Inform();
 			
 		} catch (Exception e) {
 			System.err.println("Erro de exibição" + e.getMessage());

@@ -59,7 +59,7 @@ public class AdministradorServices{
                 ProgramJavaDeveloper.getUser();
             }
             else {
-                UsuarioService.InformUser();
+                UsuarioService.Inform();
             }
         } catch (Exception e) {
             e.getMessage();
