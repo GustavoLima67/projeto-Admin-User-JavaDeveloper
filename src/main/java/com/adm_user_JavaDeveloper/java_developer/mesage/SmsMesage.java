@@ -1,4 +1,4 @@
-package com.adm_user_JavaDeveloper.java_developer.envioSms;
+package com.adm_user_JavaDeveloper.java_developer.mesage;
 
 import com.adm_user_JavaDeveloper.java_developer.authenticator.TwilioAuthentication;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
@@ -8,7 +8,7 @@ import com.twilio.type.PhoneNumber;
 
 
 
-public class Sms {
+public class SmsMesage {
 
 
 	public static final String accountSid = TwilioAuthentication.getAccountSid();

@@ -6,12 +6,12 @@ import java.time.format.DateTimeFormatter;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
-import com.adm_user_JavaDeveloper.java_developer.metodos.SistemaDoAdm;
-import com.adm_user_JavaDeveloper.java_developer.metodos.LoginSistema;
-import com.adm_user_JavaDeveloper.java_developer.metodos.SistemaDoUsuario;
 import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.model.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.services.AdministradorServices;
+import com.adm_user_JavaDeveloper.java_developer.services.LoginSistemaService;
+import com.adm_user_JavaDeveloper.java_developer.services.SistemaDoAdmService;
+import com.adm_user_JavaDeveloper.java_developer.services.SistemaDoUsuarioService;
 import com.adm_user_JavaDeveloper.java_developer.services.UsuarioService;
 
 @SpringBootApplication
@@ -35,7 +35,7 @@ public class ProgramJavaDeveloper {
 		
 		try {
 			System.out.println("Bem-vindo");
-			SistemaDoUsuario.logarNoSistema(() -> SistemaDoUsuario.loginUser(), () -> SistemaDoUsuario.loginAdm());
+			SistemaDoUsuarioService.logarNoSistema(() -> SistemaDoUsuarioService.loginUser(), () -> SistemaDoUsuarioService.loginAdm());
 
 		} catch (Exception e) {
 			throw new IllegalArgumentException(e.getMessage());
@@ -45,15 +45,15 @@ public class ProgramJavaDeveloper {
 	
 	public static void getUser() {
 		try {
-			String name = LoginSistema.pegarNome();
+			String name = LoginSistemaService.pegarNome();
 
-			String phoneNumber = LoginSistema.pegarTelefone();
+			String phoneNumber = LoginSistemaService.pegarTelefone();
 			
-			String userInputsenha = LoginSistema.pegarSenha();	
+			String userInputsenha = LoginSistemaService.pegarSenha();	
 		
-			LocalDate dataNascimento = LoginSistema.pegarDataNascimento();
+			LocalDate dataNascimento = LoginSistemaService.pegarDataNascimento();
 
-			LoginSistema.executeDbConnection(name, phoneNumber, userInputsenha, dataNascimento);
+			LoginSistemaService.executeDbConnection(name, phoneNumber, userInputsenha, dataNascimento);
 
 			new Usuario(name, phoneNumber, userInputsenha, dataNascimento);
 			System.out.println();
@@ -86,11 +86,11 @@ public class ProgramJavaDeveloper {
 	
 	public static void processAdm() throws ExececaoPadrao{
 		try {
-			String name = SistemaDoAdm.pegarNomeAdm();
+			String name = SistemaDoAdmService.pegarNomeAdm();
 
-			String passwordAdm = SistemaDoAdm.pegarSenhaAdm();
+			String passwordAdm = SistemaDoAdmService.pegarSenhaAdm();
 
-			LocalDate dataNascimento = SistemaDoAdm.pegarDataAdm();
+			LocalDate dataNascimento = SistemaDoAdmService.pegarDataAdm();
 
         	
             new Administrador(name, passwordAdm, dataNascimento);

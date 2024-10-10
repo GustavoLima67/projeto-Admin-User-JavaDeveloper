@@ -11,121 +11,149 @@ import org.springframework.stereotype.Repository;
 
 import com.adm_user_JavaDeveloper.java_developer.ProgramJavaDeveloper;
 import com.adm_user_JavaDeveloper.java_developer.db.DB;
+import com.adm_user_JavaDeveloper.java_developer.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
-import com.adm_user_JavaDeveloper.java_developer.metodos.FuncionalidadesPrincipais;
-import com.adm_user_JavaDeveloper.java_developer.metodos.interfaceAcaoLogar;
 import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.model.Usuario;
+import com.adm_user_JavaDeveloper.java_developer.repositories.interfaceAcaoLogar;
 
 
 @Repository
 public class AdministradorServices{
 
-        static Scanner sc = new Scanner(System.in);
-        static Usuario user = new Usuario();
-        static Administrador adm = new Administrador();
+    static Scanner sc = new Scanner(System.in);
+    static Usuario user = new Usuario();
+    static Administrador adm = new Administrador();
+    
+    static Connection conn = null ;
+    static PreparedStatement st = null;
+    static ResultSet rs = null;
+
+
+    public static void pegarToString() {
+        System.out.println();
+        System.out.println(adm.toString());
+        System.out.println();
+    }
+
+    public static void getUserOuAdm(interfaceAcaoLogar userAcao, interfaceAcaoLogar admAcao) throws ExececaoPadrao {
+        System.out.println("O que deseja fazer?: (Escreva exatamente como esta abaixo) ");
+        System.out.println("'User' | 'Adm'");
+        System.out.print("Escreva: ");
+        String response = sc.nextLine();
+
+
+        if (response.equals("User")) {
+            procesarIqualUsuario();
+        }
+        if (response.equals("Adm")) {
+            procesarIgualAdm();
+        }
         
-        static Connection conn = null ;
-        static PreparedStatement st = null;
-        static ResultSet rs = null;
-    
-    
-        public static void pegarToString() {
+    }
+
+    public static void procesarIqualUsuario() {
+        try {
+            if(user == null) {
+                System.out.print("Usuario não existe:\nCrie um novo usuario para prosseguir:\n");
+                ProgramJavaDeveloper.getUser();
+            }
+            else {
+                UsuarioService.InformUser();
+            }
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+
+    public static void procesarIgualAdm() {
+        System.out.print("O que deseja mudar: (nome / senha / dataNascimento) ");
+        String mudar = sc.nextLine();
+        String entidade = UsuarioService.procesarEntidade();
+
+        switch (mudar.toLowerCase()) {
+            case "nome":
+                UsuarioService.procesarNome(entidade);  
+                break;
+            case "senha":
+                UsuarioService.procesarSenha(entidade); 
+                break;
+            case "datanascimento":
+                UsuarioService.procesarData(entidade);  
+                break;
+            default:
+                System.out.println("Opção inválida.");
+                break;
+        }
+    }
+
+    public static Connection procesarConnectionSQL(String upName, String upPassw, LocalDate procesDate){
+        try {
+            conn = DB.getConnection();
+
+            st = conn.prepareStatement("UPDATE administrador SET Name = ?, Password = ?,  BirthDate = ? WHERE id = (SELECT MAX(id) FROM administrador) ");
+            st.setString(1, upName);
+            st.setString(2, upPassw);
+            st.setDate(3, java.sql.Date.valueOf(procesDate));
+
+            int linhasAtualizadas = st.executeUpdate();
+            if (linhasAtualizadas > 0) {
+                System.out.println("Tabela atualizada com sucesso");
+            }
+            else {
+                System.out.println("Nenhuma linha afetada");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            DB.closeResultSet(rs);
+            DB.closeResultSet(rs);
+            DB.closeConnection();
+        }
+        return conn;
+    }
+
+    public static void informacoesAdm() {
+        try {
+            System.out.println();
+            System.out.println("Exibir Administrador: ");
             System.out.println();
             System.out.println(adm.toString());
             System.out.println();
-        }
-    
-        public static void getUserOuAdm(interfaceAcaoLogar userAcao, interfaceAcaoLogar admAcao) throws ExececaoPadrao {
-            System.out.println("O que deseja fazer?: (Escreva exatamente como esta abaixo) ");
-            System.out.println("'User' | 'Adm'");
-            System.out.print("Escreva: ");
-            String response = sc.nextLine();
-    
-    
-            if (response.equals("User")) {
-                procesarIqualUsuario();
-            }
-            if (response.equals("Adm")) {
-                procesarIgualAdm();
-            }
+            System.out.println("Obrigado pelo esforço administrador " +adm.getName() + "!. :)");
             
+        } catch (Exception e) {
+            System.err.println("Erro em exibir o Adm. " + e.getMessage());
         }
-    
-        public static void procesarIqualUsuario() {
-            try {
-                if(user == null) {
-                    System.out.print("Usuario não existe:\nCrie um novo usuario para prosseguir:\n");
-                    ProgramJavaDeveloper.getUser();
-                }
-                else {
-                    FuncionalidadesPrincipais.InformUser();
-                }
-            } catch (Exception e) {
-                e.getMessage();
-            }
-        }
-    
-        public static void procesarIgualAdm() {
-            System.out.print("O que deseja mudar: (nome / senha / dataNascimento) ");
-            String mudar = sc.nextLine();
-            String entidade = FuncionalidadesPrincipais.procesarEntidade();
-    
-            switch (mudar.toLowerCase()) {
-                case "nome":
-                    FuncionalidadesPrincipais.procesarNome(entidade);  
-                    break;
-                case "senha":
-                    FuncionalidadesPrincipais.procesarSenha(entidade); 
-                    break;
-                case "datanascimento":
-                    FuncionalidadesPrincipais.procesarData(entidade);  
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
-                    break;
-            }
-        }
-    
-        public static Connection procesarConnectionSQL(String upName, String upPassw, LocalDate procesDate){
-            try {
-                conn = DB.getConnection();
-    
-                st = conn.prepareStatement("UPDATE administrador SET Name = ?, Password = ?,  BirthDate = ? WHERE id = (SELECT MAX(id) FROM administrador) ");
-                st.setString(1, upName);
-                st.setString(2, upPassw);
-                st.setDate(3, java.sql.Date.valueOf(procesDate));
-    
-                int linhasAtualizadas = st.executeUpdate();
-                if (linhasAtualizadas > 0) {
-                    System.out.println("Tabela atualizada com sucesso");
-                }
-                else {
-                    System.out.println("Nenhuma linha afetada");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }finally {
-                DB.closeResultSet(rs);
-                DB.closeResultSet(rs);
-                DB.closeConnection();
-            }
-            return conn;
-        }
-    
-        public static void informacoesAdm() {
-            try {
-                System.out.println();
-                System.out.println("Exibir Administrador: ");
-                System.out.println();
-                System.out.println(adm.toString());
-                System.out.println();
-                System.out.println("Obrigado pelo esforço administrador " +adm.getName() + "!. :)");
+        return;
+    }
+
+    public static void exibirAdm() {
+        try {
+            char response;
+            do {
+                System.out.println("Bem Vindo "+adm.getName()+"!");
+                System.out.println("FUNCIONALIDADES DO ADMINSTRADOR. ");
+                System.out.print("Quer mudar suas informações: (y/n) ");
+                sc.nextLine();
+                response = sc.next().charAt(0);
                 
-            } catch (Exception e) {
-                System.err.println("Erro em exibir o Adm. " + e.getMessage());
-            }
-            return;
+                Response userResponse = Response.fromChar(response);
+
+                switch (userResponse) {
+                    case YES:
+                        ProgramJavaDeveloper.pegarFuncionalidadesAdm();
+                        break;
+                    case NO:
+                        AdministradorServices.informacoesAdm();
+                    default:
+                        throw new ExececaoPadrao("Erro na sintexe, digite da forma descrita (s / n): ");
+                }
+
+            } while(response != 'n');
+        } catch (Exception e) {
+            System.err.println("Erro de exibição"+ e.getMessage());
         }
     }
-    
+}
+

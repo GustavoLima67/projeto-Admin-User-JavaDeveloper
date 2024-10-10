@@ -1,4 +1,4 @@
-package com.adm_user_JavaDeveloper.java_developer.metodos;
+package com.adm_user_JavaDeveloper.java_developer.services;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,22 +9,22 @@ import java.time.LocalDate;
 
 import com.adm_user_JavaDeveloper.java_developer.db.DB;
 
-public class SistemaDoAdm {
+public class SistemaDoAdmService {
     
     private static Connection conn = null;
 	private static PreparedStatement st = null;
 	private static ResultSet rs = null;
 
     public static String pegarNomeAdm() {
-        return LoginSistema.pegarNome();
+        return LoginSistemaService.pegarNome();
     }
 
     public static String pegarSenhaAdm() {
-        return LoginSistema.pegarSenha();
+        return LoginSistemaService.pegarSenha();
     }
 
     public static LocalDate pegarDataAdm() {
-       return LoginSistema.pegarDataNascimento();
+       return LoginSistemaService.pegarDataNascimento();
     }
 
     public static Connection executeDbConnection(String name, String passwordAdm, LocalDate dataNascimento) {

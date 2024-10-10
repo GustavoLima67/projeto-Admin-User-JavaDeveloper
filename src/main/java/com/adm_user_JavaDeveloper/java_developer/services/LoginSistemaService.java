@@ -1,4 +1,4 @@
-package com.adm_user_JavaDeveloper.java_developer.metodos;
+package com.adm_user_JavaDeveloper.java_developer.services;
 
 import java.util.Scanner;
 
@@ -17,7 +17,7 @@ import com.adm_user_JavaDeveloper.java_developer.db.DB;
 import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
 import com.adm_user_JavaDeveloper.java_developer.validators.ValidPhoneNumber;
 
-public class LoginSistema {
+public class LoginSistemaService {
 
     private static Scanner sc = new Scanner(System.in);
 	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");

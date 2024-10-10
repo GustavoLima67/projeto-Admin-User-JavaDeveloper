@@ -8,11 +8,15 @@ import java.time.format.DateTimeParseException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
 import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
+import com.adm_user_JavaDeveloper.java_developer.ProgramJavaDeveloper;
+import com.adm_user_JavaDeveloper.java_developer.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.model.Usuario;
 import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
 import com.adm_user_JavaDeveloper.java_developer.validators.ValidPhoneNumber;
+
 import com.twilio.rest.api.v2010.account.Message;
 
 
@@ -190,4 +194,33 @@ public class UsuarioService {
 		}
 		return;
 	}
+    
+    public static void exibirUsuario() {
+        try {
+			char response;
+			do {
+				System.out.println("Bem Vindo "+user.getName()+"!");
+				System.out.println("FUNCIONALIDADES DO USUARIO. ");
+				System.out.print("Quer mudar suas informações: (s/n) ");
+				response = sc.next().charAt(0);
+				
+				Response userResponse = Response.fromChar(response);
+
+				switch (userResponse) {
+					case YES:
+						ProgramJavaDeveloper.UserFunc();
+						break;
+					case NO: 
+						UsuarioService.InformUser();
+						break;
+					default:
+						throw new ExececaoPadrao("Erro na sintexe!, digite da forma descrita (s/n)");
+				}
+			} while(response != 'n');
+			
+			
+		} catch (Exception e) {
+			System.err.println("Erro de exibição" + e.getMessage());
+		}
+    }
 }
