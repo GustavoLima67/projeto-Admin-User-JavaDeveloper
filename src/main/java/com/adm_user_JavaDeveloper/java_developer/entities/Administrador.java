@@ -27,6 +27,14 @@ public class Administrador {
 
 	public Administrador() {
 	}
+
+	public Administrador(Long id, String name,String senha, LocalDate dataNascimento) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.senha = senha;
+		this.dataNascimento = dataNascimento;
+	}
 	
 	public Administrador(String name,String senha, LocalDate dataNascimento) {
 		super();

@@ -28,6 +28,15 @@ public class Usuario {
 	
 	public Usuario() {
 	}
+
+	public Usuario(Long id, String name, String phoneNumber, String senha, LocalDate dataNascimento) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.phoneNumber = phoneNumber;
+		this.senha = senha;
+		this.dataNascimento = dataNascimento;
+	}
 	
 	public Usuario(String name, String phoneNumber, String senha, LocalDate dataNascimento) {
 		super();
