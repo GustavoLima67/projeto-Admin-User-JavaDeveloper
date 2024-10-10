@@ -19,7 +19,6 @@ import com.adm_user_JavaDeveloper.java_developer.validators.ValidPhoneNumber;
 
 import com.twilio.rest.api.v2010.account.Message;
 
-
 import com.twilio.type.PhoneNumber;
 
 public class UsuarioService {
