@@ -1,27 +1,34 @@
 package com.adm_user_JavaDeveloper.java_developer.controller;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.adm_user_JavaDeveloper.java_developer.model.Usuarios;
+import com.adm_user_JavaDeveloper.java_developer.repositories.UsuarioRepository;
 
 @RestController
-@RequestMapping("/api/usuarios")
+@RequestMapping("/usuarios")
 public class ControllerUsuario {
 
-    private String dataNascimento = "02/05/1898";
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    private LocalDate localDate = LocalDate.parse(dataNascimento, formatter);
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-    @GetMapping("/api/usuario/{id}")
-    public ResponseEntity<Usuarios> pegarUserPorId(@RequestBody Long id) {
-        return ResponseEntity.ok(new Usuarios(id, "joao", "+5511943546341", "joaoSenha1#", localDate));
-        
+    @GetMapping
+    public List<Usuarios> getAllUsuarios() {
+        return usuarioRepository.findAll();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuarios> getClienteById(@PathVariable Long id) {
+        Optional<Usuarios> users = usuarioRepository.findById(id);
+        return users.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 }
