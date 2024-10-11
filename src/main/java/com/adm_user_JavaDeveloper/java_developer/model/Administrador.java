@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Administrador {
-	Usuario user;
+	Usuarios user;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,11 +69,11 @@ public class Administrador {
 		this.senha = senha;
 	}
 
-	public Usuario getUser() {
+	public Usuarios getUser() {
 		return user;
 	}
 	
-	public void setUser(Usuario user) {
+	public void setUser(Usuarios user) {
 		this.user = user;
 	}
 

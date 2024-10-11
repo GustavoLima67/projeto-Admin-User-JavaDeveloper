@@ -14,20 +14,20 @@ import com.adm_user_JavaDeveloper.java_developer.db.DB;
 import com.adm_user_JavaDeveloper.java_developer.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
 import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
-import com.adm_user_JavaDeveloper.java_developer.model.Usuario;
+import com.adm_user_JavaDeveloper.java_developer.model.Usuarios;
 import com.adm_user_JavaDeveloper.java_developer.repositories.interfaceAcaoLogar;
 
 
 @Repository
 public class AdministradorServices{
 
-    static Scanner sc = new Scanner(System.in);
-    static Usuario user = new Usuario();
-    static Administrador adm = new Administrador();
+    private static Scanner sc = new Scanner(System.in);
+    private static Usuarios user = new Usuarios();
+    private static Administrador adm = new Administrador();
     
-    static Connection conn = null ;
-    static PreparedStatement st = null;
-    static ResultSet rs = null;
+    private static Connection conn = null ;
+    private static PreparedStatement st = null;
+    private static ResultSet rs = null;
 
 
     public static void pegarToString() {

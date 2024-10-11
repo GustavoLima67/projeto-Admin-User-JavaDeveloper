@@ -13,7 +13,7 @@ import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
 import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.ProgramJavaDeveloper;
 import com.adm_user_JavaDeveloper.java_developer.enums.Response;
-import com.adm_user_JavaDeveloper.java_developer.model.Usuario;
+import com.adm_user_JavaDeveloper.java_developer.model.Usuarios;
 import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
 import com.adm_user_JavaDeveloper.java_developer.validators.ValidPhoneNumber;
 
@@ -23,7 +23,7 @@ import com.twilio.type.PhoneNumber;
 
 public class UsuarioService {
     
-    private static Usuario user = new Usuario();
+    private static Usuarios user = new Usuarios();
     private static Administrador adm = new Administrador();
     private static Scanner sc = new Scanner(System.in);
 

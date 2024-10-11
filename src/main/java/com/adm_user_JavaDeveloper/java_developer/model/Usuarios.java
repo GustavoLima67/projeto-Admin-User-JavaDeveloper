@@ -4,12 +4,17 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-@Entity
-public class Usuario {
+@Entity(name = "usuarios")
+@Table(name = "usuarios")
+public class Usuarios {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column (nullable = false)
 	private Long id;
 	
@@ -26,10 +31,10 @@ public class Usuario {
 	private LocalDate dataNascimento;
 	
 	
-	public Usuario() {
+	public Usuarios() {
 	}
 
-	public Usuario(Long id, String name, String phoneNumber, String senha, LocalDate dataNascimento) {
+	public Usuarios(Long id, String name, String phoneNumber, String senha, LocalDate dataNascimento) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -38,7 +43,7 @@ public class Usuario {
 		this.dataNascimento = dataNascimento;
 	}
 	
-	public Usuario(String name, String phoneNumber, String senha, LocalDate dataNascimento) {
+	public Usuarios(String name, String phoneNumber, String senha, LocalDate dataNascimento) {
 		super();
 		this.name = name;
 		this.phoneNumber = phoneNumber;

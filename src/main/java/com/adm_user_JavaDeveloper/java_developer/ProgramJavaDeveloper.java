@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
 import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
-import com.adm_user_JavaDeveloper.java_developer.model.Usuario;
+import com.adm_user_JavaDeveloper.java_developer.model.Usuarios;
 import com.adm_user_JavaDeveloper.java_developer.services.AdministradorServices;
 import com.adm_user_JavaDeveloper.java_developer.services.LoginSistemaService;
 import com.adm_user_JavaDeveloper.java_developer.services.SistemaDoAdmService;
@@ -55,7 +55,7 @@ public class ProgramJavaDeveloper {
 
 			LoginSistemaService.executeDbConnection(name, phoneNumber, userInputsenha, dataNascimento);
 
-			new Usuario(name, phoneNumber, userInputsenha, dataNascimento);
+			new Usuarios(name, phoneNumber, userInputsenha, dataNascimento);
 			System.out.println();
 			User();
 		} catch (Exception e) {
