@@ -1,4 +1,4 @@
-package com.adm_user_JavaDeveloper.java_developer.enums;
+package com.adm_user_JavaDeveloper.java_developer.services.enums;
 
 public enum Response {
     

@@ -3,6 +3,7 @@ package com.adm_user_JavaDeveloper.java_developer;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
@@ -23,6 +24,7 @@ public class ProgramJavaDeveloper {
 
 
 	public static void main(String[] args) throws Exception{
+		SpringApplication.run(ProgramJavaDeveloper.class, args);
 		try {
 			executeAdmOuUsuario();	
 		} catch (Exception e) {

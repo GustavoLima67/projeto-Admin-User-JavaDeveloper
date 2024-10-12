@@ -25,7 +25,7 @@ public class ControllerUsuario {
         return usuarioRepository.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("api/usuarios/{id}")
     public ResponseEntity<Usuarios> getClienteById(@PathVariable Long id) {
         Optional<Usuarios> users = usuarioRepository.findById(id);
         return users.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
