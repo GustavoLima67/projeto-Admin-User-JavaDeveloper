@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
 import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
@@ -16,6 +17,7 @@ import com.adm_user_JavaDeveloper.java_developer.services.SistemaDoUsuarioServic
 import com.adm_user_JavaDeveloper.java_developer.services.UsuarioService;
 
 @SpringBootApplication
+@EntityScan(basePackages = "com.adm_user_JavaDeveloper.java_developer.model")
 public class ProgramJavaDeveloper {
 	
 	

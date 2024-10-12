@@ -166,7 +166,7 @@ public class UsuarioService {
                     dataValida = true;
     
                     if (entidade.equals("user")) {
-                        user.setDate(dataNascimento);
+                        user.setDataNascimento(dataNascimento);
                     } else if (entidade.equals("adm")) {
                         adm.setDataNascimento(dataNascimento);
                     }

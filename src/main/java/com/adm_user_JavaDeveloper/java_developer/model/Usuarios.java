@@ -7,12 +7,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "usuario")
 public class Usuarios {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (nullable = false)
 	private Long id;
 	
@@ -74,17 +76,17 @@ public class Usuarios {
 		this.senha = senha;
 	}
 	
-	public LocalDate getDate() {
+	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDate(LocalDate dataNascimento) {
+	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 	
 	@Override
 	public String toString() {
-		return "Usuario:  nome: " + getName() + ", numero de telefone: " + getPhoneNumber() + ", senha: " + getSenha() + "data de nascimento: " + getDate();
+		return "Usuario:  nome: " + getName() + ", numero de telefone: " + getPhoneNumber() + ", senha: " + getSenha() + "data de nascimento: " + getDataNascimento();
 	}
 	
 	
