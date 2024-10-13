@@ -9,14 +9,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-@Entity
-@Table(name = "usuario")
+@Entity(name = "usuarios")
+@Table(name = "usuarios")
 public class Usuarios {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (nullable = false)
-	private Long id;
+	private Integer id;
 	
 	@Column (nullable = false)
 	private String name;
@@ -34,7 +34,7 @@ public class Usuarios {
 	public Usuarios() {
 	}
 
-	public Usuarios(Long id, String name, String phoneNumber, String senha, LocalDate dataNascimento) {
+	public Usuarios(Integer id, String name, String phoneNumber, String senha, LocalDate dataNascimento) {
 		super();
 		this.id = id;
 		this.name = name;
