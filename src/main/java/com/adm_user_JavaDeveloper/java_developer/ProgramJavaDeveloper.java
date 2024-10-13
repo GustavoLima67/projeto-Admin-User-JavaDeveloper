@@ -11,7 +11,7 @@ import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
 import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.model.Usuarios;
 import com.adm_user_JavaDeveloper.java_developer.services.AdministradorServices;
-import com.adm_user_JavaDeveloper.java_developer.services.LoginSistemaService;
+import com.adm_user_JavaDeveloper.java_developer.services.PrincipaisService;
 import com.adm_user_JavaDeveloper.java_developer.services.SistemaService;
 import com.adm_user_JavaDeveloper.java_developer.services.UsuarioService;
 
@@ -48,15 +48,15 @@ public class ProgramJavaDeveloper {
 	
 	public static void getUser() {
 		try {
-			String name = LoginSistemaService.pegarNome();
+			String name = PrincipaisService.pegarNome();
 
-			String phoneNumber = LoginSistemaService.pegarTelefone();
+			String phoneNumber = PrincipaisService.pegarTelefone();
 			
-			String userInputsenha = LoginSistemaService.pegarSenha();	
+			String userInputsenha = PrincipaisService.pegarSenha();	
 		
-			LocalDate dataNascimento = LoginSistemaService.pegarDataNascimento();
+			LocalDate dataNascimento = PrincipaisService.pegarDataNascimento();
 
-			LoginSistemaService.executeDbConnection(name, phoneNumber, userInputsenha, dataNascimento);
+			UsuarioService.executeDbConnection(name, phoneNumber, userInputsenha, dataNascimento);
 
 			new Usuarios(name, phoneNumber, userInputsenha, dataNascimento);
 			System.out.println();

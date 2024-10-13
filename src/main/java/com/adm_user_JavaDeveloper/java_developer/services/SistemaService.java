@@ -11,7 +11,7 @@ import java.util.Scanner;
 import com.adm_user_JavaDeveloper.java_developer.ProgramJavaDeveloper;
 import com.adm_user_JavaDeveloper.java_developer.db.DB;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
-import com.adm_user_JavaDeveloper.java_developer.repositories.interfaceAcaoLogar;
+import com.adm_user_JavaDeveloper.java_developer.repositories.interfaceAcaoRepository;
 import com.adm_user_JavaDeveloper.java_developer.services.enums.Response;
 
 public class SistemaService {
@@ -23,7 +23,7 @@ public class SistemaService {
 	private static ResultSet rs = null;
 
    
-    public static void logarNoSistema(interfaceAcaoLogar usuarioAcao, interfaceAcaoLogar administradorAcao) throws ExececaoPadrao {
+    public static void logarNoSistema(interfaceAcaoRepository usuarioAcao, interfaceAcaoRepository administradorAcao) throws ExececaoPadrao {
         System.out.print("Você é um usuário?: (s / n) ");
         char response = sc.next().charAt(0);
 
@@ -64,15 +64,15 @@ public class SistemaService {
 
     
     public static String pegarNomeAdm() {
-        return LoginSistemaService.pegarNome();
+        return PrincipaisService.pegarNome();
     }
 
     public static String pegarSenhaAdm() {
-        return LoginSistemaService.pegarSenha();
+        return PrincipaisService.pegarSenha();
     }
 
     public static LocalDate pegarDataAdm() {
-       return LoginSistemaService.pegarDataNascimento();
+       return PrincipaisService.pegarDataNascimento();
     }
 
     public static Connection executeDbConnection(String name, String passwordAdm, LocalDate dataNascimento) {

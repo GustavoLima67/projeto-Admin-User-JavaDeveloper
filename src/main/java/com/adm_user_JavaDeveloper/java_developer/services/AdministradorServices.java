@@ -14,7 +14,7 @@ import com.adm_user_JavaDeveloper.java_developer.db.DB;
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
 import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.model.Usuarios;
-import com.adm_user_JavaDeveloper.java_developer.repositories.interfaceAcaoLogar;
+import com.adm_user_JavaDeveloper.java_developer.repositories.interfaceAcaoRepository;
 import com.adm_user_JavaDeveloper.java_developer.security.Senha;
 import com.adm_user_JavaDeveloper.java_developer.services.enums.Response;
 
@@ -37,7 +37,7 @@ public class AdministradorServices{
         System.out.println();
     }
 
-    public static void getUserOuAdm(interfaceAcaoLogar userAcao, interfaceAcaoLogar admAcao) throws ExececaoPadrao {
+    public static void getUserOuAdm(interfaceAcaoRepository userAcao, interfaceAcaoRepository admAcao) throws ExececaoPadrao {
         System.out.println("O que deseja fazer?: (Escreva exatamente como esta abaixo) ");
         System.out.println("'User' | 'Adm'");
         System.out.print("Escreva: ");
