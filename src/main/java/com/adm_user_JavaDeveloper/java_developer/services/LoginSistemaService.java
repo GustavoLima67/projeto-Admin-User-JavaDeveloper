@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import com.adm_user_JavaDeveloper.java_developer.db.DB;
+import com.adm_user_JavaDeveloper.java_developer.security.Senha;
 import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
 import com.adm_user_JavaDeveloper.java_developer.validators.ValidPhoneNumber;
 
@@ -100,7 +101,7 @@ public class LoginSistemaService {
             st = conn.prepareStatement("INSERT INTO usuario (Nome, Senha, Telefone, DataNascimento)" + " VALUES" + " (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             st.setString(1, name);
             st.setString(2, userInputsenha);
-            st.setString(3, phoneNumber);
+            st.setString(3, Senha.hashSenha(userInputsenha));
             st.setDate(4, java.sql.Date.valueOf(dataNascimento)); 
 
             int linhasAfetadas = st.executeUpdate();

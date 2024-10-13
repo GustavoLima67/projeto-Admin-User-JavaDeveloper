@@ -12,8 +12,7 @@ import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.model.Usuarios;
 import com.adm_user_JavaDeveloper.java_developer.services.AdministradorServices;
 import com.adm_user_JavaDeveloper.java_developer.services.LoginSistemaService;
-import com.adm_user_JavaDeveloper.java_developer.services.SistemaDoAdmService;
-import com.adm_user_JavaDeveloper.java_developer.services.SistemaDoUsuarioService;
+import com.adm_user_JavaDeveloper.java_developer.services.SistemaService;
 import com.adm_user_JavaDeveloper.java_developer.services.UsuarioService;
 
 @SpringBootApplication
@@ -39,7 +38,7 @@ public class ProgramJavaDeveloper {
 		
 		try {
 			System.out.println("Bem-vindo");
-			SistemaDoUsuarioService.logarNoSistema(() -> SistemaDoUsuarioService.loginUser(), () -> SistemaDoUsuarioService.loginAdm());
+			SistemaService.logarNoSistema(() -> SistemaService.loginUser(), () -> SistemaService.loginAdm());
 
 		} catch (Exception e) {
 			throw new IllegalArgumentException(e.getMessage());
@@ -90,11 +89,11 @@ public class ProgramJavaDeveloper {
 	
 	public static void processAdm() throws ExececaoPadrao{
 		try {
-			String name = SistemaDoAdmService.pegarNomeAdm();
+			String name = SistemaService.pegarNomeAdm();
 
-			String passwordAdm = SistemaDoAdmService.pegarSenhaAdm();
+			String passwordAdm = SistemaService.pegarSenhaAdm();
 
-			LocalDate dataNascimento = SistemaDoAdmService.pegarDataAdm();
+			LocalDate dataNascimento = SistemaService.pegarDataAdm();
 
         	
             new Administrador(name, passwordAdm, dataNascimento);

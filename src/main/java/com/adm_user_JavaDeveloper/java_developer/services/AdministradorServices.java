@@ -15,6 +15,7 @@ import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
 import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.model.Usuarios;
 import com.adm_user_JavaDeveloper.java_developer.repositories.interfaceAcaoLogar;
+import com.adm_user_JavaDeveloper.java_developer.security.Senha;
 import com.adm_user_JavaDeveloper.java_developer.services.enums.Response;
 
 
@@ -91,9 +92,9 @@ public class AdministradorServices{
         try {
             conn = DB.getConnection();
 
-            st = conn.prepareStatement("UPDATE administrador SET Name = ?, Password = ?,  BirthDate = ? WHERE id = (SELECT MAX(id) FROM administrador) ");
+            st = conn.prepareStatement("UPDATE administrador SET Name = ?, Senha = ?,  DataNascimento = ? WHERE id = (SELECT MAX(id) FROM administrador) ");
             st.setString(1, upName);
-            st.setString(2, upPassw);
+            st.setString(2, Senha.hashSenha(upPassw));
             st.setDate(3, java.sql.Date.valueOf(procesDate));
 
             int linhasAtualizadas = st.executeUpdate();
