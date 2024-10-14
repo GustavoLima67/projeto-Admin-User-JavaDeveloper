@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Admin;
 import org.springframework.stereotype.Repository;
 
 import com.adm_user_JavaDeveloper.java_developer.ProgramJavaDeveloper;
@@ -58,9 +59,6 @@ public class AdministradorServices{
             if(user == null) {
                 System.out.print("Usuario não existe:\nCrie um novo usuario para prosseguir:\n");
                 ProgramJavaDeveloper.getUser();
-            }
-            else {
-                UsuarioService.Inform();
             }
         } catch (Exception e) {
             e.getMessage();
@@ -114,7 +112,7 @@ public class AdministradorServices{
         return conn;
     }
 
-    public static void informacoesAdm() {
+    public static void informacoesAdm(Administrador adm) {
         try {
             System.out.println();
             System.out.println("Exibir Administrador: ");

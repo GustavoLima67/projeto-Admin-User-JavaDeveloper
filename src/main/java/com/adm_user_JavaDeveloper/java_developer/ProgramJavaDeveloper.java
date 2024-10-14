@@ -21,11 +21,8 @@ import com.adm_user_JavaDeveloper.java_developer.services.UsuarioService;
 @EnableJpaRepositories(basePackages = "com.adm_user_JavaDeveloper.java_developer.repositories")
 public class ProgramJavaDeveloper {
 	
-	
-	
 	public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-
+	
 	public static void main(String[] args) throws Exception{
 		SpringApplication.run(ProgramJavaDeveloper.class, args);
 		try {
@@ -59,10 +56,12 @@ public class ProgramJavaDeveloper {
 			LocalDate dataNascimento = PrincipaisService.pegarDataNascimento();
 
 			UsuarioService.executeDbConnection(name, phoneNumber, userInputsenha, dataNascimento);
+			System.out.println();	
 
-			new Usuarios(name, phoneNumber, userInputsenha, dataNascimento);
-			System.out.println();
-			User();
+			Usuarios users = new Usuarios(name, phoneNumber, userInputsenha, dataNascimento);
+
+			User(users);
+
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -97,8 +96,9 @@ public class ProgramJavaDeveloper {
 
 			LocalDate dataNascimento = SistemaService.pegarDataAdm();
 
-        	
-            new Administrador(name, passwordAdm, dataNascimento);
+           	Administrador adm = new Administrador(name, passwordAdm, dataNascimento);
+
+			Adm(adm);
             
 			pegarFuncionalidadesAdm();
 		} catch (Exception e) {
@@ -126,9 +126,9 @@ public class ProgramJavaDeveloper {
 		} 
 	}
 	
-	public static void Adm() {
+	public static void Adm(Administrador adm) {
 		try {
-			AdministradorServices.informacoesAdm();
+			AdministradorServices.informacoesAdm(adm);
 			
 		} catch (Exception e) {
 			System.err.println("Erro de exibição"+ e.getMessage());
@@ -136,13 +136,14 @@ public class ProgramJavaDeveloper {
 		
 	}
 	
-	public static void User() {
+	public static Usuarios User(Usuarios users) {
 		try {
-			UsuarioService.Inform();
+			UsuarioService.Inform(users);
 			
 		} catch (Exception e) {
 			System.err.println("Erro de exibição" + e.getMessage());
 		}
+		return users;
 		
 	}
 }
