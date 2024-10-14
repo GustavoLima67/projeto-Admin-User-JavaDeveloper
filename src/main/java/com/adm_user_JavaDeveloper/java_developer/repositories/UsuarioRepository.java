@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.adm_user_JavaDeveloper.java_developer.model.Usuarios;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuarios, Long> {
+public interface UsuarioRepository extends JpaRepository<Usuarios, Integer> {
 }

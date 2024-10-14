@@ -2,7 +2,10 @@ package com.adm_user_JavaDeveloper.java_developer.model;
 
 import java.time.LocalDate;
 
+import com.adm_user_JavaDeveloper.java_developer.services.converter.LocalDateConverter;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,6 +30,7 @@ public class Administrador {
 	@Column(nullable = false)
 	private String senha;
 	
+	@Convert(converter = LocalDateConverter.class)
 	@Column(nullable = false)
 	private LocalDate dataNascimento;
 

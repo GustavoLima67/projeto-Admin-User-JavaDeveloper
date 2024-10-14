@@ -1,5 +1,6 @@
 package com.adm_user_JavaDeveloper.java_developer.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import jakarta.persistence.Column;
@@ -9,48 +10,55 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-@Entity(name = "usuarios")
+@Entity
 @Table(name = "usuarios")
-public class Usuarios {
+public class Usuarios implements Serializable  {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column (nullable = false)
 	private Integer id;
 	
-	@Column (nullable = false)
+	@Column (name = "Nome", nullable = false)
 	private String name;
 
-	@Column (nullable = false)
-	private String phoneNumber;
+	@Column (name = "Telefone", nullable = false, unique = true)
+	private String telefone;
 	
-	@Column (nullable = false)
+	@Column (name = "Senha",  nullable = false)
 	private String senha;
-	
-	@Column (nullable = false)
+
+	@Column(name = "Data_Nascimento", nullable = false)
 	private LocalDate dataNascimento;
 	
 	
 	public Usuarios() {
 	}
 
-	public Usuarios(Integer id, String name, String phoneNumber, String senha, LocalDate dataNascimento) {
+	public Usuarios(Integer id, String name, String telefone, String senha, LocalDate dataNascimento) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.phoneNumber = phoneNumber;
+		this.telefone = telefone;
 		this.senha = senha;
 		this.dataNascimento = dataNascimento;
 	}
 	
-	public Usuarios(String name, String phoneNumber, String senha, LocalDate dataNascimento) {
+	public Usuarios(String name, String telefone, String senha, LocalDate dataNascimento) {
 		super();
 		this.name = name;
-		this.phoneNumber = phoneNumber;
+		this.telefone = telefone;
 		this.senha = senha;
 		this.dataNascimento = dataNascimento;
 	}
+
+	public Integer getId() {
+		return id;
+	}
 	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -59,12 +67,12 @@ public class Usuarios {
 		this.name = name;
 	}
 
-	public String getPhoneNumber() {
-		return phoneNumber;
+	public String getTelefone() {
+		return telefone;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setTelegone(String telefone) {
+		this.telefone = telefone;
 	}
 	
 
@@ -86,11 +94,6 @@ public class Usuarios {
 	
 	@Override
 	public String toString() {
-		return "Usuario:  nome: " + getName() + ", numero de telefone: " + getPhoneNumber() + ", senha: " + getSenha() + "data de nascimento: " + getDataNascimento();
+		return "Usuario:  nome: " + getName() + ", numero de telefone: " + getTelefone() + ", senha: " + getSenha() + "data de nascimento: " + getDataNascimento();
 	}
-	
-	
-	
-	
-	
 }

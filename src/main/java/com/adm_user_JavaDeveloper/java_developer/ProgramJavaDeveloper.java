@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
 import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
@@ -15,8 +16,9 @@ import com.adm_user_JavaDeveloper.java_developer.services.PrincipaisService;
 import com.adm_user_JavaDeveloper.java_developer.services.SistemaService;
 import com.adm_user_JavaDeveloper.java_developer.services.UsuarioService;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.adm_user_JavaDeveloper.java_developer")
 @EntityScan(basePackages = "com.adm_user_JavaDeveloper.java_developer.model")
+@EnableJpaRepositories(basePackages = "com.adm_user_JavaDeveloper.java_developer.repositories")
 public class ProgramJavaDeveloper {
 	
 	

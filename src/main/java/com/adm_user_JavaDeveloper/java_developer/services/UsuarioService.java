@@ -118,7 +118,7 @@ public class UsuarioService {
 
         try {
             if (entidade.equals("user")) {
-                user.setPhoneNumber(phoneNumber);
+                user.setTelegone(phoneNumber);
             } else if (entidade.equals("adm")) {
                System.out.println("Adm não contem um numero para contato");
             }
