@@ -1,9 +1,10 @@
 package com.adm_user_JavaDeveloper.java_developer.validators;
+
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
-public class PasswordValidators {
-	private static final String PASSWORD_PATTERN = 
+public class Validation {
+    private static final String PASSWORD_PATTERN = 
 			 			"^(?=.*[0-9])" +          
 			            "(?=.*[a-z])" +           
 			            "(?=.*[A-Z])" +           
@@ -25,5 +26,14 @@ public class PasswordValidators {
 		System.out.println("3. Deve conter pelo menos uma letra minúscula.");
 		System.out.println("4. Deve conter pelo menos um número.");
 		System.out.println("5. Deve conter pelo menos um caractere especial (por exemplo: @, #, !, etc.).");
+	}
+
+    public static boolean isValidPhoneNumber(String phoneNumber) {
+	    String regex = "^\\+?[1-9]{1}[0-9]{1,3}?[1-9]{2}[0-9]{4,5}[0-9]{4}$";
+	    
+	    Pattern pattern = Pattern.compile(regex);
+	    Matcher matcher = pattern.matcher(phoneNumber);
+	    
+	    return matcher.matches();
 	}
 }

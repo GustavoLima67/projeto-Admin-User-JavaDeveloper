@@ -18,9 +18,7 @@ import com.adm_user_JavaDeveloper.java_developer.db.DB;
 import com.adm_user_JavaDeveloper.java_developer.model.Usuarios;
 import com.adm_user_JavaDeveloper.java_developer.security.Senha;
 import com.adm_user_JavaDeveloper.java_developer.services.enums.Response;
-import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
-import com.adm_user_JavaDeveloper.java_developer.validators.ValidPhoneNumber;
-
+import com.adm_user_JavaDeveloper.java_developer.validators.Validation;
 import com.twilio.rest.api.v2010.account.Message;
 
 import com.twilio.type.PhoneNumber;
@@ -106,7 +104,7 @@ public class UsuarioService {
             System.out.print("Entre com seu numero de Telefone: ");
             phoneNumber = sc.nextLine();
             
-            validPhone = ValidPhoneNumber.isValidPhoneNumber(phoneNumber);
+            validPhone = Validation.isValidPhoneNumber(phoneNumber);
             
             if (!validPhone) {
                 System.out.println("Numero de telefone invalido. Tente novamente.");
@@ -138,10 +136,10 @@ public class UsuarioService {
             System.out.print("Digite sua senha: ");
             userInputsenha = sc.nextLine();
             
-            senhaValida = PasswordValidators.validatePassword(userInputsenha);
+            senhaValida = Validation.validatePassword(userInputsenha);
 
             if (!senhaValida) {
-                PasswordValidators.senhaInvalida();
+                Validation.senhaInvalida();
             }
         } while (!senhaValida);
         System.out.println("Senha valida! acesso concedido!");

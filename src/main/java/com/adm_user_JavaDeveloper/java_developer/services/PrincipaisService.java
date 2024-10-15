@@ -6,8 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import com.adm_user_JavaDeveloper.java_developer.validators.PasswordValidators;
-import com.adm_user_JavaDeveloper.java_developer.validators.ValidPhoneNumber;
+import com.adm_user_JavaDeveloper.java_developer.validators.Validation;
 
 public class PrincipaisService {
 
@@ -30,7 +29,7 @@ public class PrincipaisService {
                 System.out.print("Entre com seu numero de Telefone: ");
                 phoneNumber = sc.nextLine();
                 
-                validPhone = ValidPhoneNumber.isValidPhoneNumber(phoneNumber);
+                validPhone = Validation.isValidPhoneNumber(phoneNumber);
                 
                 if (!validPhone) {
                     System.out.println("Numero de telefone invalido. Tente novamente.");
@@ -50,10 +49,10 @@ public class PrincipaisService {
             System.out.print("Entre com uma senha valida: ");
             userInputsenha = sc.nextLine();
             
-            senhaValida = PasswordValidators.validatePassword(userInputsenha);
+            senhaValida = Validation.validatePassword(userInputsenha);
 
             if (!senhaValida) {
-                PasswordValidators.senhaInvalida();
+                Validation.senhaInvalida();
             }
         }  while (!senhaValida);
         System.out.println("Senha valida! acesso concedido!");
