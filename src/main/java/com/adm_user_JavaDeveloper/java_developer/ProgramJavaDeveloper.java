@@ -22,18 +22,19 @@ import com.adm_user_JavaDeveloper.java_developer.services.UsuarioService;
 public class ProgramJavaDeveloper {
 	
 	public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	public static Usuarios users = new Usuarios();
 	
 	public static void main(String[] args) throws Exception{
 		SpringApplication.run(ProgramJavaDeveloper.class, args);
 		try {
-			executeAdmOuUsuario();	
+			process();	
 		} catch (Exception e) {
 			throw new ExececaoPadrao("Error na chamada da função!");
 		}
 		
 	}
 	
-	public static void executeAdmOuUsuario() throws ExececaoPadrao { 
+	public static void process() throws ExececaoPadrao { 
 		
 		try {
 			System.out.println("Bem-vindo");
@@ -58,18 +59,18 @@ public class ProgramJavaDeveloper {
 			UsuarioService.executeDbConnection(name, phoneNumber, userInputsenha, dataNascimento);
 			System.out.println();	
 
-			Usuarios users = new Usuarios(name, phoneNumber, userInputsenha, dataNascimento);
+			users = new Usuarios(name, phoneNumber, userInputsenha, dataNascimento);
 
-			User(users);
-
+			informUser();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
 
-	public static void UserFunc(){
+	public static void lerFuncionalidades(){
 		try {
 			String entidade = UsuarioService.procesarEntidade();
+
 			UsuarioService.pegarToString();
 
 			UsuarioService.lerOpcoes();
@@ -98,15 +99,15 @@ public class ProgramJavaDeveloper {
 
            	Administrador adm = new Administrador(name, passwordAdm, dataNascimento);
 
-			Adm(adm);
+			informAdm(adm);
             
-			pegarFuncionalidadesAdm();
+			lerFuncionalidadesAdm();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public static void pegarFuncionalidadesAdm() throws ExececaoPadrao{
+	public static void lerFuncionalidadesAdm() throws ExececaoPadrao{
 		
 		try {
 			String entidade = UsuarioService.procesarEntidade();
@@ -126,7 +127,7 @@ public class ProgramJavaDeveloper {
 		} 
 	}
 	
-	public static void Adm(Administrador adm) {
+	public static void informAdm(Administrador adm) {
 		try {
 			AdministradorServices.informacoesAdm(adm);
 			
@@ -136,14 +137,12 @@ public class ProgramJavaDeveloper {
 		
 	}
 	
-	public static Usuarios User(Usuarios users) {
+	public static void informUser() {
 		try {
 			UsuarioService.Inform(users);
 			
 		} catch (Exception e) {
 			System.err.println("Erro de exibição" + e.getMessage());
 		}
-		return users;
-		
 	}
 }

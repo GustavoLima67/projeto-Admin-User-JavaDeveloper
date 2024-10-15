@@ -227,10 +227,10 @@ public class UsuarioService {
         System.out.println(user.toString());
         System.out.println();
         System.out.println("Obrigador por se cadastrar " + user.getName() + "!. :)");
-		
+		exibir(user);
 	}
     
-    public static void exibir() {
+    public static void exibir(Usuarios user) {
         try {
 			char response;
 			do {
@@ -243,10 +243,10 @@ public class UsuarioService {
 
 				switch (userResponse) {
 					case YES:
-						ProgramJavaDeveloper.UserFunc();
+						ProgramJavaDeveloper.lerFuncionalidades();
 						break;
 					case NO: 
-						UsuarioService.Inform();
+						UsuarioService.Inform(user);
 						break;
 					default:
 						throw new ExececaoPadrao("Erro na sintexe!, digite da forma descrita (s/n)");

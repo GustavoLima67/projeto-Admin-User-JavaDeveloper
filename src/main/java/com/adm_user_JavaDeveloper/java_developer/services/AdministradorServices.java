@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Scanner;
 
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Admin;
 import org.springframework.stereotype.Repository;
 
 import com.adm_user_JavaDeveloper.java_developer.ProgramJavaDeveloper;
@@ -127,7 +126,7 @@ public class AdministradorServices{
         return;
     }
 
-    public static void exibirAdm() {
+    public static void exibirAdm(Administrador adm) {
         try {
             char response;
             do {
@@ -141,10 +140,10 @@ public class AdministradorServices{
 
                 switch (userResponse) {
                     case YES:
-                        ProgramJavaDeveloper.pegarFuncionalidadesAdm();
+                        ProgramJavaDeveloper.lerFuncionalidadesAdm();
                         break;
                     case NO:
-                        AdministradorServices.informacoesAdm();
+                        AdministradorServices.informacoesAdm(adm);
                     default:
                         throw new ExececaoPadrao("Erro na sintexe, digite da forma descrita (s / n): ");
                 }
