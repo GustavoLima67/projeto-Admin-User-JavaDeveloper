@@ -13,7 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name  = "admistrador")
+@Table(name  = "administrador")
 public class Administrador implements Serializable {
 
 	@ManyToOne

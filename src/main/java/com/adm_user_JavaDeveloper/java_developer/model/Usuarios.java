@@ -71,7 +71,7 @@ public class Usuarios implements Serializable  {
 		return telefone;
 	}
 
-	public void setTelegone(String telefone) {
+	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
 	

@@ -96,38 +96,6 @@ public class UsuarioService {
         return name;
     }
 
-    public static String procesarTelefone(String entidade) throws ExececaoPadrao{
-      
-        String phoneNumber;
-        boolean validPhone;
-        do {
-            System.out.print("Entre com seu numero de Telefone: ");
-            phoneNumber = sc.nextLine();
-            
-            validPhone = Validation.isValidPhoneNumber(phoneNumber);
-            
-            if (!validPhone) {
-                System.out.println("Numero de telefone invalido. Tente novamente.");
-            }
-        } while(!validPhone);
-            
-        Message message = Message.creator(new PhoneNumber(phoneNumber), new PhoneNumber("+12513021245"), "Numero de Telefone validado no 'Projeto JavaDeveloper' com sucesso!").create();
-        System.out.println("Mensagem Enviada com Sucesso!" + message.getSid());
-
-        try {
-            if (entidade.equals("user")) {
-                user.setTelegone(phoneNumber);
-            } else if (entidade.equals("adm")) {
-               System.out.println("Adm não contem um numero para contato");
-            }
-            st.setString(2, phoneNumber);
-            st.executeUpdate();
-        }catch (SQLException e) {
-            throw new ExececaoPadrao("Erro no cadastro do numero de telefone, tente novamente");
-        }
-        return phoneNumber;
-    }
-
     public static String procesarSenha(String entidade) {
         boolean senhaValida;
         String userInputsenha;
@@ -150,7 +118,7 @@ public class UsuarioService {
             } else if (entidade.equals("adm")) {
                 adm.setSenha(userInputsenha);
             }
-            st.setString(3, userInputsenha);
+            st.setString(2, userInputsenha);
             st.executeUpdate();
         } catch(SQLException e) {
             e.printStackTrace();
@@ -158,6 +126,40 @@ public class UsuarioService {
         return userInputsenha;
     }
 
+
+    public static String procesarTelefone(String entidade) throws ExececaoPadrao{
+      
+        String phoneNumber;
+        boolean validPhone;
+        do {
+            System.out.print("Entre com seu numero de Telefone: ");
+            phoneNumber = sc.nextLine();
+            
+            validPhone = Validation.isValidPhoneNumber(phoneNumber);
+            
+            if (!validPhone) {
+                System.out.println("Numero de telefone invalido. Tente novamente.");
+            }
+        } while(!validPhone);
+            
+        Message message = Message.creator(new PhoneNumber(phoneNumber), new PhoneNumber("+12513021245"), "Numero de Telefone validado no 'Projeto JavaDeveloper' com sucesso!").create();
+        System.out.println("Mensagem Enviada com Sucesso!" + message.getSid());
+
+        try {
+            if (entidade.equals("user")) {
+                user.setTelefone(phoneNumber);
+            } else if (entidade.equals("adm")) {
+               System.out.println("Adm não contem um numero para contato");
+            }
+            st.setString(3, phoneNumber);
+            st.executeUpdate();
+        }catch (SQLException e) {
+            throw new ExececaoPadrao("Erro no cadastro do numero de telefone, tente novamente");
+        }
+        return phoneNumber;
+    }
+
+ 
     public static LocalDate procesarData(String entidade) {
         boolean dataValida = false;
         LocalDate dataNascimento = null;
