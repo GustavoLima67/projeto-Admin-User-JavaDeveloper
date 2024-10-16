@@ -10,7 +10,7 @@ import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
 
 @RestController
 @RequestMapping
-public class ControllerAdministrador {
+public class AdmController {
     
 
     // CRIANDO API TEST - TESTANDO SE FOI CRIADO UM NOVO ADMINISTRADOR

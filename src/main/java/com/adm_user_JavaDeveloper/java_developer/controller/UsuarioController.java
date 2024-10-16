@@ -1,12 +1,11 @@
 package com.adm_user_JavaDeveloper.java_developer.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,8 +13,8 @@ import com.adm_user_JavaDeveloper.java_developer.model.Usuarios;
 import com.adm_user_JavaDeveloper.java_developer.repositories.UsuarioRepository;
 
 @RestController
-@RequestMapping("/usuarios")
-public class ControllerUsuario {
+@RequestMapping("/api/usuarios")
+public class UsuarioController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -25,10 +24,8 @@ public class ControllerUsuario {
         return usuarioRepository.findAll();
     }
 
-    @GetMapping("api/usuarios/{id}")
-    public ResponseEntity<Usuarios> getClienteById(@PathVariable Integer id) {
-        Optional<Usuarios> users = usuarioRepository.findById(id);
-        return users.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    @PostMapping
+    public Usuarios createUsuarios(@RequestBody Usuarios users) {
+        return usuarioRepository.save(users);
     }
-
 }
