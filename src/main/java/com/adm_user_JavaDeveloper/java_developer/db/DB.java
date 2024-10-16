@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
-import com.adm_user_JavaDeveloper.java_developer.exceptions.DbException;
+import com.adm_user_JavaDeveloper.java_developer.controller.exceptions.DbException;
 
 public class DB {
 

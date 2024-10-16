@@ -1,7 +1,7 @@
 package com.adm_user_JavaDeveloper.java_developer.services.mesage;
 
-import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
-import com.adm_user_JavaDeveloper.java_developer.security.TwilioAuthentication;
+import com.adm_user_JavaDeveloper.java_developer.controller.exceptions.ExececaoPadrao;
+import com.adm_user_JavaDeveloper.java_developer.controller.security.TwilioAuthentication;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;

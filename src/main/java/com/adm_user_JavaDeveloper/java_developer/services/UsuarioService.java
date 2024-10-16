@@ -11,14 +11,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
 import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.ProgramJavaDeveloper;
+import com.adm_user_JavaDeveloper.java_developer.controller.exceptions.ExececaoPadrao;
+import com.adm_user_JavaDeveloper.java_developer.controller.security.Senha;
+import com.adm_user_JavaDeveloper.java_developer.controller.validators.Validation;
 import com.adm_user_JavaDeveloper.java_developer.db.DB;
 import com.adm_user_JavaDeveloper.java_developer.model.Usuarios;
-import com.adm_user_JavaDeveloper.java_developer.security.Senha;
 import com.adm_user_JavaDeveloper.java_developer.services.enums.Response;
-import com.adm_user_JavaDeveloper.java_developer.validators.Validation;
 import com.twilio.rest.api.v2010.account.Message;
 
 import com.twilio.type.PhoneNumber;

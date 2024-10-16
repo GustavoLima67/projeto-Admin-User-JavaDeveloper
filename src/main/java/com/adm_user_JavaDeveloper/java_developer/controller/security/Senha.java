@@ -1,4 +1,4 @@
-package com.adm_user_JavaDeveloper.java_developer.security;
+package com.adm_user_JavaDeveloper.java_developer.controller.security;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

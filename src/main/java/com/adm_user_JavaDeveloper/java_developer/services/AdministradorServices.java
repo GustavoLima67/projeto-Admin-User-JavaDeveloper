@@ -10,12 +10,12 @@ import java.util.Scanner;
 import org.springframework.stereotype.Repository;
 
 import com.adm_user_JavaDeveloper.java_developer.ProgramJavaDeveloper;
+import com.adm_user_JavaDeveloper.java_developer.controller.exceptions.ExececaoPadrao;
+import com.adm_user_JavaDeveloper.java_developer.controller.security.Senha;
 import com.adm_user_JavaDeveloper.java_developer.db.DB;
-import com.adm_user_JavaDeveloper.java_developer.exceptions.ExececaoPadrao;
 import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.model.Usuarios;
 import com.adm_user_JavaDeveloper.java_developer.repositories.interfaceAcaoRepository;
-import com.adm_user_JavaDeveloper.java_developer.security.Senha;
 import com.adm_user_JavaDeveloper.java_developer.services.enums.Response;
 
 
