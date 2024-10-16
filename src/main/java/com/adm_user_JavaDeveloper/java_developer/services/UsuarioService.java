@@ -191,10 +191,10 @@ public class UsuarioService {
     public static Connection executeDbConnection(String name, String userInputsenha, String phoneNumber, LocalDate dataNascimento) {
         conn = DB.getConnection(); 
         try {
-            st = conn.prepareStatement("INSERT INTO usuarios (Nome, Senha, Telefone, Data_Nascimento)" + " VALUES" + " (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            st = conn.prepareStatement("INSERT INTO usuarios (nome, senha, telefone, data_nascimento)" + " VALUES" + " (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             st.setString(1, name);
             st.setString(2, userInputsenha);
-            st.setString(3, Senha.hashSenha(userInputsenha));
+            st.setString(3, Senha.hashSenha(phoneNumber));
             st.setDate(4, java.sql.Date.valueOf(dataNascimento)); 
 
             int linhasAfetadas = st.executeUpdate();
@@ -226,7 +226,7 @@ public class UsuarioService {
         System.out.println();
         System.out.println(user.toString());
         System.out.println();
-        System.out.println("Obrigador por se cadastrar " + user.getName() + "!. :)");
+       
 		exibir(user);
 	}
     
@@ -234,7 +234,7 @@ public class UsuarioService {
         try {
 			char response;
 			do {
-				System.out.println("Bem Vindo "+user.getName()+"!");
+				System.out.println("Bem Vindo "+user.getNome()+"!");
 				System.out.println("FUNCIONALIDADES DO USUARIO. ");
 				System.out.print("Quer mudar suas informações: (s/n) ");
 				response = sc.next().charAt(0);
@@ -246,7 +246,7 @@ public class UsuarioService {
 						ProgramJavaDeveloper.lerFuncionalidades();
 						break;
 					case NO: 
-						UsuarioService.Inform(user);
+                        System.out.println("Obrigador por se cadastrar " + user.getNome() + "!. :)");
 						break;
 					default:
 						throw new ExececaoPadrao("Erro na sintexe!, digite da forma descrita (s/n)");

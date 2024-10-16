@@ -10,7 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-@Entity
+@Entity(name = "usuarios")
 @Table(name = "usuarios")
 public class Usuarios implements Serializable  {
 
@@ -18,34 +18,34 @@ public class Usuarios implements Serializable  {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column (name = "Nome", nullable = false)
-	private String name;
+	@Column (name = "nome", nullable = false)
+	private String nome;
 
-	@Column (name = "Telefone", nullable = false, unique = true)
-	private String telefone;
-	
-	@Column (name = "Senha",  nullable = false)
+	@Column (name = "senha",  nullable = false)
 	private String senha;
 
-	@Column(name = "Data_Nascimento", nullable = false)
+	@Column (name = "telefone", length = 50)
+	private String telefone;
+	
+	@Column(name = "data_nascimento", nullable = false)
 	private LocalDate dataNascimento;
 	
 	
 	public Usuarios() {
 	}
 
-	public Usuarios(Integer id, String name, String telefone, String senha, LocalDate dataNascimento) {
+	public Usuarios(Integer id, String nome, String telefone, String senha, LocalDate dataNascimento) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.nome = nome;
 		this.telefone = telefone;
 		this.senha = senha;
 		this.dataNascimento = dataNascimento;
 	}
 	
-	public Usuarios(String name, String telefone, String senha, LocalDate dataNascimento) {
+	public Usuarios(String nome, String telefone, String senha, LocalDate dataNascimento) {
 		super();
-		this.name = name;
+		this.nome = nome;
 		this.telefone = telefone;
 		this.senha = senha;
 		this.dataNascimento = dataNascimento;
@@ -54,27 +54,15 @@ public class Usuarios implements Serializable  {
 	public Integer getId() {
 		return id;
 	}
-	
-	public void setId(Integer id) {
-		this.id = id;
+
+	public String getNome() {
+		return nome;
 	}
 
-	public String getName() {
-		return name;
+	public void setName(String nome) {
+		this.nome = nome;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getTelefone() {
-		return telefone;
-	}
-
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
-	
 
 	public String getSenha() {
 		return senha;
@@ -83,6 +71,15 @@ public class Usuarios implements Serializable  {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+	
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+	
 	
 	public LocalDate getDataNascimento() {
 		return dataNascimento;
@@ -94,6 +91,6 @@ public class Usuarios implements Serializable  {
 	
 	@Override
 	public String toString() {
-		return "Usuario:  nome: " + getName() + ", numero de telefone: " + getTelefone() + ", senha: " + getSenha() + "data de nascimento: " + getDataNascimento();
+		return "Usuario:  nome: " + getNome() + ", senha: " + getSenha() + ", numero de telefone: " + getTelefone() + ", data de nascimento: " + getDataNascimento();
 	}
 }

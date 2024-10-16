@@ -50,16 +50,17 @@ public class ProgramJavaDeveloper {
 		try {
 			String name = PrincipaisService.pegarNome();
 
-			String phoneNumber = PrincipaisService.pegarTelefone();
 			
 			String userInputsenha = PrincipaisService.pegarSenha();	
+
+			String phoneNumber = PrincipaisService.pegarTelefone();
 		
 			LocalDate dataNascimento = PrincipaisService.pegarDataNascimento();
 
-			UsuarioService.executeDbConnection(name, phoneNumber, userInputsenha, dataNascimento);
+			UsuarioService.executeDbConnection(name, userInputsenha, phoneNumber, dataNascimento);
 			System.out.println();	
 
-			users = new Usuarios(name, phoneNumber, userInputsenha, dataNascimento);
+			users = new Usuarios(name, userInputsenha, phoneNumber, dataNascimento);
 
 			informUser();
 		} catch (Exception e) {
@@ -75,7 +76,7 @@ public class ProgramJavaDeveloper {
 
 			UsuarioService.lerOpcoes();
 
-			UsuarioService.procesarNome(UsuarioService.procesarEntidade());
+			UsuarioService.procesarNome(entidade);
 	
 			UsuarioService.procesarTelefone(entidade);
 
