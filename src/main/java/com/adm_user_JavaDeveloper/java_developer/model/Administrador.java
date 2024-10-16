@@ -1,20 +1,20 @@
 package com.adm_user_JavaDeveloper.java_developer.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-import com.adm_user_JavaDeveloper.java_developer.services.converter.LocalDateConverter;
-
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
-public class Administrador {
+@Table(name  = "admistrador")
+public class Administrador implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "usuarios_id")
@@ -24,14 +24,13 @@ public class Administrador {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable = false)
+	@Column(name  = "Nome", nullable = false)
 	private String name;
 	
-	@Column(nullable = false)
+	@Column(name = "Senha", nullable = false)
 	private String senha;
 	
-	@Convert(converter = LocalDateConverter.class)
-	@Column(nullable = false)
+	@Column(name = "Data_Nascimento", nullable = false)
 	private LocalDate dataNascimento;
 
 	public Administrador() {
