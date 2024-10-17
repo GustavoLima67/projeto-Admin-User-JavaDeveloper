@@ -1,7 +1,6 @@
 *Projeto Finalizado - Dando sequência em outro repositório para implementação do React JS*
 - https://github.com/GustavoLima67/Java_And_React-Projeto_FullStack
-  
-#*A partir daqui darei uma carinha visual pra esse projeto que foi feito com tanto esforço*
+- A partir daqui darei uma carinha visual pra esse projeto que foi feito com tanto esforço
 
 # Projeto JavaDeveloper
 
