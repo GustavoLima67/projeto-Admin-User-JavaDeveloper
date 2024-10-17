@@ -89,7 +89,7 @@ public class AdministradorServices{
         try {
             conn = DB.getConnection();
 
-            st = conn.prepareStatement("UPDATE administrador SET Nome = ?, Senha = ?,  DataNascimento = ? WHERE id = (SELECT MAX(id) FROM administrador) ");
+            st = conn.prepareStatement("UPDATE administrador SET nome = ?, senha = ?,  data_nascimento = ? WHERE id = (SELECT MAX(id) FROM administrador) ");
             st.setString(1, upName);
             st.setString(2, Senha.hashSenha(upPassw));
             st.setDate(3, java.sql.Date.valueOf(procesDate));

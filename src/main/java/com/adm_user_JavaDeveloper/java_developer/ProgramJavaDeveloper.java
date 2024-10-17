@@ -50,7 +50,6 @@ public class ProgramJavaDeveloper {
 		try {
 			String name = PrincipaisService.pegarNome();
 
-			
 			String userInputsenha = PrincipaisService.pegarSenha();	
 
 			String phoneNumber = PrincipaisService.pegarTelefone();

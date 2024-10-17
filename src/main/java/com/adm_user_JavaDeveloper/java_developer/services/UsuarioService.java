@@ -193,8 +193,8 @@ public class UsuarioService {
         try {
             st = conn.prepareStatement("INSERT INTO usuarios (nome, senha, telefone, data_nascimento)" + " VALUES" + " (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             st.setString(1, name);
-            st.setString(2, userInputsenha);
-            st.setString(3, Senha.hashSenha(phoneNumber));
+            st.setString(2, Senha.hashSenha(userInputsenha));
+            st.setString(3, phoneNumber);
             st.setDate(4, java.sql.Date.valueOf(dataNascimento)); 
 
             int linhasAfetadas = st.executeUpdate();

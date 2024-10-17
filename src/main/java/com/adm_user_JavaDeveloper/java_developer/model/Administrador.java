@@ -12,7 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-@Entity
+@Entity(name = "administrador")
 @Table(name  = "administrador")
 public class Administrador implements Serializable {
 
@@ -24,13 +24,13 @@ public class Administrador implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name  = "Nome", nullable = false)
+	@Column(name  = "nome", nullable = false)
 	private String name;
 	
-	@Column(name = "Senha", nullable = false)
+	@Column(name = "senha", nullable = false)
 	private String senha;
 	
-	@Column(name = "Data_Nascimento", nullable = false)
+	@Column(name = "data_nascimento", nullable = false)
 	private LocalDate dataNascimento;
 
 	public Administrador() {
@@ -51,14 +51,13 @@ public class Administrador implements Serializable {
 		this.dataNascimento = dataNascimento;
 	}
 	
-	@Id
 	public Long getId() {
 		return id;
 	}
 	
 	public void setId(long id) {
 		this.id = id;
-		throw new UnsupportedOperationException("Unimplemented method 'setId'");
+		throw new UnsupportedOperationException("Método não implementado 'setId'");
 	}
 	
 	public String getName() {
