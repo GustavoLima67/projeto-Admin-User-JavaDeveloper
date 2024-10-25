@@ -126,7 +126,6 @@ public class UsuarioService {
         return userInputsenha;
     }
 
-
     public static String procesarTelefone(String entidade) throws ExececaoPadrao{
       
         String phoneNumber;
@@ -159,7 +158,6 @@ public class UsuarioService {
         return phoneNumber;
     }
 
- 
     public static LocalDate procesarData(String entidade) {
         boolean dataValida = false;
         LocalDate dataNascimento = null;

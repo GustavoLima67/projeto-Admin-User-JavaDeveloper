@@ -7,9 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
-
 @RestController
-@RequestMapping
+@RequestMapping("/api/administrador")
 public class AdmController {
     
 
@@ -18,4 +17,6 @@ public class AdmController {
         adm.setId(1L); 
         return ResponseEntity.status(HttpStatus.SC_CREATED).body(adm);
     }
+
+    
 }
