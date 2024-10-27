@@ -55,6 +55,7 @@ public class PrincipaisService {
                 Validation.senhaInvalida();
             }
         }  while (!senhaValida);
+        sc.nextLine();
         System.out.println("Senha valida! acesso concedido!");
         
         return userInputsenha;
@@ -64,6 +65,7 @@ public class PrincipaisService {
         LocalDate dataNascimento = null;
         boolean dataValida = false;
 		
+        sc.nextLine();
         if(dataNascimento == null) {
             do {
                 System.out.print("Entre com sua data de nascimento: (dd/MM/yyyy) ");

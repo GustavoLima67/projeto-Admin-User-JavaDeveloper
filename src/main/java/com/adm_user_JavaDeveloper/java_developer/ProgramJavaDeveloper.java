@@ -23,6 +23,7 @@ public class ProgramJavaDeveloper {
 	
 	public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	public static Usuarios users = new Usuarios();
+	public static Administrador adm = new Administrador();
 	
 	public static void main(String[] args) throws Exception{
 		SpringApplication.run(ProgramJavaDeveloper.class, args);
@@ -97,9 +98,9 @@ public class ProgramJavaDeveloper {
 
 			LocalDate dataNascimento = SistemaService.pegarDataAdm();
 
-           	Administrador adm = new Administrador(name, passwordAdm, dataNascimento);
+           	adm = new Administrador(name, passwordAdm, dataNascimento);
 
-			informAdm(adm);
+			informAdm();
             
 			lerFuncionalidadesAdm();
 		} catch (Exception e) {
@@ -127,7 +128,7 @@ public class ProgramJavaDeveloper {
 		} 
 	}
 	
-	public static void informAdm(Administrador adm) {
+	public static void informAdm() {
 		try {
 			AdministradorServices.informacoesAdm(adm);
 			
