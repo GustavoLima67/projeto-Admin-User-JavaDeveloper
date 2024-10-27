@@ -217,23 +217,19 @@ public class UsuarioService {
         
         return conn; 
     }
-
-    public static void Inform(Usuarios user) {
+    
+    public static void exibir(Usuarios user, String entidade) {
         System.out.println();
         System.out.println("Exibir Usuário: ");
         System.out.println();
         System.out.println(user.toString());
         System.out.println();
        
-		exibir(user);
-	}
-    
-    public static void exibir(Usuarios user) {
+        char response;
         try {
-			char response;
 			do {
 				System.out.println("Bem Vindo "+user.getNome()+"!");
-				System.out.println("FUNCIONALIDADES DO USUARIO. ");
+				System.out.println("FUNCIONALIDADES DO "+entidade.toUpperCase()+". ");
 				System.out.print("Quer mudar suas informações: (s/n) ");
 				response = sc.next().charAt(0);
 				
@@ -245,6 +241,7 @@ public class UsuarioService {
 						break;
 					case NO: 
                         System.out.println("Obrigador por se cadastrar " + user.getNome() + "!. :)");
+                        System.exit(response);
 						break;
 					default:
 						throw new ExececaoPadrao("Erro na sintexe!, digite da forma descrita (s/n)");

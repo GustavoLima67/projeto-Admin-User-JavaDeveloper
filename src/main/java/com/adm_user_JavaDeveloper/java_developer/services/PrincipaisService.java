@@ -57,7 +57,7 @@ public class PrincipaisService {
         }  while (!senhaValida);
         sc.nextLine();
         System.out.println("Senha valida! acesso concedido!");
-        
+
         return userInputsenha;
     } 
 

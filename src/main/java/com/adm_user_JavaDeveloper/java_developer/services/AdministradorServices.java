@@ -118,12 +118,11 @@ public class AdministradorServices{
             System.out.println();
             System.out.println(adm.toString());
             System.out.println();
-            System.out.println("Obrigado pelo esforço administrador " +adm.getName() + "!. :)");
+            System.out.println("Obrigado pelo dia administrador " +adm.getName() + "!. :)");
             
         } catch (Exception e) {
             System.err.println("Erro em exibir o Adm. " + e.getMessage());
         }
-        return;
     }
 
     public static void exibirAdm(Administrador adm) {

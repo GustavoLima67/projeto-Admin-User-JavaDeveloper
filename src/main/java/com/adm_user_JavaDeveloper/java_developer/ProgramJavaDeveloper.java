@@ -97,6 +97,7 @@ public class ProgramJavaDeveloper {
 			String passwordAdm = SistemaService.pegarSenhaAdm();
 
 			LocalDate dataNascimento = SistemaService.pegarDataAdm();
+			System.out.println();
 
            	adm = new Administrador(name, passwordAdm, dataNascimento);
 
@@ -139,8 +140,9 @@ public class ProgramJavaDeveloper {
 	}
 	
 	public static void informUser() {
+		String entidade = UsuarioService.procesarEntidade();
 		try {
-			UsuarioService.Inform(users);
+			UsuarioService.exibir(users, entidade);
 			
 		} catch (Exception e) {
 			System.err.println("Erro de exibição" + e.getMessage());
