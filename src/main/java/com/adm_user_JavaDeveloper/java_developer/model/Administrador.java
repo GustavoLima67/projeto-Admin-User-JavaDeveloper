@@ -54,11 +54,11 @@ public class Administrador implements Serializable {
 		throw new UnsupportedOperationException("Método não implementado 'setId'");
 	}
 	
-	public String getName() {
+	public String getNome() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setNome(String name) {
 		this.name = name;
 	}
 
@@ -80,7 +80,7 @@ public class Administrador implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Administrador: Nome: " + getName() + ", Senha: " + getSenha() + "Data de nascimento: " + getDataNascimento();
+		return "Administrador: Nome: " + getNome() + ", Senha: " + getSenha() + "Data de nascimento: " + getDataNascimento();
 	}
 
 

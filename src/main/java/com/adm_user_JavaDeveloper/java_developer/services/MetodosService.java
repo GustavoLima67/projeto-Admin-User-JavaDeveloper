@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,7 +42,6 @@ public class MetodosService {
     }
 
     public static void pegarToString(String entidade) {
-
         if (entidade.toLowerCase().equals("adm")) {
             System.out.println();
             System.out.println(adm.toString());
@@ -55,66 +53,19 @@ public class MetodosService {
         }
         
     }
-
-    public static String mudarPropiedades(String entidade) throws ExececaoPadrao {
-        System.out.print("O que deseja mudar: (nome / telefone / senha / dataNascimento) ");
-        String mudar = sc.nextLine();
-    
-        switch (mudar.toLowerCase()) {
-            case "nome":
-                procesarNome(entidade);
-                break;
-            case "telefone": 
-                procesarTelefone();
-                break;
-            case "senha":
-                procesarSenha();
-                break;
-            case "dataNascimento":
-                procesarData();
-                break;
-            default:
-                throw new ExececaoPadrao("Erro ao chamar as funções");
-                
-        }
-
-        return mudar;
-    }
     
     public static String procesarNome(String entidade) {
         System.out.print("Entre com o nome desejado: ");
         String name = sc.nextLine();
-     
-        try {
-            if(entidade.toLowerCase().equals("user")) {
-                user.setName(name);
-            }
-            else if(entidade.toLowerCase().equals("adm")) {
-                adm.setName(name);
-            } 
-            st.setString(1, name);
-            st.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         return name;
     }
 
-    public static String pegarNome() {
-        System.out.print("Entre com o nome desejado");
-        String name = sc.nextLine();
-
-        return name;
-    
-    }
-
-
-    public static String procesarSenha() {
+    public static String procesarSenha(String entidade) {
         boolean senhaValida;
         String userInputsenha;
         sc.nextLine();
         do {
-            System.out.print("Digite sua senha: ");
+            System.out.print("Digite uma senha válida: ");
             userInputsenha = sc.nextLine();
             
             senhaValida = Validation.validatePassword(userInputsenha);
@@ -124,18 +75,6 @@ public class MetodosService {
             }
         } while (!senhaValida);
         System.out.println("Senha valida! acesso concedido!");
-
-        try {
-            if (procesarEntidade().equals("user")) {
-                user.setSenha(userInputsenha);
-            } else if (procesarEntidade().equals("adm")) {
-                adm.setSenha(userInputsenha);
-            }
-            st.setString(2, userInputsenha);
-            st.executeUpdate();
-        } catch(SQLException e) {
-            e.printStackTrace();
-        }
         return userInputsenha;
     }
 
@@ -155,18 +94,7 @@ public class MetodosService {
             
         Message message = Message.creator(new PhoneNumber(phoneNumber), new PhoneNumber("+12513021245"), "Numero de Telefone validado no 'Projeto JavaDeveloper' com sucesso!").create();
         System.out.println("Mensagem Enviada com Sucesso!" + message.getSid());
-
-        try {
-            if (procesarEntidade().equals("user")) {
-                user.setTelefone(phoneNumber);
-            } else if (procesarEntidade().equals("adm")) {
-               System.out.println("Adm não contem um numero para contato");
-            }
-            st.setString(3, phoneNumber);
-            st.executeUpdate();
-        }catch (SQLException e) {
-            throw new ExececaoPadrao("Erro no cadastro do numero de telefone, tente novamente");
-        }
+        
         return phoneNumber;
     }
 
@@ -174,214 +102,73 @@ public class MetodosService {
         boolean dataValida = false;
         LocalDate dataNascimento = null;
 
-
         sc.nextLine();
         if(dataNascimento == null) {
             do {
                 System.out.print("Entre com sua data de nascimento: (dd/MM/yyyy) ");
                 String dataNasciInput = sc.nextLine();
-                try {
-                    dataNascimento = LocalDate.parse(dataNasciInput, formatter);
-                    dataValida = true;
-    
-                    if (procesarEntidade().equals("user")) {
-                        user.setDataNascimento(dataNascimento);
-                    } else if (procesarEntidade().equals("adm")) {
-                        adm.setDataNascimento(dataNascimento);
-                    }
-                    st.setDate(4, java.sql.Date.valueOf(dataNascimento));
-                    st.executeUpdate();
-                } catch(DateTimeParseException |  SQLException e) {
-                    System.out.println("Data inválida, tente novamente" );
-                    e.printStackTrace();
-                }
+               
+                dataNascimento = LocalDate.parse(dataNasciInput, formatter);
+                dataValida = true;
+
             } while(!dataValida);
         } 
         return dataNascimento;
     }
 
-    public static Connection executeDbConnection(String name, String userInputsenha, String phoneNumber, LocalDate dataNascimento) {
-        conn = DB.getConnection(); 
-        try {
-            st = conn.prepareStatement("INSERT INTO usuarios (nome, senha, telefone, data_nascimento)" + " VALUES" + " (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            st.setString(1, name);
-            st.setString(2, Senha.hashSenha(userInputsenha));
-            st.setString(3, phoneNumber);
-            st.setDate(4, java.sql.Date.valueOf(dataNascimento)); 
-
-            int linhasAfetadas = st.executeUpdate();
-        
-            if (linhasAfetadas > 0) {
-                rs = st.getGeneratedKeys();
-                while(rs.next()) {
-                    int id = rs.getInt(1);
-                    System.out.println("Usuario inserido com sucesso! Id: " + id);
-                }
-            } else {
-                System.out.println("Sem nenhuma linha afetada");
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            DB.closeStatement(st);
-            DB.closeResultSet(rs);
-            DB.closeConnection();
-        }
-        
-        return conn; 
-    }
-    
-    public static void exibir(Usuarios user) {
-        
-        String entidade = procesarEntidade();
-
-        pegarToString(entidade);
-
-        char response;
-        try {
-			do {
-				System.out.println("Bem Vindo "+user.getNome()+"!");
-				System.out.println("FUNCIONALIDADES DO "+entidade.toUpperCase()+". ");
-				System.out.print("Quer mudar suas informações: (s/n) ");
-				response = sc.next().charAt(0);
-				
-				Response userResponse = Response.fromChar(response);
-             
-                try {
-                    switch (userResponse) {
-                        case YES:
-                            ProgramJavaDeveloper.lerFuncionalidadesDeUsuarios();
-                            break;
-                        case NO: 
-                            System.out.println("Obrigador por se cadastrar " + user.getNome() + "!. :)");
-                            System.exit(response);
-                            break;
-                        default:
-                            throw new ExececaoPadrao("Erro na sintexe!, digite da forma descrita (s/n)");
-                    } 
-                } catch (Exception e) {
-                    System.out.println("Erro em exibir o Adm");
-                }
-            
-			} while(response != 'n');
-			
-			
-		} catch (Exception e) {
-			System.err.println("Erro de exibição" + e.getMessage());
-		}
-    }
- 
-    public static void exibirModer(Administrador adm) {
-    
-        System.out.println();
-        System.out.println("Exibir Administrador: ");
-        System.out.println();
-        System.out.println(adm.toString());
-        System.out.println();
-        String no = "Obrigado pelo dia administrador " +adm.getName() + "!. :)";
-        System.out.println(no);
-
-        try {
-            char response;
-            do {
-                System.out.println("Bem Vindo "+adm.getName()+"!");
-                System.out.println("FUNCIONALIDADES DO ADMINSTRADOR. ");
-                System.out.print("Quer mudar suas informações: (y/n) ");
-                sc.nextLine();
-                response = sc.next().charAt(0);
-                
-                Response userResponse = Response.fromChar(response);
-
-                switch (userResponse) {
-                    case YES:
-                        ProgramJavaDeveloper.lerFuncionalidadesAdm();
-                        break;
-                    case NO:
-                        System.out.println(no);
-                    default:
-                        throw new ExececaoPadrao("Erro na sintexe, digite da forma descrita (s / n): ");
-                }
-
-            } while(response != 'n');
-        } catch (Exception e) {
-            System.err.println("Erro de exibição"+ e.getMessage());
+    public static void exibir(Usuarios user, Administrador adm, String entidade) {
+     
+        if (entidade.toLowerCase().equals("adm")) {
+            System.out.println("Novo moderador "+adm.getNome()+" cadastrado com sucesso!");
+            System.out.println();
+            System.out.println(adm.toString());
+            System.out.println();
+        }else if (entidade.toLowerCase().equals("user")) {
+            System.out.println("Usuário "+user.getNome()+" cadastrado com sucesso!");
+            System.out.println();
+            System.out.println(user.toString());
+            System.out.println();
         }
     }
 
-    public static void getUserOuAdm(interfaceAcaoRepository userAcao, interfaceAcaoRepository admAcao) throws ExececaoPadrao {
-        System.out.println("O que deseja fazer?: (Escreva exatamente como esta abaixo) ");
-        System.out.println("'User' | 'Adm'");
-        System.out.print("Escreva: ");
-        String response = sc.nextLine();
+    public static void exibirQuantUsuarios(interfaceAcaoRepository usuarioAcao, interfaceAcaoRepository administradorAcao) throws ExececaoPadrao {
+        System.out.print("Gostaria de visualizar a quantidade de usuários cadastrados?: (s / n) ");
+        char response = sc.next().charAt(0);
 
-        String entidade = procesarEntidade();
+        Response userResponse = Response.fromChar(response);
 
-
-        if (response.equals("User")) {
-            procesarIqualUsuario();
+        switch (userResponse) {
+            case YES:
+                usuarioAcao.executar();
+                break;
+            case NO:
+                administradorAcao.executar();
+                break;
+            default:
+                throw new ExececaoPadrao("Erro na sintaxe, digite da forma descrita (s/n). ");
         }
-        if (response.equals("Adm")) {
-            procesarIgualAdm(entidade);
-        }
-        
     }
 
-    public static void procesarIqualUsuario() {
+    public static void procesarUsuario() {
         try {
             if(user == null) {
                 System.out.print("Usuario não existe:\nCrie um novo usuario para prosseguir:\n");
-                ProgramJavaDeveloper.getUser();
+                ProgramJavaDeveloper.lerUsuarios();
             }
         } catch (Exception e) {
             e.getMessage();
         }
     }
 
-    public static void procesarIgualAdm(String entidade) {
-        System.out.print("O que deseja mudar: (nome / senha / dataNascimento) ");
-        String mudar = sc.nextLine();
-
-        switch (mudar.toLowerCase()) {
-            case "nome":
-                procesarNome(entidade);  
-                break;
-            case "senha":
-                procesarSenha(); 
-                break;
-            case "datanascimento":
-                procesarData();  
-                break;
-            default:
-                System.out.println("Opção inválida.");
-                break;
-        }
-    }
-
-    public static Connection procesarConnectionSQL(String upName, String upPassw, LocalDate procesDate){
+    public static void procesarAdm() {
         try {
-            conn = DB.getConnection();
-
-            st = conn.prepareStatement("UPDATE administrador SET nome = ?, senha = ?,  data_nascimento = ? WHERE id = (SELECT MAX(id) FROM administrador) ");
-            st.setString(1, upName);
-            st.setString(2, Senha.hashSenha(upPassw));
-            st.setDate(3, java.sql.Date.valueOf(procesDate));
-
-            int linhasAtualizadas = st.executeUpdate();
-            if (linhasAtualizadas > 0) {
-                System.out.println("Tabela atualizada com sucesso");
+            if(adm == null) {
+                System.out.print("Adm não existe:\nCrie um novo usuario para prosseguir:\n");
+                ProgramJavaDeveloper.lerUsuarios();
             }
-            else {
-                System.out.println("Nenhuma linha afetada");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }finally {
-            DB.closeResultSet(rs);
-            DB.closeResultSet(rs);
-            DB.closeConnection();
+        } catch (Exception e) {
+            e.getMessage();
         }
-        return conn;
     }
 
     public static Connection executeDbConnectionAdm(String name, String passwordAdm, LocalDate dataNascimento) {
@@ -415,6 +202,38 @@ public class MetodosService {
             DB.closeConnection();
         }
         return conn;
+    }
+
+    public static Connection executeDbConnection(String name, String userInputsenha, String phoneNumber, LocalDate dataNascimento) {
+        conn = DB.getConnection(); 
+        try {
+            st = conn.prepareStatement("INSERT INTO usuarios (nome, senha, telefone, data_nascimento)" + " VALUES" + " (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            st.setString(1, name);
+            st.setString(2, Senha.hashSenha(userInputsenha));
+            st.setString(3, phoneNumber);
+            st.setDate(4, java.sql.Date.valueOf(dataNascimento)); 
+
+            int linhasAfetadas = st.executeUpdate();
+        
+            if (linhasAfetadas > 0) {
+                rs = st.getGeneratedKeys();
+                while(rs.next()) {
+                    int id = rs.getInt(1);
+                    System.out.println("Usuario inserido com sucesso! Id: " + id);
+                }
+            } else {
+                System.out.println("Sem nenhuma linha afetada");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
+            DB.closeConnection();
+        }
+        
+        return conn; 
     }
 
 }

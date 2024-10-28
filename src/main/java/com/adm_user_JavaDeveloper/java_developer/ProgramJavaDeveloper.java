@@ -45,11 +45,12 @@ public class ProgramJavaDeveloper {
 		
 	}
 	
-	public static void getUser() {
+	public static void lerUsuarios() {
 		try {
-			String name = MetodosService.pegarNome();
+			String entidade = MetodosService.procesarEntidade();
+			String name = MetodosService.procesarNome(entidade);
 
-			String userInputsenha = MetodosService.procesarSenha();	
+			String userInputsenha = MetodosService.procesarSenha(entidade);	
 
 			String phoneNumber = MetodosService.procesarTelefone();
 		
@@ -60,7 +61,7 @@ public class ProgramJavaDeveloper {
 
 			users = new Usuarios(name, userInputsenha, phoneNumber, dataNascimento);
 
-			informUser();
+			inform();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -72,13 +73,11 @@ public class ProgramJavaDeveloper {
 
 			MetodosService.pegarToString(entidade);
 
-			MetodosService.mudarPropiedades(entidade);
-
 			MetodosService.procesarNome(entidade);
 	
 			MetodosService.procesarTelefone();
 
-			MetodosService.procesarSenha();
+			MetodosService.procesarSenha(entidade);
 
 			MetodosService.procesarData();
 			
@@ -88,12 +87,13 @@ public class ProgramJavaDeveloper {
 		}
 	}
 	
-	public static void processAdm() throws ExececaoPadrao{
+	public static void lerAdministrador() throws ExececaoPadrao{
 		try {
+			String entidade = MetodosService.procesarEntidade();
 
-			String name = MetodosService.pegarNome();
+			String name = MetodosService.procesarNome(entidade);
 
-			String passwordAdm = MetodosService.procesarSenha();
+			String passwordAdm = MetodosService.procesarSenha(entidade);
 
 			LocalDate dataNascimento = MetodosService.procesarData();
 			
@@ -101,7 +101,7 @@ public class ProgramJavaDeveloper {
 
            	adm = new Administrador(name, passwordAdm, dataNascimento);
 
-			informAdm();
+			inform();
 			lerFuncionalidadesAdm();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -115,13 +115,8 @@ public class ProgramJavaDeveloper {
 			
 			MetodosService.pegarToString(entidade);
 
-			MetodosService.getUserOuAdm(() ->  MetodosService.procesarIqualUsuario(), () -> MetodosService.procesarIgualAdm(entidade));
+			SistemaService.logarNoSistema(() -> MetodosService.procesarUsuario(), () -> MetodosService.procesarAdm());
 
-			String upName = MetodosService.procesarNome(entidade);
-			String upPassw = MetodosService.procesarSenha();
-			LocalDate procesDate = MetodosService.procesarData();
-
-			MetodosService.procesarConnectionSQL(upName, upPassw, procesDate);
 			
 		}catch (Exception e) {
 			throw new IllegalArgumentException(e.getMessage());
@@ -129,22 +124,12 @@ public class ProgramJavaDeveloper {
 		} 
 	}
 	
-	public static void informAdm() {
+	public static void inform() {
+		String entidade = MetodosService.procesarEntidade();
 		try {
-			MetodosService.exibirModer(adm);
-			
+			MetodosService.exibir(users, adm, entidade);
 		} catch (Exception e) {
 			System.err.println("Erro de exibição"+ e.getMessage());
-		}
-		
-	}
-	
-	public static void informUser() {
-		try {
-			MetodosService.exibir(users);
-			
-		} catch (Exception e) {
-			System.err.println("Erro de exibição" + e.getMessage());
 		}
 	}
 }

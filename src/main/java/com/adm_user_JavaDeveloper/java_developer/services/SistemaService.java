@@ -33,7 +33,7 @@ public class SistemaService {
         try {
             System.out.println("Bem-vindo! Entre com suas informações para cadastro.");
             System.out.println();
-            ProgramJavaDeveloper.getUser();
+            ProgramJavaDeveloper.lerUsuarios();
         } catch(IllegalAccessError e) {
             e.printStackTrace();
         }
@@ -43,7 +43,7 @@ public class SistemaService {
         try {
             System.out.println("Bem-vindo! Entre com suas informações para cadastro.");
             System.out.println();
-            ProgramJavaDeveloper.processAdm();
+            ProgramJavaDeveloper.lerAdministrador();
         } catch (IllegalAccessError | ExececaoPadrao e) {
             e.getMessage();
             e.printStackTrace();;
