@@ -20,7 +20,7 @@ public class UsuarioController {
     private UsuarioRepository usuarioRepository;
 
     @GetMapping
-    public List<Usuarios> getAllUsuarios() {
+    public List<Usuarios> pegarTodosUsuarios() {
         return usuarioRepository.findAll();
     }
 

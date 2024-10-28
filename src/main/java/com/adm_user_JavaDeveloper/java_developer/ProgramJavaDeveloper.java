@@ -11,6 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import com.adm_user_JavaDeveloper.java_developer.controller.AdmController;
+import com.adm_user_JavaDeveloper.java_developer.controller.UsuarioController;
 import com.adm_user_JavaDeveloper.java_developer.controller.exceptions.ExececaoPadrao;
 import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.model.Usuarios;
@@ -25,6 +27,8 @@ public class ProgramJavaDeveloper {
 	public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	public static Usuarios users = new Usuarios();
 	public static Administrador adm = new Administrador();
+	public static AdmController admController;
+	public static UsuarioController usuarioController;
 
 	public static Connection conn;
 	public static PreparedStatement st;
@@ -115,7 +119,7 @@ public class ProgramJavaDeveloper {
 			
 			MetodosService.pegarToString(entidade);
 
-			SistemaService.logarNoSistema(() -> MetodosService.procesarUsuario(), () -> MetodosService.procesarAdm());
+			SistemaService.logarNoSistema(() -> MetodosService.procesarUsuario(usuarioController), () -> MetodosService.procesarAdm(admController));
 
 			
 		}catch (Exception e) {

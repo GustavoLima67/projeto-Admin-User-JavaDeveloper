@@ -1,5 +1,6 @@
 package com.adm_user_JavaDeveloper.java_developer.services;
 
+import java.util.List;
 import java.util.Scanner;
 
 import java.time.LocalDate;
@@ -12,6 +13,8 @@ import java.sql.Statement;
 
 import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.ProgramJavaDeveloper;
+import com.adm_user_JavaDeveloper.java_developer.controller.AdmController;
+import com.adm_user_JavaDeveloper.java_developer.controller.UsuarioController;
 import com.adm_user_JavaDeveloper.java_developer.controller.exceptions.ExececaoPadrao;
 import com.adm_user_JavaDeveloper.java_developer.controller.security.Senha;
 import com.adm_user_JavaDeveloper.java_developer.controller.validators.Validation;
@@ -149,25 +152,37 @@ public class MetodosService {
         }
     }
 
-    public static void procesarUsuario() {
+    public static void procesarUsuario(UsuarioController userController) {
+        List<Usuarios> usuarios = userController.pegarTodosUsuarios();
+
         try {
-            if(user == null) {
+            if(usuarios.isEmpty()) {
                 System.out.print("Usuario não existe:\nCrie um novo usuario para prosseguir:\n");
                 ProgramJavaDeveloper.lerUsuarios();
             }
+            else {
+                System.out.println("Usuários cadastrados:");
+                usuarios.forEach(user -> System.out.println("ID: " + user.getId() + ", Nome: " + user.getNome()));
+            }
         } catch (Exception e) {
-            e.getMessage();
+           System.out.println("Erro ao Listar os usuários" +e.getMessage());
         }
     }
 
-    public static void procesarAdm() {
+    public static void procesarAdm(AdmController admController) {
+        List<Administrador> admConList = admController.pegarTodosAdm();
+
         try {
-            if(adm == null) {
-                System.out.print("Adm não existe:\nCrie um novo usuario para prosseguir:\n");
-                ProgramJavaDeveloper.lerUsuarios();
+            if(admConList.isEmpty()) {
+                System.out.print("Administrador não existe:\nCrie um novo usuario para prosseguir:\n");
+                ProgramJavaDeveloper.lerAdministrador();
+            }
+            else {
+                System.out.println("Moderadores cadastrados:");
+                admConList.forEach(adm -> System.out.println("ID: " + adm.getId() + ", Nome: " + adm.getNome()));
             }
         } catch (Exception e) {
-            e.getMessage();
+           System.out.println("Erro ao Listar os usuários" +e.getMessage());
         }
     }
 
