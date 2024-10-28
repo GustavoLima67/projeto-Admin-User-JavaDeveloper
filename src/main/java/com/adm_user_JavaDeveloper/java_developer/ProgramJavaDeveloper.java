@@ -1,5 +1,8 @@
 package com.adm_user_JavaDeveloper.java_developer;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -11,7 +14,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import com.adm_user_JavaDeveloper.java_developer.controller.exceptions.ExececaoPadrao;
 import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.model.Usuarios;
-import com.adm_user_JavaDeveloper.java_developer.services.PrincipaisService;
 import com.adm_user_JavaDeveloper.java_developer.services.SistemaService;
 import com.adm_user_JavaDeveloper.java_developer.services.MetodosService;
 
@@ -23,6 +25,10 @@ public class ProgramJavaDeveloper {
 	public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	public static Usuarios users = new Usuarios();
 	public static Administrador adm = new Administrador();
+
+	public static Connection conn;
+	public static PreparedStatement st;
+	public static ResultSet rt;
 	
 	public static void main(String[] args) throws Exception{
 		SpringApplication.run(ProgramJavaDeveloper.class, args);
@@ -31,8 +37,6 @@ public class ProgramJavaDeveloper {
 	}
 	
 	public static void process() throws ExececaoPadrao { 
-		
-		System.out.println("Bem-vindo");
 		try {
 		SistemaService.logarNoSistema(() -> SistemaService.loginUser(), () -> SistemaService.loginAdm());
 		} catch (Exception e) {
@@ -43,13 +47,13 @@ public class ProgramJavaDeveloper {
 	
 	public static void getUser() {
 		try {
-			String name = PrincipaisService.pegarNome();
+			String name = MetodosService.pegarNome();
 
-			String userInputsenha = PrincipaisService.pegarSenha();	
+			String userInputsenha = MetodosService.procesarSenha();	
 
-			String phoneNumber = PrincipaisService.pegarTelefone();
+			String phoneNumber = MetodosService.procesarTelefone();
 		
-			LocalDate dataNascimento = PrincipaisService.pegarDataNascimento();
+			LocalDate dataNascimento = MetodosService.procesarData();
 
 			MetodosService.executeDbConnection(name, userInputsenha, phoneNumber, dataNascimento);
 			System.out.println();	
@@ -68,9 +72,9 @@ public class ProgramJavaDeveloper {
 
 			MetodosService.pegarToString(entidade);
 
-			MetodosService.mudarPropiedades();
+			MetodosService.mudarPropiedades(entidade);
 
-			MetodosService.procesarNome();
+			MetodosService.procesarNome(entidade);
 	
 			MetodosService.procesarTelefone();
 
@@ -87,7 +91,7 @@ public class ProgramJavaDeveloper {
 	public static void processAdm() throws ExececaoPadrao{
 		try {
 
-			String name = MetodosService.procesarNome();
+			String name = MetodosService.pegarNome();
 
 			String passwordAdm = MetodosService.procesarSenha();
 
@@ -98,7 +102,6 @@ public class ProgramJavaDeveloper {
            	adm = new Administrador(name, passwordAdm, dataNascimento);
 
 			informAdm();
-            
 			lerFuncionalidadesAdm();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -111,9 +114,10 @@ public class ProgramJavaDeveloper {
 			String entidade = MetodosService.procesarEntidade();
 			
 			MetodosService.pegarToString(entidade);
-			MetodosService.getUserOuAdm(() ->  MetodosService.procesarIqualUsuario(), () -> MetodosService.procesarIgualAdm());
 
-			String upName = MetodosService.procesarNome();
+			MetodosService.getUserOuAdm(() ->  MetodosService.procesarIqualUsuario(), () -> MetodosService.procesarIgualAdm(entidade));
+
+			String upName = MetodosService.procesarNome(entidade);
 			String upPassw = MetodosService.procesarSenha();
 			LocalDate procesDate = MetodosService.procesarData();
 

@@ -44,11 +44,11 @@ public class MetodosService {
 
     public static void pegarToString(String entidade) {
 
-        if (procesarEntidade().toLowerCase().equals("adm")) {
+        if (entidade.toLowerCase().equals("adm")) {
             System.out.println();
             System.out.println(adm.toString());
             System.out.println();
-        }else if (procesarEntidade().toLowerCase().equals("user")) {
+        }else if (entidade.toLowerCase().equals("user")) {
             System.out.println();
             System.out.println(user.toString());
             System.out.println();
@@ -56,13 +56,13 @@ public class MetodosService {
         
     }
 
-    public static String mudarPropiedades() throws ExececaoPadrao {
+    public static String mudarPropiedades(String entidade) throws ExececaoPadrao {
         System.out.print("O que deseja mudar: (nome / telefone / senha / dataNascimento) ");
         String mudar = sc.nextLine();
     
         switch (mudar.toLowerCase()) {
             case "nome":
-                procesarNome();
+                procesarNome(entidade);
                 break;
             case "telefone": 
                 procesarTelefone();
@@ -81,15 +81,15 @@ public class MetodosService {
         return mudar;
     }
     
-    public static String procesarNome() {
+    public static String procesarNome(String entidade) {
         System.out.print("Entre com o nome desejado: ");
-        String name = sc.next();
+        String name = sc.nextLine();
      
         try {
-            if(procesarEntidade().toLowerCase().equals("user")) {
+            if(entidade.toLowerCase().equals("user")) {
                 user.setName(name);
             }
-            else if(procesarEntidade().toLowerCase().equals("adm")) {
+            else if(entidade.toLowerCase().equals("adm")) {
                 adm.setName(name);
             } 
             st.setString(1, name);
@@ -99,6 +99,15 @@ public class MetodosService {
         }
         return name;
     }
+
+    public static String pegarNome() {
+        System.out.print("Entre com o nome desejado");
+        String name = sc.nextLine();
+
+        return name;
+    
+    }
+
 
     public static String procesarSenha() {
         boolean senhaValida;
@@ -165,6 +174,8 @@ public class MetodosService {
         boolean dataValida = false;
         LocalDate dataNascimento = null;
 
+
+        sc.nextLine();
         if(dataNascimento == null) {
             do {
                 System.out.print("Entre com sua data de nascimento: (dd/MM/yyyy) ");
@@ -304,12 +315,14 @@ public class MetodosService {
         System.out.print("Escreva: ");
         String response = sc.nextLine();
 
+        String entidade = procesarEntidade();
+
 
         if (response.equals("User")) {
             procesarIqualUsuario();
         }
         if (response.equals("Adm")) {
-            procesarIgualAdm();
+            procesarIgualAdm(entidade);
         }
         
     }
@@ -325,13 +338,13 @@ public class MetodosService {
         }
     }
 
-    public static void procesarIgualAdm() {
+    public static void procesarIgualAdm(String entidade) {
         System.out.print("O que deseja mudar: (nome / senha / dataNascimento) ");
         String mudar = sc.nextLine();
 
         switch (mudar.toLowerCase()) {
             case "nome":
-                procesarNome();  
+                procesarNome(entidade);  
                 break;
             case "senha":
                 procesarSenha(); 
