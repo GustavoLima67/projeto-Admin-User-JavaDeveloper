@@ -1,8 +1,18 @@
 package com.adm_user_JavaDeveloper.java_developer.controller.validators;
 
-import java.util.regex.Matcher;
+
 import java.util.regex.Pattern;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@RestControllerAdvice
 public class Validation {
     private static final String PASSWORD_PATTERN = 
 			 			"^(?=.*[0-9])" +          
@@ -12,9 +22,11 @@ public class Validation {
 			            "(?=\\S+$)" +             
 			            ".{8,}$";                 
 	
+	private static final Pattern EMAIL_REGEX = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+
 	private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
 	
-	public static boolean validatePassword(String password) {
+	public static boolean validarSenha(String password) {
 		return pattern.matcher(password).matches();
 	}
 
@@ -28,12 +40,16 @@ public class Validation {
 		System.out.println("5. Deve conter pelo menos um caractere especial (por exemplo: @, #, !, etc.).");
 	}
 
-    public static boolean isValidPhoneNumber(String phoneNumber) {
-	    String regex = "^\\+?[1-9]{1}[0-9]{1,3}?[1-9]{2}[0-9]{4,5}[0-9]{4}$";
-	    
-	    Pattern pattern = Pattern.compile(regex);
-	    Matcher matcher = pattern.matcher(phoneNumber);
-	    
-	    return matcher.matches();
-	}
+	
+	public static boolean validarEmail(String email) {
+        return EMAIL_REGEX.matcher(email).matches();
+    }
+
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> validarEmailException(MethodArgumentNotValidException ex) {
+		Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(error -> 
+            errors.put(error.getField(), error.getDefaultMessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+    }
 }

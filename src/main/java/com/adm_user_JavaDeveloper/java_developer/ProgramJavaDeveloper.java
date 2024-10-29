@@ -27,8 +27,8 @@ public class ProgramJavaDeveloper {
 	public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	public static Usuarios users = new Usuarios();
 	public static Administrador adm = new Administrador();
-	public static AdmController admController = new AdmController();
-	public static UsuarioController usuarioController = new UsuarioController();
+	public static AdmController admController;
+	public static UsuarioController usuarioController;
 
 	public static Connection conn;
 	public static PreparedStatement st;
@@ -113,7 +113,11 @@ public class ProgramJavaDeveloper {
 	
 	public static void lerFuncionalidadesAdm() {
 		try {
-			MetodosService.exibirQuantUsuarios(() -> MetodosService.procesarUsuario(usuarioController), () -> MetodosService.procesarAdm(admController));
+			if (usuarioController != null && admController != null) {
+				MetodosService.exibirQuantUsuarios(() -> MetodosService.procesarUsuario(usuarioController), () -> MetodosService.procesarAdm(admController));
+			} else {
+				System.out.println("Erro: Controladores não inicializados corretamente.");
+			}
 
 			MetodosService.voltarInicio(() -> lerUsuarios(), () -> lerAdministrador());
 		}catch (Exception e) {

@@ -9,6 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity(name = "usuarios")
 @Table(name = "usuarios")
@@ -24,8 +26,10 @@ public class Usuarios implements Serializable  {
 	@Column (name = "senha",  nullable = false)
 	private String senha;
 
-	@Column (name = "telefone", nullable = false)
-	private String telefone;
+	@Column (name = "email", nullable = false)
+	@NotBlank(message = "o email é obrigatório")
+	@Email(message = "o email deve ser válido")
+	private String email;
 	
 	@Column(name = "data_nascimento", nullable = false)
 	private LocalDate dataNascimento;
@@ -34,19 +38,19 @@ public class Usuarios implements Serializable  {
 	public Usuarios() {
 	}
 
-	public Usuarios(Integer id, String nome, String telefone, String senha, LocalDate dataNascimento) {
+	public Usuarios(Integer id, String nome, String email, String senha, LocalDate dataNascimento) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.telefone = telefone;
+		this.email = email;
 		this.senha = senha;
 		this.dataNascimento = dataNascimento;
 	}
 	
-	public Usuarios(String nome, String telefone, String senha, LocalDate dataNascimento) {
+	public Usuarios(String nome, String email, String senha, LocalDate dataNascimento) {
 		super();
 		this.nome = nome;
-		this.telefone = telefone;
+		this.email = email;
 		this.senha = senha;
 		this.dataNascimento = dataNascimento;
 	}
@@ -72,12 +76,12 @@ public class Usuarios implements Serializable  {
 		this.senha = senha;
 	}
 	
-	public String getTelefone() {
-		return telefone;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
+	public void setemail(String email) {
+		this.email = email;
 	}
 	
 	
@@ -91,6 +95,6 @@ public class Usuarios implements Serializable  {
 	
 	@Override
 	public String toString() {
-		return "Usuario:  nome: " + getNome() + ", senha: " + getSenha() + ", numero de telefone: " + getTelefone() + ", data de nascimento: " + getDataNascimento();
+		return "Usuario:  nome: " + getNome() + ", senha: " + getSenha() + ", numero de email: " + getEmail() + ", data de nascimento: " + getDataNascimento();
 	}
 }

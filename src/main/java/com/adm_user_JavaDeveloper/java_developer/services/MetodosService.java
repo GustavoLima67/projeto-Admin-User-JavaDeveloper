@@ -23,9 +23,6 @@ import com.adm_user_JavaDeveloper.java_developer.model.Usuarios;
 import com.adm_user_JavaDeveloper.java_developer.repositories.interfaceAcaoRepository;
 import com.adm_user_JavaDeveloper.java_developer.services.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.services.enums.ResponseUserAdm;
-import com.twilio.rest.api.v2010.account.Message;
-
-import com.twilio.type.PhoneNumber;
 
 public class MetodosService {
     
@@ -96,7 +93,7 @@ public class MetodosService {
             System.out.print("Digite uma senha válida: ");
             userInputsenha = sc.nextLine();
             
-            senhaValida = Validation.validatePassword(userInputsenha);
+            senhaValida = Validation.validarSenha(userInputsenha);
 
             if (!senhaValida) {
                 Validation.senhaInvalida();
@@ -108,23 +105,22 @@ public class MetodosService {
     }
 
     public static String procesarTelefone() throws ExececaoPadrao {
-        String phoneNumber;
-        boolean validPhone;
+        String email;
+        boolean validEmail;
+
         do {
-            System.out.print("Entre com seu numero de Telefone: ");
-            phoneNumber = sc.nextLine();
-            
-            validPhone = Validation.isValidPhoneNumber(phoneNumber);
-            
-            if (!validPhone) {
-                System.out.println("Numero de telefone invalido. Tente novamente.");
+            System.out.print("Entre com seu email: ");
+            email = sc.nextLine();
+
+            // Validando o email com regex
+            validEmail = Validation.validarEmail(email);
+
+            if (!validEmail) {
+                System.out.println("Email inválido. Tente novamente.");
             }
-        } while(!validPhone);
-            
-        Message message = Message.creator(new PhoneNumber(phoneNumber), new PhoneNumber("+12513021245"), "Numero de Telefone validado no 'Projeto JavaDeveloper' com sucesso!").create();
-        System.out.println("Mensagem Enviada com Sucesso!" + message.getSid());
-        
-        return phoneNumber;
+        } while (!validEmail);
+
+        return email;
     }
 
     public static LocalDate procesarData() {

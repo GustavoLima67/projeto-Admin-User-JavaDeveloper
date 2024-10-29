@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,12 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.repositories.AdmRepository;
 
+@Controller
 @RestController
 @RequestMapping("/api/administrador")
 public class AdmController {
   
-    @Autowired
     private AdmRepository admRepository;
+
+    @Autowired
+    public AdmController(AdmRepository admRepository) {
+        this.admRepository = admRepository;
+    }
 
     // CRIANDO API TEST - TESTANDO SE FOI CRIADO UM NOVO ADMINISTRADOR
     public ResponseEntity<Administrador> criarAdministrador(@RequestBody Administrador adm) {
