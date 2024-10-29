@@ -27,8 +27,8 @@ public class ProgramJavaDeveloper {
 	public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	public static Usuarios users = new Usuarios();
 	public static Administrador adm = new Administrador();
-	public static AdmController admController;
-	public static UsuarioController usuarioController;
+	public static AdmController admController = new AdmController();
+	public static UsuarioController usuarioController = new UsuarioController();
 
 	public static Connection conn;
 	public static PreparedStatement st;
@@ -91,7 +91,7 @@ public class ProgramJavaDeveloper {
 	}
 	
 	public static void lerAdministrador() {
-		try {;
+		try {
 
 			String name = MetodosService.procesarNome();
 
@@ -114,8 +114,10 @@ public class ProgramJavaDeveloper {
 	public static void lerFuncionalidadesAdm() {
 		try {
 			MetodosService.exibirQuantUsuarios(() -> MetodosService.procesarUsuario(usuarioController), () -> MetodosService.procesarAdm(admController));
+
+			MetodosService.voltarInicio(() -> lerUsuarios(), () -> lerAdministrador());
 		}catch (Exception e) {
-			throw new IllegalArgumentException(e.getMessage());
+			e.printStackTrace();
 			
 		} 
 	}
@@ -126,14 +128,6 @@ public class ProgramJavaDeveloper {
 			MetodosService.exibir(users, adm, entidade);
 		} catch (Exception e) {
 			System.err.println("Erro de exibição"+ e.getMessage());
-		}
-	}
-
-	public static void voltarInicio() {
-		try {
-			MetodosService.voltarInicio(() -> lerUsuarios(), () -> lerAdministrador());
-		} catch (ExececaoPadrao e) {
-			throw new IllegalArgumentException(e.getMessage());
 		}
 	}
 }

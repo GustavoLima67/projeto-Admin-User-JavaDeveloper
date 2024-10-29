@@ -67,7 +67,6 @@ public class MetodosService {
     public static String procesarSenha() {
         boolean senhaValida;
         String userInputsenha;
-        sc.nextLine();
         do {
             System.out.print("Digite uma senha válida: ");
             userInputsenha = sc.nextLine();
@@ -79,6 +78,7 @@ public class MetodosService {
             }
         } while (!senhaValida);
         System.out.println("Senha valida! acesso concedido!");
+        System.out.println();
         return userInputsenha;
     }
 
@@ -106,7 +106,6 @@ public class MetodosService {
         boolean dataValida = false;
         LocalDate dataNascimento = null;
 
-        sc.nextLine();
         if(dataNascimento == null) {
             do {
                 System.out.print("Entre com sua data de nascimento: (dd/MM/yyyy) ");
@@ -137,7 +136,7 @@ public class MetodosService {
 
     public static void exibirQuantUsuarios(interfaceAcaoRepository usuarioAcao, interfaceAcaoRepository administradorAcao) throws ExececaoPadrao {
         System.out.print("Gostaria de visualizar a quantidade de usuários cadastrados?: (s / n) ");
-        char response = sc.next().charAt(0);
+        char response = sc.next().toLowerCase().charAt(0);
 
         Response userResponse = Response.fromChar(response);
 
@@ -191,7 +190,7 @@ public class MetodosService {
         try { 
             conn = DB.getConnection();
 
-            st = conn.prepareStatement("INSERT INTO administrador (Nome, Senha, DataNascimento) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            st = conn.prepareStatement("INSERT INTO administrador (nome, senha, data_nascimento) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             st.setString(1, name);
             st.setString(2, passwordAdm);
             st.setDate(3, java.sql.Date.valueOf(dataNascimento));
