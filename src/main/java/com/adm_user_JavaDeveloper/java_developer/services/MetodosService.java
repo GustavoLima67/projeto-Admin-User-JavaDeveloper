@@ -22,6 +22,7 @@ import com.adm_user_JavaDeveloper.java_developer.db.DB;
 import com.adm_user_JavaDeveloper.java_developer.model.Usuarios;
 import com.adm_user_JavaDeveloper.java_developer.repositories.interfaceAcaoRepository;
 import com.adm_user_JavaDeveloper.java_developer.services.enums.Response;
+import com.adm_user_JavaDeveloper.java_developer.services.enums.ResponseUserAdm;
 import com.twilio.rest.api.v2010.account.Message;
 
 import com.twilio.type.PhoneNumber;
@@ -57,13 +58,13 @@ public class MetodosService {
         
     }
     
-    public static String procesarNome(String entidade) {
+    public static String procesarNome() {
         System.out.print("Entre com o nome desejado: ");
         String name = sc.nextLine();
         return name;
     }
 
-    public static String procesarSenha(String entidade) {
+    public static String procesarSenha() {
         boolean senhaValida;
         String userInputsenha;
         sc.nextLine();
@@ -174,7 +175,7 @@ public class MetodosService {
 
         try {
             if(admConList.isEmpty()) {
-                System.out.print("Administrador não existe:\nCrie um novo usuario para prosseguir:\n");
+                System.out.print("Moderadores não existe:\nCrie um novo moderador para prosseguir:\n");
                 ProgramJavaDeveloper.lerAdministrador();
             }
             else {
@@ -250,5 +251,34 @@ public class MetodosService {
         
         return conn; 
     }
+
+    public static void voltarInicio(interfaceAcaoRepository usuarioAcao, interfaceAcaoRepository administradorAcao) throws ExececaoPadrao {
+		System.out.println("Cadastro finalizado, gostaria de cadastrar um novo usuário?, ou cadastrar um novo moderador? (u = usuario, a = administrador)");
+        char response = sc.next().toLowerCase().charAt(0);
+
+        System.out.println("Se quiser finalizar o programa. Escreva (exit)");
+        String exit = sc.nextLine();
+        if (exit.equals("exit")) {
+            System.out.println("Projeto de cadastro finalizado, obrigado por usa-lo");
+            
+            DB.closeConnection();
+            DB.closeResultSet(rs);
+            DB.closeStatement(st);
+            sc.close();
+        }
+
+        ResponseUserAdm responseUserAdm = ResponseUserAdm.fromChar(response);
+
+        switch (responseUserAdm) {
+            case USER:
+                usuarioAcao.executar();
+                break;
+            case ADM:
+                administradorAcao.executar();
+                break;
+            default:
+                throw new ExececaoPadrao("Erro na sintaxe, digite da forma descrita (s/n). ");
+        }
+	}
 
 }

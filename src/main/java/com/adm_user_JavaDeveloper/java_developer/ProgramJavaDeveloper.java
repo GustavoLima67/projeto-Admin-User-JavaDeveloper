@@ -51,10 +51,9 @@ public class ProgramJavaDeveloper {
 	
 	public static void lerUsuarios() {
 		try {
-			String entidade = MetodosService.procesarEntidade();
-			String name = MetodosService.procesarNome(entidade);
+			String name = MetodosService.procesarNome();
 
-			String userInputsenha = MetodosService.procesarSenha(entidade);	
+			String userInputsenha = MetodosService.procesarSenha();	
 
 			String phoneNumber = MetodosService.procesarTelefone();
 		
@@ -77,11 +76,11 @@ public class ProgramJavaDeveloper {
 
 			MetodosService.pegarToString(entidade);
 
-			MetodosService.procesarNome(entidade);
+			MetodosService.procesarNome();
 	
 			MetodosService.procesarTelefone();
 
-			MetodosService.procesarSenha(entidade);
+			MetodosService.procesarSenha();
 
 			MetodosService.procesarData();
 			
@@ -91,19 +90,19 @@ public class ProgramJavaDeveloper {
 		}
 	}
 	
-	public static void lerAdministrador() throws ExececaoPadrao{
-		try {
-			String entidade = MetodosService.procesarEntidade();
+	public static void lerAdministrador() {
+		try {;
 
-			String name = MetodosService.procesarNome(entidade);
+			String name = MetodosService.procesarNome();
 
-			String passwordAdm = MetodosService.procesarSenha(entidade);
+			String passwordAdm = MetodosService.procesarSenha();
 
 			LocalDate dataNascimento = MetodosService.procesarData();
 			
 			System.out.println();
 
            	adm = new Administrador(name, passwordAdm, dataNascimento);
+			MetodosService.executeDbConnectionAdm(name, passwordAdm, dataNascimento);
 
 			inform();
 			lerFuncionalidadesAdm();
@@ -112,16 +111,9 @@ public class ProgramJavaDeveloper {
 		}
 	}
 	
-	public static void lerFuncionalidadesAdm() throws ExececaoPadrao{
-		
+	public static void lerFuncionalidadesAdm() {
 		try {
-			String entidade = MetodosService.procesarEntidade();
-			
-			MetodosService.pegarToString(entidade);
-
-			SistemaService.logarNoSistema(() -> MetodosService.procesarUsuario(usuarioController), () -> MetodosService.procesarAdm(admController));
-
-			
+			MetodosService.exibirQuantUsuarios(() -> MetodosService.procesarUsuario(usuarioController), () -> MetodosService.procesarAdm(admController));
 		}catch (Exception e) {
 			throw new IllegalArgumentException(e.getMessage());
 			
@@ -134,6 +126,14 @@ public class ProgramJavaDeveloper {
 			MetodosService.exibir(users, adm, entidade);
 		} catch (Exception e) {
 			System.err.println("Erro de exibição"+ e.getMessage());
+		}
+	}
+
+	public static void voltarInicio() {
+		try {
+			MetodosService.voltarInicio(() -> lerUsuarios(), () -> lerAdministrador());
+		} catch (ExececaoPadrao e) {
+			throw new IllegalArgumentException(e.getMessage());
 		}
 	}
 }

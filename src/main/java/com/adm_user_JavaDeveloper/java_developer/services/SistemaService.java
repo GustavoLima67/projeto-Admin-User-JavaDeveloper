@@ -44,7 +44,7 @@ public class SistemaService {
             System.out.println("Bem-vindo! Entre com suas informações para cadastro.");
             System.out.println();
             ProgramJavaDeveloper.lerAdministrador();
-        } catch (IllegalAccessError | ExececaoPadrao e) {
+        } catch (IllegalAccessError e) {
             e.getMessage();
             e.printStackTrace();;
         }
