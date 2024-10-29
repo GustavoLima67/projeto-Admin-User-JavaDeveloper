@@ -59,9 +59,34 @@ public class MetodosService {
     }
     
     public static String procesarNome() {
-        System.out.print("Entre com o nome desejado: ");
-        String name = sc.nextLine();
-        return name;
+        String name;
+        String nomeFormatado;
+        String[] partes;
+        do {
+            System.out.print("Entre com seu nome completo: ");
+            name = sc.nextLine();
+    
+            partes = name.trim().split("\\s+");
+
+            nomeFormatado = formatarNome(name);
+            
+        }while(partes.length < 2);
+        
+        return nomeFormatado;
+    }
+
+    public static String formatarNome(String name) {
+        String[] partes = name.trim().split("\\s+");
+        
+        if (partes.length < 2) {
+            throw new IllegalArgumentException("Por favor, entre com um nome completo contendo nome e sobrenome");
+        }
+
+        String primeiroNome = partes[0];
+        String ultimoSobrenome = partes[partes.length -1];
+        String inicialSobrenome = partes[1].toUpperCase().substring(0, 1) + ".";
+        
+        return primeiroNome + " " + inicialSobrenome + " " + ultimoSobrenome;
     }
 
     public static String procesarSenha() {
