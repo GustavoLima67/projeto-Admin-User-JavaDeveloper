@@ -104,7 +104,7 @@ public class MetodosService {
         return userInputsenha;
     }
 
-    public static String procesarTelefone() throws ExececaoPadrao {
+    public static String procesarEmail() throws ExececaoPadrao {
         String email;
         boolean validEmail;
 
@@ -112,7 +112,6 @@ public class MetodosService {
             System.out.print("Entre com seu email: ");
             email = sc.nextLine();
 
-            // Validando o email com regex
             validEmail = Validation.validarEmail(email);
 
             if (!validEmail) {

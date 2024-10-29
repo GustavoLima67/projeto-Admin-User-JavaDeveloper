@@ -55,7 +55,7 @@ public class ProgramJavaDeveloper {
 
 			String userInputsenha = MetodosService.procesarSenha();	
 
-			String phoneNumber = MetodosService.procesarTelefone();
+			String phoneNumber = MetodosService.procesarEmail();
 		
 			LocalDate dataNascimento = MetodosService.procesarData();
 
@@ -65,6 +65,7 @@ public class ProgramJavaDeveloper {
 			users = new Usuarios(name, userInputsenha, phoneNumber, dataNascimento);
 
 			inform();
+			lerFuncionalidadesDeUsuarios();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -75,15 +76,8 @@ public class ProgramJavaDeveloper {
 			String entidade = MetodosService.procesarEntidade();
 
 			MetodosService.pegarToString(entidade);
+			MetodosService.procesarUsuario(usuarioController);
 
-			MetodosService.procesarNome();
-	
-			MetodosService.procesarTelefone();
-
-			MetodosService.procesarSenha();
-
-			MetodosService.procesarData();
-			
 		} catch (Exception e) {
 			e.getMessage();
 			e.printStackTrace();
