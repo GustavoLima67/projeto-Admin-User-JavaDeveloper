@@ -34,7 +34,7 @@ public class UsuarioController {
         return usuarioRepository.findAll();
     }
 
-    @PostMapping("/cadastrar")
+    @PostMapping("/cadastrar/usuarios")
     public ResponseEntity<String> cadastrarUsuario(@Valid @RequestBody Usuarios usuario) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Usuário cadastrado com sucesso!");

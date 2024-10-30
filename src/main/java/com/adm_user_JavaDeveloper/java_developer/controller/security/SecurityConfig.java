@@ -12,10 +12,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/usuarios").permitAll() // Permite acesso sem autenticação
-                .anyRequest().authenticated()
-            );
-        return http.build();
+        .authorizeHttpRequests(auth -> auth
+            .anyRequest().permitAll() // permite acesso a todas as rotas: GET, POST, PUT, DEL.
+        );
+
+    return http.build();
     }
 }

@@ -63,7 +63,7 @@ public class Usuarios implements Serializable  {
 		return nome;
 	}
 
-	public void setName(String nome) {
+	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
@@ -80,7 +80,7 @@ public class Usuarios implements Serializable  {
 		return email;
 	}
 
-	public void setemail(String email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
 	
