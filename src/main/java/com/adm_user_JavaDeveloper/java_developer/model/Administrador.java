@@ -1,7 +1,6 @@
 package com.adm_user_JavaDeveloper.java_developer.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,26 +22,31 @@ public class Administrador implements Serializable {
 	
 	@Column(name = "senha", nullable = false)
 	private String senha;
+
+	@Column(name = "email", nullable = false )
+	private String email;
 	
-	@Column(name = "data_nascimento", nullable = false)
-	private LocalDate dataNascimento;
+	@Column(name = "cargo")
+	private String cargo;
 
 	public Administrador() {
 	}
 
-	public Administrador(Long id, String name,String senha, LocalDate dataNascimento) {
+	public Administrador(Long id, String name,String senha, String email, String cargo) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.senha = senha;
-		this.dataNascimento = dataNascimento;
+		this.email = email;
+		this.cargo = cargo;
 	}
 	
-	public Administrador(String name,String senha, LocalDate dataNascimento) {
+	public Administrador(String name,String senha, String email, String cargo) {
 		super();
 		this.name = name;
 		this.senha = senha;
-		this.dataNascimento = dataNascimento;
+		this.email = email;
+		this.cargo = cargo;
 	}
 	
 	public Long getId() {
@@ -65,22 +69,30 @@ public class Administrador implements Serializable {
 	public String getSenha() {
 		return senha;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	} 
 	
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
 
-	public LocalDate getDataNascimento() {
-		return dataNascimento;
+	public String getCargo() {
+		return cargo;
 	}
 
-	public void setDataNascimento(LocalDate dataNascimento) {
-		this.dataNascimento = dataNascimento;
+	public void setcargo(String cargo) {
+		this.cargo = cargo;
 	}
 
 	@Override
 	public String toString() {
-		return "Administrador: Nome: " + getNome() + ", Senha: " + getSenha() + "Data de nascimento: " + getDataNascimento();
+		return "Administrador: Nome: " + getNome() + ", Senha: " + getSenha() + "Email: " + getEmail() + "Cargo do administrador: " + getCargo();
 	}
 
 

@@ -91,12 +91,14 @@ public class ProgramJavaDeveloper {
 
 			String passwordAdm = MetodosService.procesarSenha();
 
-			LocalDate dataNascimento = MetodosService.procesarData();
+			String email = MetodosService.procesarEmail();
 			
+			String cargo = MetodosService.pegarCargo();
+
 			System.out.println();
 
-           	adm = new Administrador(name, passwordAdm, dataNascimento);
-			MetodosService.executeDbConnectionAdm(name, passwordAdm, dataNascimento);
+           	adm = new Administrador(name, passwordAdm, email, cargo);
+			MetodosService.executeDbConnectionAdm(name, passwordAdm, email, cargo);
 
 			inform();
 			lerFuncionalidadesAdm();

@@ -107,7 +107,6 @@ public class MetodosService {
     public static String procesarEmail() throws ExececaoPadrao {
         String email;
         boolean validEmail;
-
         do {
             System.out.print("Entre com seu email: ");
             email = sc.nextLine();
@@ -120,6 +119,13 @@ public class MetodosService {
         } while (!validEmail);
 
         return email;
+    }
+
+    public static String pegarCargo() {
+        System.out.println("Entre com seu cargo administrador(a)");
+        String cargo = sc.nextLine();
+
+        return cargo;
     }
 
     public static LocalDate procesarData() {
@@ -206,14 +212,15 @@ public class MetodosService {
         }
     }
 
-    public static Connection executeDbConnectionAdm(String name, String passwordAdm, LocalDate dataNascimento) {
+    public static Connection executeDbConnectionAdm(String name, String passwordAdm, String email, String cargo) {
         try { 
             conn = DB.getConnection();
 
-            st = conn.prepareStatement("INSERT INTO administrador (nome, senha, data_nascimento) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            st = conn.prepareStatement("INSERT INTO administrador (nome, senha, email, cargo) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             st.setString(1, name);
             st.setString(2, passwordAdm);
-            st.setDate(3, java.sql.Date.valueOf(dataNascimento));
+            st.setString(3, email);
+            st.setString(4, cargo);
 
             int linhasAfetadas = st.executeUpdate();
 
@@ -221,10 +228,10 @@ public class MetodosService {
                 rs = st.getGeneratedKeys();
                 while (rs.next()) {
                     int idAdm = rs.getInt(1);
-                    System.out.println("Administrador inserido com sucesso! Id: " + idAdm);
+                    System.out.println("Administrador(a) inserido com sucesso! Id: " + idAdm);
                 }
             } else {
-                System.out.println("Erro ao inserir administrador");
+                System.out.println("Erro ao inserir administrador(a)");
             }
 
 
@@ -242,7 +249,7 @@ public class MetodosService {
     public static Connection executeDbConnection(String name, String userInputsenha, String phoneNumber, LocalDate dataNascimento) {
         conn = DB.getConnection(); 
         try {
-            st = conn.prepareStatement("INSERT INTO usuarios (nome, senha, telefone, data_nascimento)" + " VALUES" + " (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            st = conn.prepareStatement("INSERT INTO usuarios (nome, senha, email, data_nascimento)" + " VALUES" + " (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             st.setString(1, name);
             st.setString(2, Senha.hashSenha(userInputsenha));
             st.setString(3, phoneNumber);
