@@ -64,7 +64,6 @@ public class ProgramJavaDeveloper {
 
 			users = new Usuarios(name, userInputsenha, phoneNumber, dataNascimento);
 
-			inform();
 			lerFuncionalidadesDeUsuarios();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -77,6 +76,8 @@ public class ProgramJavaDeveloper {
 
 			MetodosService.pegarToString(entidade);
 			MetodosService.procesarUsuario(usuarioController);
+
+			inform();
 
 		} catch (Exception e) {
 			e.getMessage();
@@ -100,7 +101,6 @@ public class ProgramJavaDeveloper {
            	adm = new Administrador(name, passwordAdm, email, cargo);
 			MetodosService.executeDbConnectionAdm(name, passwordAdm, email, cargo);
 
-			inform();
 			lerFuncionalidadesAdm();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -114,6 +114,8 @@ public class ProgramJavaDeveloper {
 			} else {
 				System.out.println("Erro: Controladores não inicializados corretamente.");
 			}
+
+			inform();
 
 			MetodosService.voltarInicio(() -> lerUsuarios(), () -> lerAdministrador());
 		}catch (Exception e) {
