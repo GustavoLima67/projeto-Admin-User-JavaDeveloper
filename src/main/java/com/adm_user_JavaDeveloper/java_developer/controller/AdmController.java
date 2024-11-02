@@ -31,7 +31,7 @@ public class AdmController {
 
     // CRIANDO API TEST - TESTANDO SE FOI CRIADO UM NOVO ADMINISTRADOR
     public ResponseEntity<Administrador> criarAdministrador(@RequestBody Administrador adm) {
-        adm.setId(1L); 
+        adm.setId(1); 
         return ResponseEntity.status(HttpStatus.SC_CREATED).body(adm);
     }
 
