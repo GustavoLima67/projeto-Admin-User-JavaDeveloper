@@ -2,11 +2,14 @@ package com.adm_user_JavaDeveloper.java_developer.services;
 
 import java.util.Scanner;
 
+import org.springframework.stereotype.Service;
+
 import com.adm_user_JavaDeveloper.java_developer.ProgramJavaDeveloper;
 import com.adm_user_JavaDeveloper.java_developer.controller.exceptions.ExececaoPadrao;
 import com.adm_user_JavaDeveloper.java_developer.repositories.interfaceAcaoRepository;
 import com.adm_user_JavaDeveloper.java_developer.services.enums.Response;
 
+@Service
 public class SistemaService {
     
     private static Scanner sc = new Scanner(System.in);

@@ -3,6 +3,8 @@ package com.adm_user_JavaDeveloper.java_developer.services;
 import java.util.List;
 import java.util.Scanner;
 
+import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.sql.Connection;
@@ -24,6 +26,8 @@ import com.adm_user_JavaDeveloper.java_developer.repositories.interfaceAcaoRepos
 import com.adm_user_JavaDeveloper.java_developer.services.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.services.enums.ResponseUserAdm;
 
+
+@Service
 public class MetodosService {
     
     private static Usuarios user = new Usuarios();
@@ -104,7 +108,7 @@ public class MetodosService {
         return userInputsenha;
     }
 
-    public static String procesarEmail() throws ExececaoPadrao {
+    public static String procesarEmail(String entidade) throws ExececaoPadrao {
         String email;
         boolean validEmail;
         do {
@@ -118,11 +122,23 @@ public class MetodosService {
             }
         } while (!validEmail);
 
+        if (entidade.toLowerCase().equals("adm")){
+            EmailService emailService = new EmailService();
+            emailService.enviarMensagemEmail(adm.getEmail(), 
+                        "Cadastro realizado com sucesso!", 
+                        "Olá, seu cadastro no projeto 'java_developer-GL67' foi realizado com sucesso, \n Obrigado por se cadastrar! \n Att. Gustavo L. Souza ");
+        } else if (entidade.toLowerCase().equals("user")) {
+            EmailService emailService = new EmailService();
+            emailService.enviarMensagemEmail(user.getEmail(), 
+                        "Cadastro realizado com sucesso!", 
+                        "Olá, seu cadastro no projeto 'java_developer-GL67' foi realizado com sucesso, \n Obrigado por se cadastrar! \n Att. Gustavo L. Souza ");
+        }
+       
         return email;
     }
 
     public static String pegarCargo() {
-        System.out.println("Entre com seu cargo administrador(a)");
+        System.out.print("Entre com seu cargo administrador(a): ");
         String cargo = sc.nextLine();
 
         return cargo;
@@ -306,5 +322,4 @@ public class MetodosService {
                 throw new ExececaoPadrao("Erro na sintaxe, digite da forma descrita (s/n). ");
         }
 	}
-
 }

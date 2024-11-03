@@ -8,6 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity(name = "administrador")
 @Table(name  = "administrador")
@@ -24,6 +26,8 @@ public class Administrador implements Serializable {
 	private String senha;
 
 	@Column(name = "email", nullable = false )
+	@Email(message = "email deve ser válido")
+	@NotBlank(message = "informar seu email é obrigatório")
 	private String email;
 	
 	@Column(name = "cargo")

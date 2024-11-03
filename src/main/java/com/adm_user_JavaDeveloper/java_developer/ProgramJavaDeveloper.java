@@ -51,11 +51,12 @@ public class ProgramJavaDeveloper {
 	
 	public static void lerUsuarios() {
 		try {
+			String entidade = MetodosService.procesarEntidade();
 			String name = MetodosService.procesarNome();
 
 			String userInputsenha = MetodosService.procesarSenha();	
 
-			String phoneNumber = MetodosService.procesarEmail();
+			String phoneNumber = MetodosService.procesarEmail(entidade);
 		
 			LocalDate dataNascimento = MetodosService.procesarData();
 
@@ -87,12 +88,13 @@ public class ProgramJavaDeveloper {
 	
 	public static void lerAdministrador() {
 		try {
+			String entidade = MetodosService.procesarEntidade();
 
 			String name = MetodosService.procesarNome();
 
 			String passwordAdm = MetodosService.procesarSenha();
 
-			String email = MetodosService.procesarEmail();
+			String email = MetodosService.procesarEmail(entidade);
 			
 			String cargo = MetodosService.pegarCargo();
 

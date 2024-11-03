@@ -109,6 +109,6 @@ public class Usuarios implements Serializable  {
 
 	@Override
 	public String toString() {
-		return "Usuario: Id: " + getId() +", Nome: " + getNome() + ", senha: " + getSenha() + ", numero de email: " + getEmail() + ", data de nascimento: " + getDataNascimento();
+		return "Usuario: Nome: " + getNome() + ", senha: " + getSenha() + ", numero de email: " + getEmail() + ", data de nascimento: " + getDataNascimento();
 	}
 }
