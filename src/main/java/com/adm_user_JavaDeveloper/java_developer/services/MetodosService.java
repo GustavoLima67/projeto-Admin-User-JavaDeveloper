@@ -3,6 +3,7 @@ package com.adm_user_JavaDeveloper.java_developer.services;
 import java.util.List;
 import java.util.Scanner;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -39,6 +40,10 @@ public class MetodosService {
     private static Connection conn = null;
 	private static PreparedStatement st = null;
 	private static ResultSet rs = null;
+
+    @Autowired
+    private static EmailService emailService;
+
 
     public static String procesarEntidade() {
         System.out.println("Qual a entidade que deseja ser atribuída?: (adm / user)");
@@ -108,7 +113,7 @@ public class MetodosService {
         return userInputsenha;
     }
 
-    public static String procesarEmail(String entidade) throws ExececaoPadrao {
+    public static String procesarEmail() throws ExececaoPadrao {
         String email;
         boolean validEmail;
         do {
@@ -122,18 +127,13 @@ public class MetodosService {
             }
         } while (!validEmail);
 
-        if (entidade.toLowerCase().equals("adm")){
-            EmailService emailService = new EmailService();
-            emailService.enviarMensagemEmail(adm.getEmail(), 
-                        "Cadastro realizado com sucesso!", 
-                        "Olá, seu cadastro no projeto 'java_developer-GL67' foi realizado com sucesso, \n Obrigado por se cadastrar! \n Att. Gustavo L. Souza ");
-        } else if (entidade.toLowerCase().equals("user")) {
-            EmailService emailService = new EmailService();
-            emailService.enviarMensagemEmail(user.getEmail(), 
-                        "Cadastro realizado com sucesso!", 
-                        "Olá, seu cadastro no projeto 'java_developer-GL67' foi realizado com sucesso, \n Obrigado por se cadastrar! \n Att. Gustavo L. Souza ");
-        }
-       
+        String assunto = "Cadastro realizado com sucesso!";
+        String mensagem = "Olá, seu cadastro no projeto 'java_developer-GL67' foi realizado com sucesso.\n" +
+                "Obrigado por se cadastrar!\nAtt. Gustavo L. Souza";
+
+
+        emailService.enviarMensagemEmail(email, assunto, mensagem);
+
         return email;
     }
 

@@ -1,7 +1,9 @@
 package com.adm_user_JavaDeveloper.java_developer.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,6 +13,9 @@ public class EmailService {
     @Value("${spring.mail.username}")
     private String remetente;
 
+    @Autowired
+    private JavaMailSender javaMailSender;
+
     public String enviarMensagemEmail(String destinatario, String assunto, String mensagem) {
         try {
             SimpleMailMessage sMM = new SimpleMailMessage();
@@ -18,6 +23,7 @@ public class EmailService {
             sMM.setTo(destinatario);
             sMM.setSubject(assunto);
             sMM.setText(mensagem);
+            javaMailSender.send(sMM);
             return "Email enviado com sucesso!.";
 
         } catch (Exception e) {

@@ -51,19 +51,18 @@ public class ProgramJavaDeveloper {
 	
 	public static void lerUsuarios() {
 		try {
-			String entidade = MetodosService.procesarEntidade();
 			String name = MetodosService.procesarNome();
 
 			String userInputsenha = MetodosService.procesarSenha();	
 
-			String phoneNumber = MetodosService.procesarEmail(entidade);
+			String emailUser = MetodosService.procesarEmail();
 		
 			LocalDate dataNascimento = MetodosService.procesarData();
 
-			MetodosService.executeDbConnection(name, userInputsenha, phoneNumber, dataNascimento);
+			MetodosService.executeDbConnection(name, userInputsenha, emailUser, dataNascimento);
 			System.out.println();	
 
-			users = new Usuarios(name, userInputsenha, phoneNumber, dataNascimento);
+			users = new Usuarios(name, userInputsenha, emailUser, dataNascimento);
 
 			lerFuncionalidadesDeUsuarios();
 		} catch (Exception e) {
@@ -88,13 +87,11 @@ public class ProgramJavaDeveloper {
 	
 	public static void lerAdministrador() {
 		try {
-			String entidade = MetodosService.procesarEntidade();
-
 			String name = MetodosService.procesarNome();
 
 			String passwordAdm = MetodosService.procesarSenha();
 
-			String email = MetodosService.procesarEmail(entidade);
+			String email = MetodosService.procesarEmail();
 			
 			String cargo = MetodosService.pegarCargo();
 

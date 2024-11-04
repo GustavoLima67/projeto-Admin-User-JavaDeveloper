@@ -111,7 +111,7 @@ public class Administrador implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Administrador: Id: " + getId() + ", Nome: " + getNome() + ", Senha: " + getSenha() + "Email: " + getEmail() + "Cargo do administrador: " + getCargo();
+		return "Administrador: Nome: " + getNome() + ", Senha: " + getSenha() + "Email: " + getEmail() + ", Cargo do administrador: " + getCargo();
 	}
 
 
