@@ -129,7 +129,9 @@ public class MetodosService {
         } while (!validEmail);
 
         String assunto = "Cadastro realizado com sucesso!";
-        String mensagem = "Olá, seu cadastro no projeto 'java_developer-GL67' foi realizado com sucesso.\n" + "Obrigado por se cadastrar!\nAtt. Gustavo L. Souza";
+        String mensagem = "Olá, seu cadastro no projeto 'java_developer-GL67' foi realizado com sucesso.\n" +
+                "Obrigado por se cadastrar!\nAtt. Gustavo L. Souza";
+
 
         emailService.enviarMensagemEmail(email, assunto, mensagem);
 

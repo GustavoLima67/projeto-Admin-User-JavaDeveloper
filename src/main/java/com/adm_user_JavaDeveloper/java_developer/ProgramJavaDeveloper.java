@@ -17,6 +17,7 @@ import com.adm_user_JavaDeveloper.java_developer.controller.exceptions.ExececaoP
 import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.model.Usuarios;
 import com.adm_user_JavaDeveloper.java_developer.services.SistemaService;
+import com.adm_user_JavaDeveloper.java_developer.services.EmailService;
 import com.adm_user_JavaDeveloper.java_developer.services.MetodosService;
 
 @SpringBootApplication(scanBasePackages = "com.adm_user_JavaDeveloper.java_developer")
@@ -33,6 +34,8 @@ public class ProgramJavaDeveloper {
 	public static Connection conn;
 	public static PreparedStatement st;
 	public static ResultSet rt;
+
+	public static EmailService emailService;
 	
 	public void main(String[] args) throws Exception{
 		SpringApplication.run(ProgramJavaDeveloper.class, args);
@@ -63,6 +66,14 @@ public class ProgramJavaDeveloper {
 			System.out.println();	
 
 			users = new Usuarios(name, userInputsenha, emailUser, dataNascimento);
+
+			
+			String assunto = "Cadastro realizado com sucesso!";
+			String mensagem = "Olá, seu cadastro no projeto 'java_developer-GL67' foi realizado com sucesso.\n" +
+					"Obrigado por se cadastrar!\nAtt. Gustavo L. Souza";
+	
+	
+			emailService.enviarMensagemEmail(emailUser, assunto, mensagem);
 
 			lerFuncionalidadesDeUsuarios();
 		} catch (Exception e) {
