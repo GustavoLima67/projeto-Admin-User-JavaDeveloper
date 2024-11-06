@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -35,7 +36,8 @@ public class ProgramJavaDeveloper {
 	public static PreparedStatement st;
 	public static ResultSet rt;
 
-	public static EmailService emailService;
+	@Autowired
+	EmailService emailService;
 	
 	public static void main(String[] args) throws Exception{
 		SpringApplication.run(ProgramJavaDeveloper.class, args);
@@ -73,7 +75,7 @@ public class ProgramJavaDeveloper {
 					"Obrigado por se cadastrar!\nAtt. Gustavo L. Souza";
 	
 	
-			emailService.enviarMensagemEmail(emailUser, assunto, mensagem);
+			emailService.enviarMensagemEmail(users.getEmail(), assunto, mensagem);
 
 			lerFuncionalidadesDeUsuarios();
 		} catch (Exception e) {
