@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -27,8 +26,6 @@ import com.adm_user_JavaDeveloper.java_developer.repositories.interfaceAcaoRepos
 import com.adm_user_JavaDeveloper.java_developer.services.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.services.enums.ResponseUserAdm;
 
-
-@Service
 public class MetodosService {
     
     private static Usuarios user = new Usuarios();
@@ -41,9 +38,7 @@ public class MetodosService {
 	private static PreparedStatement st = null;
 	private static ResultSet rs = null;
 
-    @Autowired
-    private static EmailService emailService;
-
+    public static EmailService emailService;
 
     public static String procesarEntidade() {
         System.out.println("Qual a entidade que deseja ser atribuída?: (adm / user)");
@@ -113,9 +108,15 @@ public class MetodosService {
         return userInputsenha;
     }
 
+    @Autowired
+    public void setEmailService(EmailService emailService) {
+        MetodosService.emailService = emailService;
+    }
+
     public static String procesarEmail() throws ExececaoPadrao {
         String email;
         boolean validEmail;
+        
         do {
             System.out.print("Entre com seu email: ");
             email = sc.nextLine();
@@ -128,9 +129,7 @@ public class MetodosService {
         } while (!validEmail);
 
         String assunto = "Cadastro realizado com sucesso!";
-        String mensagem = "Olá, seu cadastro no projeto 'java_developer-GL67' foi realizado com sucesso.\n" +
-                "Obrigado por se cadastrar!\nAtt. Gustavo L. Souza";
-
+        String mensagem = "Olá, seu cadastro no projeto 'java_developer-GL67' foi realizado com sucesso.\n" + "Obrigado por se cadastrar!\nAtt. Gustavo L. Souza";
 
         emailService.enviarMensagemEmail(email, assunto, mensagem);
 

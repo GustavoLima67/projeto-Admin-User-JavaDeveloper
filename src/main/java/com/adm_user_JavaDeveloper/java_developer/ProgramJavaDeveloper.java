@@ -34,21 +34,21 @@ public class ProgramJavaDeveloper {
 	public static PreparedStatement st;
 	public static ResultSet rt;
 	
-	public static void main(String[] args) throws Exception{
+	public void main(String[] args) throws Exception{
 		SpringApplication.run(ProgramJavaDeveloper.class, args);
 
 		process();
 	}
 	
-	public static void process() throws ExececaoPadrao { 
+	public void process() throws ExececaoPadrao { 
 		try {
-		SistemaService.logarNoSistema(() -> SistemaService.loginUser(), () -> SistemaService.loginAdm());
+			SistemaService.logarNoSistema(() -> SistemaService.loginUser(), () -> SistemaService.loginAdm());
 		} catch (Exception e) {
 			throw new IllegalArgumentException(e.getMessage());
 		}
 		
 	}
-	
+
 	public static void lerUsuarios() {
 		try {
 			String name = MetodosService.procesarNome();
@@ -56,7 +56,7 @@ public class ProgramJavaDeveloper {
 			String userInputsenha = MetodosService.procesarSenha();	
 
 			String emailUser = MetodosService.procesarEmail();
-		
+
 			LocalDate dataNascimento = MetodosService.procesarData();
 
 			MetodosService.executeDbConnection(name, userInputsenha, emailUser, dataNascimento);
@@ -69,7 +69,7 @@ public class ProgramJavaDeveloper {
 			System.out.println(e.getMessage());
 		}
 	}
-
+			
 	public static void lerFuncionalidadesDeUsuarios(){
 		try {
 			String entidade = MetodosService.procesarEntidade();
