@@ -23,28 +23,29 @@ import com.adm_user_JavaDeveloper.java_developer.services.MetodosService;
 @EnableJpaRepositories(basePackages = "com.adm_user_JavaDeveloper.java_developer.repositories")
 public class ProgramJavaDeveloper {
 	
-	public DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-	public Usuarios users = new Usuarios();
-	public Administrador adm = new Administrador();
-	public AdmController admController;
-	public UsuarioController usuarioController;
-
-	public Connection conn;
-	public PreparedStatement st;
-	public ResultSet rt;
+	
+	private static MetodosService metodosService = new MetodosService();
 
 	
-	public void main(String[] args) throws Exception{
+	public DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+	private static Usuarios users = new Usuarios();
+	private static Administrador adm = new Administrador();
+	
+	private static AdmController admController;
+	private static UsuarioController usuarioController;
+
+	public static Connection conn;
+	public static PreparedStatement st;
+	public static ResultSet rt;
+		
+	public static void main(String[] args) throws Exception{
 		SpringApplication.run(ProgramJavaDeveloper.class, args);
 
 		process();
 	}
 	
-<<<<<<< HEAD
-	public void process() { 
-=======
-	public void process() throws ExececaoPadrao { 
->>>>>>> f43f4c29da34ad4b4418f3df7f7165084f3366af
+	public static void process() { 
 		try {
 			SistemaService.logarNoSistema(() -> SistemaService.loginUser(), () -> SistemaService.loginAdm());
 		} catch (Exception e) {
@@ -52,23 +53,18 @@ public class ProgramJavaDeveloper {
 		}
 		
 	}
-<<<<<<< HEAD
 	
-	public void lerUsuarios() {
-=======
-
 	public static void lerUsuarios() {
->>>>>>> f43f4c29da34ad4b4418f3df7f7165084f3366af
 		try {
-			String name = MetodosService.procesarNome();
+			String name = metodosService.procesarNome();
 
-			String userInputsenha = MetodosService.procesarSenha();	
+			String userInputsenha = metodosService.procesarSenha();	
 
-			String emailUser = MetodosService.procesarEmail();
+			String emailUser = metodosService.procesarEmail();
+		
+			LocalDate dataNascimento = metodosService.procesarData();
 
-			LocalDate dataNascimento = MetodosService.procesarData();
-
-			MetodosService.executeDbConnection(name, userInputsenha, emailUser, dataNascimento);
+			metodosService.executeDbConnection(name, userInputsenha, emailUser, dataNascimento);
 			System.out.println();	
 
 			users = new Usuarios(name, userInputsenha, emailUser, dataNascimento);
@@ -79,18 +75,13 @@ public class ProgramJavaDeveloper {
 			e.printStackTrace();
 		}
 	}
-<<<<<<< HEAD
 
-	public void lerFuncionalidadesDeUsuarios(){
-=======
-			
 	public static void lerFuncionalidadesDeUsuarios(){
->>>>>>> f43f4c29da34ad4b4418f3df7f7165084f3366af
 		try {
-			String entidade = MetodosService.procesarEntidade();
+			String entidade = metodosService.procesarEntidade();
 
-			MetodosService.pegarToString(entidade);
-			MetodosService.procesarUsuario(usuarioController);
+			metodosService.pegarToString(entidade);
+			metodosService.procesarUsuario(usuarioController);
 
 			inform();
 
@@ -99,20 +90,20 @@ public class ProgramJavaDeveloper {
 		}
 	}
 
-	public void lerAdministrador() {
+	public static void lerAdministrador() {
 		try {
-			String name = MetodosService.procesarNome();
+			String name = metodosService.procesarNome();
 
-			String passwordAdm = MetodosService.procesarSenha();
+			String passwordAdm = metodosService.procesarSenha();
 
-			String email = MetodosService.procesarEmail();
+			String email = metodosService.procesarEmail();
 			
-			String cargo = MetodosService.pegarCargo();
+			String cargo = metodosService.pegarCargo();
 
 			System.out.println();
 
            	adm = new Administrador(name, passwordAdm, email, cargo);
-			MetodosService.executeDbConnectionAdm(name, passwordAdm, email, cargo);
+			metodosService.executeDbConnectionAdm(name, passwordAdm, email, cargo);
 
 			lerFuncionalidadesAdm();
 		} catch (Exception e) {
@@ -120,27 +111,27 @@ public class ProgramJavaDeveloper {
 		}
 	}
 	
-	public void lerFuncionalidadesAdm() {
+	public static void lerFuncionalidadesAdm() {
 		try {
 			if (usuarioController != null && admController != null) {
-				MetodosService.exibirQuantUsuarios(() -> MetodosService.procesarUsuario(usuarioController), () -> MetodosService.procesarAdm(admController));
+				metodosService.exibirQuantUsuarios(() -> metodosService.procesarUsuario(usuarioController), () -> metodosService.procesarAdm(admController));
 			} else {
 				System.out.println("Erro: Controladores não inicializados corretamente.");
 			}
 
 			inform();
 
-			MetodosService.voltarInicio(() -> lerUsuarios(), () -> lerAdministrador());
+			metodosService.voltarInicio(() -> lerUsuarios(), () -> lerAdministrador());
 		}catch (Exception e) {
 			e.printStackTrace();
 			
 		} 
 	}
 	
-	public void inform() {
-		String entidade = MetodosService.procesarEntidade();
+	public static void inform() {
+		String entidade = metodosService.procesarEntidade();
 		try {
-			MetodosService.exibir(users, adm, entidade);
+			metodosService.exibir(users, adm, entidade);
 		} catch (Exception e) {
 			System.err.println("Erro de exibição"+ e.getMessage());
 		}
