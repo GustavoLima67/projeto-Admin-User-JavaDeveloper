@@ -6,6 +6,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.adm_user_JavaDeveloper.java_developer.model.Email;
+
 @Service
 public class EmailService {
     
@@ -14,16 +16,16 @@ public class EmailService {
     private String remetente;
 
     @Autowired
-    private JavaMailSender javaMailSender;
+    private JavaMailSender mailSender;
 
-    public String enviarMensagemEmail(String destinatario, String assunto, String mensagem) {
+    public String enviarMensagemEmail(Email email) {
         try {
             SimpleMailMessage sMM = new SimpleMailMessage();
             sMM.setFrom(remetente);
-            sMM.setTo(destinatario);
-            sMM.setSubject(assunto);
-            sMM.setText(mensagem);
-            javaMailSender.send(sMM);
+            sMM.setTo(email.to());
+            sMM.setSubject(email.subject());
+            sMM.setText(email.body());
+            mailSender.send(sMM);
             return "Email enviado com sucesso!.";
 
         } catch (Exception e) {
