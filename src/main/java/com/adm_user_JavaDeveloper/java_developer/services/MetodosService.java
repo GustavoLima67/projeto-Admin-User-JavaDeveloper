@@ -31,27 +31,27 @@ import com.adm_user_JavaDeveloper.java_developer.services.enums.ResponseUserAdm;
 @Service
 public class MetodosService {
     
-    private static Usuarios user = new Usuarios();
-    private static Administrador adm = new Administrador();
-    private static Scanner sc = new Scanner(System.in);
+    private Usuarios user = new Usuarios();
+    private Administrador adm = new Administrador();
+    private Scanner sc = new Scanner(System.in);
 
-	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     
-    private static Connection conn = null;
-	private static PreparedStatement st = null;
-	private static ResultSet rs = null;
+    private Connection conn = null;
+	private PreparedStatement st = null;
+	private ResultSet rs = null;
 
-    @Autowired
-    private static EmailService emailService;
+    
+    public EmailService emailService;
 
 
-    public static String procesarEntidade() {
+    public String procesarEntidade() {
         System.out.println("Qual a entidade que deseja ser atribuída?: (adm / user)");
         String entidade = sc.nextLine(); 
         return entidade;
     }
 
-    public static void pegarToString(String entidade) {
+    public void pegarToString(String entidade) {
         if (entidade.toLowerCase().equals("adm")) {
             System.out.println();
             System.out.println(adm.toString());
@@ -64,7 +64,7 @@ public class MetodosService {
         
     }
     
-    public static String procesarNome() {
+    public String procesarNome() {
         String name;
         String nomeFormatado;
         String[] partes;
@@ -81,7 +81,7 @@ public class MetodosService {
         return nomeFormatado;
     }
 
-    public static String formatarNome(String name) {
+    public String formatarNome(String name) {
         String[] partes = name.trim().split("\\s+");
         
         if (partes.length < 2) {
@@ -95,7 +95,7 @@ public class MetodosService {
         return primeiroNome + " " + inicialSobrenome + " " + ultimoSobrenome;
     }
 
-    public static String procesarSenha() {
+    public String procesarSenha() {
         boolean senhaValida;
         String userInputsenha;
         do {
@@ -112,8 +112,8 @@ public class MetodosService {
         System.out.println();
         return userInputsenha;
     }
-
-    public static String procesarEmail() throws ExececaoPadrao {
+    
+    public String procesarEmail() throws ExececaoPadrao {
         String email;
         boolean validEmail;
         do {
@@ -127,18 +127,26 @@ public class MetodosService {
             }
         } while (!validEmail);
 
+    
+        String assunto = "Cadastro realizado com sucesso!";
+        String mensagem = """
+                          Ol\u00e1, seu cadastro no projeto 'java_developer-GL67' foi realizado com sucesso.
+                          Obrigado por se cadastrar!
+                          Att. Gustavo L. Souza""";
+
+        emailService.enviarMensagemEmail(email, assunto, mensagem);
 
         return email;
     }
 
-    public static String pegarCargo() {
+    public String pegarCargo() {
         System.out.print("Entre com seu cargo administrador(a): ");
         String cargo = sc.nextLine();
 
         return cargo;
     }
 
-    public static LocalDate procesarData() {
+    public LocalDate procesarData() {
         boolean dataValida = false;
         LocalDate dataNascimento = null;
 
@@ -155,7 +163,7 @@ public class MetodosService {
         return dataNascimento;
     }
 
-    public static void exibir(Usuarios user, Administrador adm, String entidade) {
+    public void exibir(Usuarios user, Administrador adm, String entidade) {
      
         if (entidade.toLowerCase().equals("adm")) {
             System.out.println("Novo moderador "+adm.getNome()+" cadastrado com sucesso!");
@@ -170,7 +178,7 @@ public class MetodosService {
         }
     }
 
-    public static void exibirQuantUsuarios(interfaceAcaoRepository usuarioAcao, interfaceAcaoRepository administradorAcao) throws ExececaoPadrao {
+    public void exibirQuantUsuarios(interfaceAcaoRepository usuarioAcao, interfaceAcaoRepository administradorAcao) throws ExececaoPadrao {
         System.out.print("Gostaria de visualizar a quantidade de usuários cadastrados?: (s / n) ");
         char response = sc.next().toLowerCase().charAt(0);
 
@@ -188,7 +196,7 @@ public class MetodosService {
         }
     }
 
-    public static void procesarUsuario(UsuarioController userController) {
+    public void procesarUsuario(UsuarioController userController) {
         List<Usuarios> usuarios = userController.pegarTodosUsuarios();
 
         try {
@@ -205,7 +213,7 @@ public class MetodosService {
         }
     }
 
-    public static void procesarAdm(AdmController admController) {
+    public void procesarAdm(AdmController admController) {
         List<Administrador> admConList = admController.pegarTodosAdm();
 
         try {
@@ -222,7 +230,7 @@ public class MetodosService {
         }
     }
 
-    public static Connection executeDbConnectionAdm(String name, String passwordAdm, String email, String cargo) {
+    public Connection executeDbConnectionAdm(String name, String passwordAdm, String email, String cargo) {
         try { 
             conn = DB.getConnection();
 
@@ -256,7 +264,7 @@ public class MetodosService {
         return conn;
     }
 
-    public static Connection executeDbConnection(String name, String userInputsenha, String phoneNumber, LocalDate dataNascimento) {
+    public Connection executeDbConnection(String name, String userInputsenha, String phoneNumber, LocalDate dataNascimento) {
         conn = DB.getConnection(); 
         try {
             st = conn.prepareStatement("INSERT INTO usuarios (nome, senha, email, data_nascimento)" + " VALUES" + " (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -288,7 +296,7 @@ public class MetodosService {
         return conn; 
     }
 
-    public static void voltarInicio(interfaceAcaoRepository usuarioAcao, interfaceAcaoRepository administradorAcao) throws ExececaoPadrao {
+    public void voltarInicio(interfaceAcaoRepository usuarioAcao, interfaceAcaoRepository administradorAcao) throws ExececaoPadrao {
 		System.out.println("Cadastro finalizado, gostaria de cadastrar um novo usuário?, ou cadastrar um novo moderador? (u = usuario, a = administrador)");
         char response = sc.next().toLowerCase().charAt(0);
 
