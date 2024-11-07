@@ -13,11 +13,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.adm_user_JavaDeveloper.java_developer.controller.AdmController;
 import com.adm_user_JavaDeveloper.java_developer.controller.UsuarioController;
-import com.adm_user_JavaDeveloper.java_developer.controller.exceptions.ExececaoPadrao;
 import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.model.Usuarios;
 import com.adm_user_JavaDeveloper.java_developer.services.SistemaService;
-import com.adm_user_JavaDeveloper.java_developer.services.EmailService;
 import com.adm_user_JavaDeveloper.java_developer.services.MetodosService;
 
 @SpringBootApplication(scanBasePackages = "com.adm_user_JavaDeveloper.java_developer")
@@ -25,91 +23,87 @@ import com.adm_user_JavaDeveloper.java_developer.services.MetodosService;
 @EnableJpaRepositories(basePackages = "com.adm_user_JavaDeveloper.java_developer.repositories")
 public class ProgramJavaDeveloper {
 	
-	public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-	public static Usuarios users = new Usuarios();
-	public static Administrador adm = new Administrador();
-	public static AdmController admController;
-	public static UsuarioController usuarioController;
+	
+	private static MetodosService metodosService = new MetodosService();
+
+	
+	public DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+	private static Usuarios users = new Usuarios();
+	private static Administrador adm = new Administrador();
+	
+	private static AdmController admController;
+	private static UsuarioController usuarioController;
 
 	public static Connection conn;
 	public static PreparedStatement st;
 	public static ResultSet rt;
-
-	public static EmailService emailService;
-	
-	public void main(String[] args) throws Exception{
+		
+	public static void main(String[] args) throws Exception{
 		SpringApplication.run(ProgramJavaDeveloper.class, args);
 
 		process();
 	}
 	
-	public void process() throws ExececaoPadrao { 
+	public static void process() { 
 		try {
 			SistemaService.logarNoSistema(() -> SistemaService.loginUser(), () -> SistemaService.loginAdm());
 		} catch (Exception e) {
-			throw new IllegalArgumentException(e.getMessage());
+			e.printStackTrace();
 		}
 		
 	}
-
+	
 	public static void lerUsuarios() {
 		try {
-			String name = MetodosService.procesarNome();
+			String name = metodosService.procesarNome();
 
-			String userInputsenha = MetodosService.procesarSenha();	
+			String userInputsenha = metodosService.procesarSenha();	
 
-			String emailUser = MetodosService.procesarEmail();
+			String emailUser = metodosService.procesarEmail();
+		
+			LocalDate dataNascimento = metodosService.procesarData();
 
-			LocalDate dataNascimento = MetodosService.procesarData();
-
-			MetodosService.executeDbConnection(name, userInputsenha, emailUser, dataNascimento);
+			metodosService.executeDbConnection(name, userInputsenha, emailUser, dataNascimento);
 			System.out.println();	
 
 			users = new Usuarios(name, userInputsenha, emailUser, dataNascimento);
 
 			
-			String assunto = "Cadastro realizado com sucesso!";
-			String mensagem = "Olá, seu cadastro no projeto 'java_developer-GL67' foi realizado com sucesso.\n" +
-					"Obrigado por se cadastrar!\nAtt. Gustavo L. Souza";
-	
-	
-			emailService.enviarMensagemEmail(emailUser, assunto, mensagem);
-
 			lerFuncionalidadesDeUsuarios();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-			
+
 	public static void lerFuncionalidadesDeUsuarios(){
 		try {
-			String entidade = MetodosService.procesarEntidade();
+			String entidade = metodosService.procesarEntidade();
 
-			MetodosService.pegarToString(entidade);
-			MetodosService.procesarUsuario(usuarioController);
+			metodosService.pegarToString(entidade);
+			metodosService.procesarUsuario(usuarioController);
 
 			inform();
 
 		} catch (Exception e) {
-			e.getMessage();
-			e.printStackTrace();
+			throw new IllegalArgumentException("ERROR NA FUNÇÃO " + e.getLocalizedMessage());
 		}
 	}
-	
+
 	public static void lerAdministrador() {
 		try {
-			String name = MetodosService.procesarNome();
+			String name = metodosService.procesarNome();
 
-			String passwordAdm = MetodosService.procesarSenha();
+			String passwordAdm = metodosService.procesarSenha();
 
-			String email = MetodosService.procesarEmail();
+			String email = metodosService.procesarEmail();
 			
-			String cargo = MetodosService.pegarCargo();
+			String cargo = metodosService.pegarCargo();
 
 			System.out.println();
 
            	adm = new Administrador(name, passwordAdm, email, cargo);
-			MetodosService.executeDbConnectionAdm(name, passwordAdm, email, cargo);
+			metodosService.executeDbConnectionAdm(name, passwordAdm, email, cargo);
 
 			lerFuncionalidadesAdm();
 		} catch (Exception e) {
@@ -120,14 +114,14 @@ public class ProgramJavaDeveloper {
 	public static void lerFuncionalidadesAdm() {
 		try {
 			if (usuarioController != null && admController != null) {
-				MetodosService.exibirQuantUsuarios(() -> MetodosService.procesarUsuario(usuarioController), () -> MetodosService.procesarAdm(admController));
+				metodosService.exibirQuantUsuarios(() -> metodosService.procesarUsuario(usuarioController), () -> metodosService.procesarAdm(admController));
 			} else {
 				System.out.println("Erro: Controladores não inicializados corretamente.");
 			}
 
 			inform();
 
-			MetodosService.voltarInicio(() -> lerUsuarios(), () -> lerAdministrador());
+			metodosService.voltarInicio(() -> lerUsuarios(), () -> lerAdministrador());
 		}catch (Exception e) {
 			e.printStackTrace();
 			
@@ -135,9 +129,9 @@ public class ProgramJavaDeveloper {
 	}
 	
 	public static void inform() {
-		String entidade = MetodosService.procesarEntidade();
+		String entidade = metodosService.procesarEntidade();
 		try {
-			MetodosService.exibir(users, adm, entidade);
+			metodosService.exibir(users, adm, entidade);
 		} catch (Exception e) {
 			System.err.println("Erro de exibição"+ e.getMessage());
 		}
