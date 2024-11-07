@@ -39,7 +39,7 @@ public class MetodosService {
 	private ResultSet rs = null;
     
     @Autowired
-    public EmailService emailService;
+    private EmailService emailService;
 
     public String procesarEntidade() {
         System.out.println("Qual a entidade que deseja ser atribuída?: (adm / user)");
@@ -112,27 +112,16 @@ public class MetodosService {
     public String procesarEmail() throws ExececaoPadrao {
         String email;
         boolean validEmail;
-        
         do {
             System.out.print("Entre com seu email: ");
             email = sc.nextLine();
-
+            
             validEmail = Validation.validarEmail(email);
 
             if (!validEmail) {
                 System.out.println("Email inválido. Tente novamente.");
             }
         } while (!validEmail);
-
-    
-        String assunto = "Cadastro realizado com sucesso!";
-        String mensagem = """
-                          Ol\u00e1, seu cadastro no projeto 'java_developer-GL67' foi realizado com sucesso.
-                          Obrigado por se cadastrar!
-                          Att. Gustavo L. Souza""";
-
-        emailService.enviarMensagemEmail(email, assunto, mensagem);
-
         return email;
     }
 

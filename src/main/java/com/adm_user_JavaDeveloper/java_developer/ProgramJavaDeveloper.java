@@ -68,8 +68,7 @@ public class ProgramJavaDeveloper {
 			System.out.println();	
 
 			users = new Usuarios(name, userInputsenha, emailUser, dataNascimento);
-
-			
+	
 			lerFuncionalidadesDeUsuarios();
 		} catch (Exception e) {
 			e.printStackTrace();
