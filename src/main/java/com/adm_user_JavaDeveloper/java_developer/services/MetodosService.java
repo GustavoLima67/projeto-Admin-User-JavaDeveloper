@@ -3,7 +3,8 @@ package com.adm_user_JavaDeveloper.java_developer.services;
 import java.util.List;
 import java.util.Scanner;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -26,6 +27,7 @@ import com.adm_user_JavaDeveloper.java_developer.repositories.interfaceAcaoRepos
 import com.adm_user_JavaDeveloper.java_developer.services.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.services.enums.ResponseUserAdm;
 
+@Service
 public class MetodosService {
     
     private Usuarios user = new Usuarios();
@@ -37,10 +39,7 @@ public class MetodosService {
     private Connection conn = null;
 	private PreparedStatement st = null;
 	private ResultSet rs = null;
-    
-    @Autowired
-    private EmailService emailService;
-
+  
     public String procesarEntidade() {
         System.out.println("Qual a entidade que deseja ser atribuída?: (adm / user)");
         String entidade = sc.nextLine(); 
@@ -109,19 +108,26 @@ public class MetodosService {
         return userInputsenha;
     }
     
-    public String procesarEmail() throws ExececaoPadrao {
+    public String procesarEmail() {
         String email;
         boolean validEmail;
+    
         do {
             System.out.print("Entre com seu email: ");
             email = sc.nextLine();
-            
+
             validEmail = Validation.validarEmail(email);
 
             if (!validEmail) {
                 System.out.println("Email inválido. Tente novamente.");
             }
         } while (!validEmail);
+
+        try {
+           
+        } catch(MailException e) {
+            e.printStackTrace();
+        }
         return email;
     }
 
