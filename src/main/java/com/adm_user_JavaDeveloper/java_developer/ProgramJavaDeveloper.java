@@ -40,23 +40,32 @@ public class ProgramJavaDeveloper {
 		process();
 	}
 	
+<<<<<<< HEAD
 	public void process() { 
+=======
+	public void process() throws ExececaoPadrao { 
+>>>>>>> f43f4c29da34ad4b4418f3df7f7165084f3366af
 		try {
-		SistemaService.logarNoSistema(() -> SistemaService.loginUser(), () -> SistemaService.loginAdm());
+			SistemaService.logarNoSistema(() -> SistemaService.loginUser(), () -> SistemaService.loginAdm());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 	}
+<<<<<<< HEAD
 	
 	public void lerUsuarios() {
+=======
+
+	public static void lerUsuarios() {
+>>>>>>> f43f4c29da34ad4b4418f3df7f7165084f3366af
 		try {
 			String name = MetodosService.procesarNome();
 
 			String userInputsenha = MetodosService.procesarSenha();	
 
 			String emailUser = MetodosService.procesarEmail();
-		
+
 			LocalDate dataNascimento = MetodosService.procesarData();
 
 			MetodosService.executeDbConnection(name, userInputsenha, emailUser, dataNascimento);
@@ -70,8 +79,13 @@ public class ProgramJavaDeveloper {
 			e.printStackTrace();
 		}
 	}
+<<<<<<< HEAD
 
 	public void lerFuncionalidadesDeUsuarios(){
+=======
+			
+	public static void lerFuncionalidadesDeUsuarios(){
+>>>>>>> f43f4c29da34ad4b4418f3df7f7165084f3366af
 		try {
 			String entidade = MetodosService.procesarEntidade();
 

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -27,8 +26,6 @@ import com.adm_user_JavaDeveloper.java_developer.repositories.interfaceAcaoRepos
 import com.adm_user_JavaDeveloper.java_developer.services.enums.Response;
 import com.adm_user_JavaDeveloper.java_developer.services.enums.ResponseUserAdm;
 
-
-@Service
 public class MetodosService {
     
     private Usuarios user = new Usuarios();
@@ -41,9 +38,13 @@ public class MetodosService {
 	private PreparedStatement st = null;
 	private ResultSet rs = null;
 
+<<<<<<< HEAD
     
     public EmailService emailService;
 
+=======
+    public static EmailService emailService;
+>>>>>>> f43f4c29da34ad4b4418f3df7f7165084f3366af
 
     public String procesarEntidade() {
         System.out.println("Qual a entidade que deseja ser atribuída?: (adm / user)");
@@ -112,10 +113,21 @@ public class MetodosService {
         System.out.println();
         return userInputsenha;
     }
+<<<<<<< HEAD
     
     public String procesarEmail() throws ExececaoPadrao {
+=======
+
+    @Autowired
+    public void setEmailService(EmailService emailService) {
+        MetodosService.emailService = emailService;
+    }
+
+    public static String procesarEmail() throws ExececaoPadrao {
+>>>>>>> f43f4c29da34ad4b4418f3df7f7165084f3366af
         String email;
         boolean validEmail;
+        
         do {
             System.out.print("Entre com seu email: ");
             email = sc.nextLine();
@@ -127,12 +139,19 @@ public class MetodosService {
             }
         } while (!validEmail);
 
+<<<<<<< HEAD
     
         String assunto = "Cadastro realizado com sucesso!";
         String mensagem = """
                           Ol\u00e1, seu cadastro no projeto 'java_developer-GL67' foi realizado com sucesso.
                           Obrigado por se cadastrar!
                           Att. Gustavo L. Souza""";
+=======
+        String assunto = "Cadastro realizado com sucesso!";
+        String mensagem = "Olá, seu cadastro no projeto 'java_developer-GL67' foi realizado com sucesso.\n" +
+                "Obrigado por se cadastrar!\nAtt. Gustavo L. Souza";
+
+>>>>>>> f43f4c29da34ad4b4418f3df7f7165084f3366af
 
         emailService.enviarMensagemEmail(email, assunto, mensagem);
 
