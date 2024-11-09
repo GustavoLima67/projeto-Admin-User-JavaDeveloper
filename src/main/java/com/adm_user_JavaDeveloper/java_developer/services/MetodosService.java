@@ -288,6 +288,32 @@ public class MetodosService {
         return conn; 
     }
 
+    public Connection deletarUserPorId(Integer userId) {
+        conn = DB.getConnection();
+
+        try {
+            st = conn.prepareStatement("DELETE FROM usuarios WHERE id = ? ");
+
+            st.setInt(1, userId);
+
+            int linhasAfetadas = st.executeUpdate();
+
+            if (linhasAfetadas > 0) {
+                System.out.print("Usuário deletado com sucesso. Id:" + userId);
+            } else {
+                System.out.println("Nenhuma linha foi afetada. Verifique se o id existe");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
+            DB.closeConnection();
+        }
+
+        return conn;
+    }
+
     public void voltarInicio(interfaceAcaoRepository usuarioAcao, interfaceAcaoRepository administradorAcao) throws ExececaoPadrao {
 		System.out.println("Cadastro finalizado, gostaria de cadastrar um novo usuário?, ou cadastrar um novo moderador? (u = usuario, a = administrador)");
         char response = sc.next().toLowerCase().charAt(0);
