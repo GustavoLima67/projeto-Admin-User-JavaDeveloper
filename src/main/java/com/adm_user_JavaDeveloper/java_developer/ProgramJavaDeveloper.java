@@ -6,20 +6,20 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.adm_user_JavaDeveloper.java_developer.controller.AdmController;
 import com.adm_user_JavaDeveloper.java_developer.controller.UsuarioController;
 import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.model.Usuarios;
-import com.adm_user_JavaDeveloper.java_developer.services.SistemaService;
 import com.adm_user_JavaDeveloper.java_developer.services.EmailService;
 import com.adm_user_JavaDeveloper.java_developer.services.MetodosService;
+import com.adm_user_JavaDeveloper.java_developer.services.SistemaService;
 
 @SpringBootApplication(scanBasePackages = "com.adm_user_JavaDeveloper.java_developer")
 @EntityScan(basePackages = "com.adm_user_JavaDeveloper.java_developer.model")
@@ -96,8 +96,16 @@ public class ProgramJavaDeveloper {
 		try {
 			String entidade = metodosService.procesarEntidade();
 
-			metodosService.deletarOuVisualizarUsers(entidade);
+			if (usuarioController != null && admController != null) {
+				metodosService.procesarUsuario(entidade, usuarioController, admController);
+			} 
+			else {
+				System.out.println("Erro: Controladores não inicializados corretamente.");
+			}
 
+			metodosService.deletarAdmOuUser(entidade);
+			
+			metodosService.voltarInicio(() -> lerUsuarios(), () -> lerAdministrador());
 		} catch (Exception e) {
 			throw new IllegalArgumentException("ERROR NA FUNÇÃO " + e.getLocalizedMessage());
 		}
@@ -138,6 +146,8 @@ public class ProgramJavaDeveloper {
 				System.out.println("Erro: Controladores não inicializados corretamente.");
 			}
 			inform();
+
+			metodosService.deletarAdmOuUser(entidade);
 
 			metodosService.voltarInicio(() -> lerUsuarios(), () -> lerAdministrador());
 		}catch (Exception e) {

@@ -228,7 +228,6 @@ public class MetodosService {
 
     }
 
-
     public Connection executeDbConnectionAdm(String name, String passwordAdm, String email, String cargo) {
         try { 
             conn = DB.getConnection();
@@ -321,7 +320,7 @@ public class MetodosService {
         return conn;
     }
 
-    public void deletarOuVisualizarUsers(String entidade) {
+    public void deletarAdmOuUser(String entidade) {
         if(entidade.toLowerCase().equals("user")) {
             System.out.print("Entre com o id de usuario para excluir do banco de dados: ");
             Integer userId = sc.nextInt();
