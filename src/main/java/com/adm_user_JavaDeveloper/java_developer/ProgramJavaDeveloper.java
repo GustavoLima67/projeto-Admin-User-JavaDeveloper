@@ -52,10 +52,10 @@ public class ProgramJavaDeveloper {
     public void setApplicationContext(ApplicationContext context) {
         ProgramJavaDeveloper.context = context;
         emailService = context.getBean(EmailService.class);
+		usuarioController = context.getBean(UsuarioController.class);
+		admController = context.getBean(AdmController.class);
     }
-		
 
-	
 	public static void process() { 
 		try {
 			SistemaService.logarNoSistema(() -> SistemaService.loginUser(), () -> SistemaService.loginAdm());
@@ -96,9 +96,8 @@ public class ProgramJavaDeveloper {
 		try {
 			String entidade = metodosService.procesarEntidade();
 
-			metodosService.pegarToString(entidade);
-			metodosService.procesarUsuario(usuarioController);
-			process();
+			metodosService.deletarOuVisualizarUsers(entidade);
+
 		} catch (Exception e) {
 			throw new IllegalArgumentException("ERROR NA FUNÇÃO " + e.getLocalizedMessage());
 		}

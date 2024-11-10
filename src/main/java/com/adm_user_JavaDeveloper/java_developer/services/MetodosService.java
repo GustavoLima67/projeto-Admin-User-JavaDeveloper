@@ -1,20 +1,19 @@
 package com.adm_user_JavaDeveloper.java_developer.services;
 
-import java.util.List;
-import java.util.Scanner;
-
-import org.springframework.mail.MailException;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Scanner;
 
-import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
+import org.springframework.stereotype.Service;
+
 import com.adm_user_JavaDeveloper.java_developer.ProgramJavaDeveloper;
 import com.adm_user_JavaDeveloper.java_developer.controller.AdmController;
 import com.adm_user_JavaDeveloper.java_developer.controller.UsuarioController;
@@ -22,6 +21,7 @@ import com.adm_user_JavaDeveloper.java_developer.controller.exceptions.ExececaoP
 import com.adm_user_JavaDeveloper.java_developer.controller.security.Senha;
 import com.adm_user_JavaDeveloper.java_developer.controller.validators.Validation;
 import com.adm_user_JavaDeveloper.java_developer.db.DB;
+import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.model.Usuarios;
 import com.adm_user_JavaDeveloper.java_developer.repositories.interfaceAcaoRepository;
 import com.adm_user_JavaDeveloper.java_developer.services.enums.Response;
@@ -39,6 +39,12 @@ public class MetodosService {
     private Connection conn = null;
 	private PreparedStatement st = null;
 	private ResultSet rs = null;
+
+    @Autowired
+    private UsuarioController usuarioController;
+    @Autowired
+    private AdmController admController;
+
   
     public String procesarEntidade() {
         System.out.println("Qual a entidade que deseja ser atribuída?: (adm / user)");
@@ -188,39 +194,39 @@ public class MetodosService {
         }
     }
 
-    public void procesarUsuario(UsuarioController userController) {
-        List<Usuarios> usuarios = userController.pegarTodosUsuarios();
-
-        try {
-            if(usuarios.isEmpty()) {
-                System.out.print("Usuario não existe:\nCrie um novo usuario para prosseguir:\n");
-                ProgramJavaDeveloper.lerUsuarios();
+    public void procesarUsuario(String entidade, UsuarioController userController, AdmController admController) {
+        if (entidade.toLowerCase().equals("adm")) {
+            List<Usuarios> usuarios = userController.pegarTodosUsuarios();
+            try {
+                if(usuarios.isEmpty()) {
+                    System.out.print("Usuario não existe:\nCrie um novo usuario para prosseguir:\n");
+                    ProgramJavaDeveloper.lerUsuarios();
+                }
+                else {
+                    System.out.println("Usuários cadastrados:");
+                    usuarios.forEach(user -> System.out.println("ID: " + user.getId() + ", Nome: " + user.getNome()));
+                }
+            } catch (Exception e) {
+               System.out.println("Erro ao Listar os usuários" +e.getMessage());
             }
-            else {
-                System.out.println("Usuários cadastrados:");
-                usuarios.forEach(user -> System.out.println("ID: " + user.getId() + ", Nome: " + user.getNome()));
-            }
-        } catch (Exception e) {
-           System.out.println("Erro ao Listar os usuários" +e.getMessage());
         }
+        else if (entidade.toLowerCase().equals("adm")) {
+            List<Administrador> administrador = admController.pegarTodosAdm();
+
+            try {
+                if (admnistrador.isEmpty()) {
+                    System.out.print("Administradores não existe. \n Crie um novo adminstrador e prossiga. \n");
+                    ProgramJavaDeveloper.lerAdministradores();
+                } else {
+                    administradores.forEach(adm -> System.out.print("ID: " + adm.getId() + "Nome: " + adm.getNome()));
+                }
+            } catch () {
+
+            }
+        }
+
     }
 
-    public void procesarAdm(AdmController admController) {
-        List<Administrador> admConList = admController.pegarTodosAdm();
-
-        try {
-            if(admConList.isEmpty()) {
-                System.out.print("Moderadores não existe:\nCrie um novo moderador para prosseguir:\n");
-                ProgramJavaDeveloper.lerAdministrador();
-            }
-            else {
-                System.out.println("Moderadores cadastrados:");
-                admConList.forEach(adm -> System.out.println("ID: " + adm.getId() + ", Nome: " + adm.getNome()));
-            }
-        } catch (Exception e) {
-           System.out.println("Erro ao Listar os usuários" +e.getMessage());
-        }
-    }
 
     public Connection executeDbConnectionAdm(String name, String passwordAdm, String email, String cargo) {
         try { 
@@ -314,20 +320,40 @@ public class MetodosService {
         return conn;
     }
 
+    public void deletarOuVisualizarUsers(String entidade) {
+        System.out.print("Deseja deletar ou visualizar os usuarios? (deletar/visualizar): ");
+        String oqueDeseja = sc.nextLine();
+
+        if(entidade.toLowerCase().equals("user")) {
+            if(oqueDeseja.toLowerCase().equals("deletar")) {
+                System.out.print("Entre com o id de usuario para excluir do banco: ");
+                Integer userId = sc.nextInt();
+                deletarUserPorId(userId);
+            } 
+            else if(oqueDeseja.toLowerCase().equals("visualizar")) {
+                procesarUsuario(usuarioController);
+            }
+            else {
+                System.out.print("Erro de entrada, digite como está no parentese: (deletar/visualizar)");
+            }
+        } else if (entidade.toLowerCase().equals("adm")) {
+            if(oqueDeseja.toLowerCase().equals("deletar")) {
+                System.out.print("Entre com o id de usuario para excluir do banco: ");
+                Integer admId = sc.nextInt();
+                deletarUserPorId(admId);
+            } 
+            else if(oqueDeseja.toLowerCase().equals("visualizar")) {
+                procesarAdm(admController);
+            }
+            else {
+                System.out.print("Erro de entrada, digite como está no parentese: (deletar/visualizar)");
+            }
+        }
+    }
+
     public void voltarInicio(interfaceAcaoRepository usuarioAcao, interfaceAcaoRepository administradorAcao) throws ExececaoPadrao {
 		System.out.println("Cadastro finalizado, gostaria de cadastrar um novo usuário?, ou cadastrar um novo moderador? (u = usuario, a = administrador)");
         char response = sc.next().toLowerCase().charAt(0);
-
-        System.out.println("Se quiser finalizar o programa. Escreva (exit)");
-        String exit = sc.nextLine();
-        if (exit.equals("exit")) {
-            System.out.println("Projeto de cadastro finalizado, obrigado por usa-lo");
-            
-            DB.closeConnection();
-            DB.closeResultSet(rs);
-            DB.closeStatement(st);
-            sc.close();
-        }
 
         ResponseUserAdm responseUserAdm = ResponseUserAdm.fromChar(response);
 
