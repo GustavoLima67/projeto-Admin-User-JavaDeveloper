@@ -195,7 +195,7 @@ public class MetodosService {
     }
 
     public void procesarUsuario(String entidade, UsuarioController userController, AdmController admController) {
-        if (entidade.toLowerCase().equals("adm")) {
+        if (entidade.toLowerCase().equals("user")) {
             List<Usuarios> usuarios = userController.pegarTodosUsuarios();
             try {
                 if(usuarios.isEmpty()) {
@@ -211,17 +211,18 @@ public class MetodosService {
             }
         }
         else if (entidade.toLowerCase().equals("adm")) {
-            List<Administrador> administrador = admController.pegarTodosAdm();
+            List<Administrador> adm = admController.pegarTodosAdm();
 
             try {
-                if (admnistrador.isEmpty()) {
+                if (adm.isEmpty()) {
                     System.out.print("Administradores não existe. \n Crie um novo adminstrador e prossiga. \n");
-                    ProgramJavaDeveloper.lerAdministradores();
+                    ProgramJavaDeveloper.lerAdministrador();
                 } else {
-                    administradores.forEach(adm -> System.out.print("ID: " + adm.getId() + "Nome: " + adm.getNome()));
+                    System.out.println("Administradores cadastrados: ");
+                    adm.forEach(adm -> System.out.print("ID: " + adm.getId() + "Nome: " + adm.getNome() ));
                 }
-            } catch () {
-
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
             }
         }
 
@@ -321,33 +322,17 @@ public class MetodosService {
     }
 
     public void deletarOuVisualizarUsers(String entidade) {
-        System.out.print("Deseja deletar ou visualizar os usuarios? (deletar/visualizar): ");
-        String oqueDeseja = sc.nextLine();
-
         if(entidade.toLowerCase().equals("user")) {
-            if(oqueDeseja.toLowerCase().equals("deletar")) {
-                System.out.print("Entre com o id de usuario para excluir do banco: ");
-                Integer userId = sc.nextInt();
-                deletarUserPorId(userId);
-            } 
-            else if(oqueDeseja.toLowerCase().equals("visualizar")) {
-                procesarUsuario(usuarioController);
-            }
-            else {
-                System.out.print("Erro de entrada, digite como está no parentese: (deletar/visualizar)");
-            }
+            System.out.print("Entre com o id de usuario para excluir do banco de dados: ");
+            Integer userId = sc.nextInt();
+            deletarUserPorId(userId);
+
         } else if (entidade.toLowerCase().equals("adm")) {
-            if(oqueDeseja.toLowerCase().equals("deletar")) {
-                System.out.print("Entre com o id de usuario para excluir do banco: ");
-                Integer admId = sc.nextInt();
-                deletarUserPorId(admId);
-            } 
-            else if(oqueDeseja.toLowerCase().equals("visualizar")) {
-                procesarAdm(admController);
-            }
-            else {
-                System.out.print("Erro de entrada, digite como está no parentese: (deletar/visualizar)");
-            }
+            System.out.print("Entre com o id de administrador para excluir do banco de dados: ");
+            Integer admId = sc.nextInt();
+            deletarUserPorId(admId);
+        } else {
+            System.out.print("Erro de entrada, digite como está no parentese: (deletar/visualizar)");
         }
     }
 
