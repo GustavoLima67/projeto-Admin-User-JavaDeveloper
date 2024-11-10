@@ -129,13 +129,14 @@ public class ProgramJavaDeveloper {
 	}
 	
 	public static void lerFuncionalidadesAdm() {
+		String entidade = metodosService.procesarEntidade();
 		try {
 			if (usuarioController != null && admController != null) {
-				metodosService.exibirQuantUsuarios(() -> metodosService.procesarUsuario(usuarioController), () -> metodosService.procesarAdm(admController));
-			} else {
+				metodosService.procesarUsuario(entidade, usuarioController, admController);
+			} 
+			else {
 				System.out.println("Erro: Controladores não inicializados corretamente.");
 			}
-
 			inform();
 
 			metodosService.voltarInicio(() -> lerUsuarios(), () -> lerAdministrador());

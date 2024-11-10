@@ -211,15 +211,15 @@ public class MetodosService {
             }
         }
         else if (entidade.toLowerCase().equals("adm")) {
-            List<Administrador> adm = admController.pegarTodosAdm();
+            List<Administrador> moderadores = admController.pegarTodosAdm();
 
             try {
-                if (adm.isEmpty()) {
+                if (moderadores.isEmpty()) {
                     System.out.print("Administradores não existe. \n Crie um novo adminstrador e prossiga. \n");
                     ProgramJavaDeveloper.lerAdministrador();
                 } else {
                     System.out.println("Administradores cadastrados: ");
-                    adm.forEach(adm -> System.out.print("ID: " + adm.getId() + "Nome: " + adm.getNome() ));
+                    moderadores.forEach(adm -> System.out.print("ID: " + adm.getId() + "Nome: " + adm.getNome() ));
                 }
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
