@@ -15,6 +15,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.adm_user_JavaDeveloper.java_developer.controller.AdmController;
 import com.adm_user_JavaDeveloper.java_developer.controller.UsuarioController;
+import com.adm_user_JavaDeveloper.java_developer.controller.exceptions.DefaultException;
 import com.adm_user_JavaDeveloper.java_developer.model.Administrador;
 import com.adm_user_JavaDeveloper.java_developer.model.Usuarios;
 import com.adm_user_JavaDeveloper.java_developer.services.EmailService;
@@ -26,7 +27,7 @@ import com.adm_user_JavaDeveloper.java_developer.services.SistemaService;
 @EnableJpaRepositories(basePackages = "com.adm_user_JavaDeveloper.java_developer.repositories")
 public class ProgramJavaDeveloper {
 	
-	private static MetodosService metodosService = new MetodosService();
+	private static final MetodosService metodosService = new MetodosService();
 	public DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	private static Usuarios users = new Usuarios();
@@ -56,16 +57,16 @@ public class ProgramJavaDeveloper {
 		admController = context.getBean(AdmController.class);
     }
 
-	public static void process() { 
+	public static void process() throws DefaultException{ 
 		try {
 			SistemaService.logarNoSistema(() -> SistemaService.loginUser(), () -> SistemaService.loginAdm());
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (RuntimeException e) {
+			throw new DefaultException("Erro na função principal 'process()', provavel erro na expressão lambda!" + e.getLocalizedMessage());
 		}
 		
 	}
 	
-	public static void lerUsuarios() {
+	public static void lerUsuarios() throws DefaultException {
 		try {
 			String name = metodosService.procesarNome();
 
@@ -87,31 +88,35 @@ public class ProgramJavaDeveloper {
 	
 			inform();
 			lerFuncionalidadesDeUsuarios();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (RuntimeException e) {
+			throw new DefaultException("Erro na função 'lerUsuarios()', analise dado por dado!!" + e.getLocalizedMessage());
 		}
 	}
 
-	public static void lerFuncionalidadesDeUsuarios(){
+	public static void lerFuncionalidadesDeUsuarios() throws DefaultException {
 		try {
 			String entidade = metodosService.procesarEntidade();
+			String informDeletar = metodosService.pegarInformDeleteOuVisualizar();
 
-			if (usuarioController != null && admController != null) {
-				metodosService.procesarUsuario(entidade, usuarioController, admController);
+			if (informDeletar.equals('s')) {
+				metodosService.deletarAdmOuUser(entidade);
 			} 
 			else {
-				System.out.println("Erro: Controladores não inicializados corretamente.");
+				if (usuarioController != null && admController != null) {
+					metodosService.lerQuantidadeUserOuAdm(entidade, usuarioController, admController);
+				} 
+				else {
+					System.out.println("Erro: Controladores não inicializados corretamente.");
+				}
 			}
-
-			metodosService.deletarAdmOuUser(entidade);
 			
 			metodosService.voltarInicio(() -> lerUsuarios(), () -> lerAdministrador());
-		} catch (Exception e) {
-			throw new IllegalArgumentException("ERROR NA FUNÇÃO " + e.getLocalizedMessage());
+		} catch (RuntimeException e) {
+			throw new DefaultException("Erro na função 'lerFuncionalidadesDeUsuarios()', analise dado por dado! " + e.getLocalizedMessage());
 		}
 	}
 
-	public static void lerAdministrador() {
+	public static void lerAdministrador() throws DefaultException {
 		try {
 			String name = metodosService.procesarNome();
 
@@ -131,37 +136,36 @@ public class ProgramJavaDeveloper {
 			metodosService.executeDbConnectionAdm(name, passwordAdm, email, cargo);
 
 			process();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (RuntimeException e) {
+			throw new DefaultException("Erro na função 'lerAdministrador()', analise dado por dado! " + e.getLocalizedMessage());
 		}
 	}
 	
-	public static void lerFuncionalidadesAdm() {
-		String entidade = metodosService.procesarEntidade();
+	public static void lerFuncionalidadesAdm() throws DefaultException {
 		try {
-			if (usuarioController != null && admController != null) {
-				metodosService.procesarUsuario(entidade, usuarioController, admController);
+			String entidade = metodosService.procesarEntidade();
+			String informDeletar = metodosService.pegarInformDeleteOuVisualizar();
+			
+			if (informDeletar.equals('s')) {
+				metodosService.deletarAdmOuUser(entidade);
 			} 
 			else {
-				System.out.println("Erro: Controladores não inicializados corretamente.");
+				if (usuarioController != null && admController != null) {
+					metodosService.lerQuantidadeUserOuAdm(entidade, usuarioController, admController);
+				} 
+				else {
+					System.out.println("Erro: Controladores não inicializados corretamente.");
+				}
 			}
-			inform();
-
-			metodosService.deletarAdmOuUser(entidade);
-
-			metodosService.voltarInicio(() -> lerUsuarios(), () -> lerAdministrador());
-		}catch (Exception e) {
-			e.printStackTrace();
-			
+		
+		metodosService.voltarInicio(() -> lerUsuarios(), () -> lerAdministrador());
+		} catch (RuntimeException e) {
+			throw new DefaultException("Erro na função 'lerFuncionalidadesAdm()' analise um dado por vez! " + e.getLocalizedMessage());
 		} 
 	}
 	
 	public static void inform() {
 		String entidade = metodosService.procesarEntidade();
-		try {
-			metodosService.exibir(users, adm, entidade);
-		} catch (Exception e) {
-			System.err.println("Erro de exibição"+ e.getMessage());
-		}
+		metodosService.exibir(users, adm, entidade);
 	}
 }

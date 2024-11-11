@@ -5,7 +5,7 @@ import java.util.Scanner;
 import org.springframework.stereotype.Service;
 
 import com.adm_user_JavaDeveloper.java_developer.ProgramJavaDeveloper;
-import com.adm_user_JavaDeveloper.java_developer.controller.exceptions.ExececaoPadrao;
+import com.adm_user_JavaDeveloper.java_developer.controller.exceptions.DefaultException;
 import com.adm_user_JavaDeveloper.java_developer.repositories.interfaceAcaoRepository;
 import com.adm_user_JavaDeveloper.java_developer.services.enums.Response;
 
@@ -14,7 +14,7 @@ public class SistemaService {
     
     private static Scanner sc = new Scanner(System.in);
    
-    public static void logarNoSistema(interfaceAcaoRepository usuarioAcao, interfaceAcaoRepository administradorAcao) throws ExececaoPadrao {
+    public static void logarNoSistema(interfaceAcaoRepository usuarioAcao, interfaceAcaoRepository administradorAcao) throws DefaultException {
         System.out.print("Você é um usuário?: (s / n) ");
         char response = sc.next().charAt(0);
 
@@ -28,7 +28,7 @@ public class SistemaService {
                 administradorAcao.executar();
                 break;
             default:
-                throw new ExececaoPadrao("Erro na sintaxe, digite da forma descrita (s/n). ");
+                throw new DefaultException("Erro na sintaxe, digite da forma descrita (s/n). ");
         }
     }
 

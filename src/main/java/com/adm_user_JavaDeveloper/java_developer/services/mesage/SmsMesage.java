@@ -1,6 +1,6 @@
 package com.adm_user_JavaDeveloper.java_developer.services.mesage;
 
-import com.adm_user_JavaDeveloper.java_developer.controller.exceptions.ExececaoPadrao;
+import com.adm_user_JavaDeveloper.java_developer.controller.exceptions.DefaultException;
 import com.adm_user_JavaDeveloper.java_developer.controller.security.TwilioAuthentication;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
@@ -14,7 +14,7 @@ public class SmsMesage {
 	public static final String accountSid = TwilioAuthentication.getAccountSid();
     public static final String accountAuthToken = TwilioAuthentication.getAuthToken();
 
-    public static void sendSms(String phoneNumber) throws ExececaoPadrao {
+    public static void sendSms(String phoneNumber) throws DefaultException {
 	 Twilio.init(accountSid, accountAuthToken);
 	 try {
 
@@ -27,7 +27,7 @@ public class SmsMesage {
 	        System.out.println("Mensagem enviada com sucesso: " + message.getSid());
  
 	 	} catch (Exception e) {
-	 		throw new ExececaoPadrao("Erro na no envio da mensagem: " + e.getMessage());
+	 		throw new DefaultException("Erro na no envio da mensagem: " + e.getMessage());
 	 	}
 	 
 	}

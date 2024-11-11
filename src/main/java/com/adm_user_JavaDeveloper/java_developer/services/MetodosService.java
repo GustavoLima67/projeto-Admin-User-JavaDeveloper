@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import com.adm_user_JavaDeveloper.java_developer.ProgramJavaDeveloper;
 import com.adm_user_JavaDeveloper.java_developer.controller.AdmController;
 import com.adm_user_JavaDeveloper.java_developer.controller.UsuarioController;
-import com.adm_user_JavaDeveloper.java_developer.controller.exceptions.ExececaoPadrao;
+import com.adm_user_JavaDeveloper.java_developer.controller.exceptions.DefaultException;
 import com.adm_user_JavaDeveloper.java_developer.controller.security.Senha;
 import com.adm_user_JavaDeveloper.java_developer.controller.validators.Validation;
 import com.adm_user_JavaDeveloper.java_developer.db.DB;
@@ -176,7 +176,7 @@ public class MetodosService {
         }
     }
 
-    public void exibirQuantUsuarios(interfaceAcaoRepository usuarioAcao, interfaceAcaoRepository administradorAcao) throws ExececaoPadrao {
+    public void exibirQuantUsuarios(interfaceAcaoRepository usuarioAcao, interfaceAcaoRepository administradorAcao) throws DefaultException {
         System.out.print("Gostaria de visualizar a quantidade de usuários cadastrados?: (s / n) ");
         char response = sc.next().toLowerCase().charAt(0);
 
@@ -190,11 +190,16 @@ public class MetodosService {
                 administradorAcao.executar();
                 break;
             default:
-                throw new ExececaoPadrao("Erro na sintaxe, digite da forma descrita (s/n). ");
+                throw new DefaultException("Erro na sintaxe, digite da forma descrita (s/n). ");
         }
     }
 
-    public void procesarUsuario(String entidade, UsuarioController userController, AdmController admController) {
+    public String pegarInformDeleteOuVisualizar() {
+        System.out.print("Gostaria de deletar algum usuário do banco de dados: (s/n) ");
+        String informDeletar = sc.next();
+        return informDeletar;
+    }
+    public void lerQuantidadeUserOuAdm(String entidade, UsuarioController userController, AdmController admController) {
         if (entidade.toLowerCase().equals("user")) {
             List<Usuarios> usuarios = userController.pegarTodosUsuarios();
             try {
@@ -335,7 +340,7 @@ public class MetodosService {
         }
     }
 
-    public void voltarInicio(interfaceAcaoRepository usuarioAcao, interfaceAcaoRepository administradorAcao) throws ExececaoPadrao {
+    public void voltarInicio(interfaceAcaoRepository usuarioAcao, interfaceAcaoRepository administradorAcao) throws DefaultException {
 		System.out.println("Cadastro finalizado, gostaria de cadastrar um novo usuário?, ou cadastrar um novo moderador? (u = usuario, a = administrador)");
         char response = sc.next().toLowerCase().charAt(0);
 
@@ -349,7 +354,7 @@ public class MetodosService {
                 administradorAcao.executar();
                 break;
             default:
-                throw new ExececaoPadrao("Erro na sintaxe, digite da forma descrita (s/n). ");
+                throw new DefaultException("Erro na sintaxe, digite da forma descrita (s/n). ");
         }
 	}
 }
