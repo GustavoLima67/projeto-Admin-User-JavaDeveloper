@@ -2,7 +2,7 @@
 - https://github.com/GustavoLima67/Java_And_React-Projeto_FullStack
 - A partir daqui darei uma carinha visual pra esse projeto que foi feito com tanto esforço
 
-# Projeto JavaDeveloper
+# Projeto TypECADasTre
 
 Este é um projeto Java que implementa um sistema de gerenciamento de usuários e administradores. A aplicação permite que usuários se cadastrem e que administradores gerenciem as informações dos usuários. O projeto utiliza o Spring Boot para a construção da API e o MySQL como banco de dados.
 
